@@ -1,163 +1,881 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Grupo Getulinense de Apoio ao Câncer</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="css/index.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    />
-    <link rel="stylesheet" href="index.css" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Grupo de Apoio ao Câncer de Getulina (GAC Getulina) — acolhimento, esperança e apoio a pacientes oncológicos e suas famílias em Getulina, SP." />
+  <title>GAC Getulina — Grupo de Apoio ao Câncer</title>
 
-    <!-- FAVICON -->
-    <!-- <link rel="icon" type="image/png" sizes="16x16" href="img/favico" />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="img/favicon_32x32.png"
-    /> -->
-  </head>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-  <body class="bg-body-tertiary">
-    <div class="fixed-top">
-      <!-- TOP NAVBAR -->
-      <nav class="navbar top-nav topNavbar py-1">
-        <div class="container-lg nav-shell px-3 px-lg-4 top-nav-content">
-          <div class="top-contact d-flex align-items-center gap-2">
-            <i class="fa-solid fa-phone"></i>
-            <a class="contact-info" href="tel:+551435522966"
-              >+55 (14) 3552.2966</a
-            >
-          </div>
+  <!-- Google Fonts: Playfair Display + Nunito -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet" />
 
-          <div class="top-social d-flex align-items-center gap-2">
-            <a
-              class="social-link"
-              href="#"
-              aria-label="Facebook Grupo Getulinense"
-              title="Facebook"
-            >
-              <i class="fa-brands fa-facebook-f"></i>
-            </a>
-            <a
-              class="social-link"
-              href="mailto:ggccancer@hotmail.com.br"
-              aria-label="Enviar e-mail"
-              title="E-mail"
-            >
-              <i class="fa-solid fa-envelope"></i>
-            </a>
-          </div>
+  <!-- CSS customizado -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Configuração do Tailwind: cores e fontes da identidade -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'gac-orange': '#E86500',
+            'gac-orange-light': '#F07020',
+            'gac-gold': '#FBBF6A',
+            'gac-pink': '#F9C8C8',
+            'gac-cream': '#FFF8F2',
+            'gac-charcoal': '#2D2D2D',
+          },
+          fontFamily: {
+            display: ['"Playfair Display"', 'serif'],
+            body: ['Nunito', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+</head>
+<body class="font-body bg-gac-cream text-gac-charcoal antialiased">
+
+  <!-- ===================== NAVBAR ===================== -->
+  <header id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
+    <nav class="max-w-7xl mx-auto flex items-center justify-between px-5 py-4 md:px-8">
+      <!-- Logo -->
+      <a href="#inicio" class="flex items-center gap-2 group">
+        <img src="img/logo.png" alt="Logo GAC Getulina" class="logo-img transition-transform group-hover:scale-105" />
+        <span class="font-display text-xl md:text-2xl font-semibold text-gac-orange">GAC Getulina</span>
+      </a>
+
+      <!-- Menu desktop -->
+      <ul class="hidden lg:flex items-center gap-4 xl:gap-6 text-sm font-semibold">
+        <li><a href="#historia" class="nav-link">História</a></li>
+        <li><a href="#acoes" class="nav-link">Ações</a></li>
+        <li><a href="#eventos" class="nav-link">Eventos</a></li>
+        <li><a href="#membros" class="nav-link">Membros</a></li>
+        <li><a href="#noticias" class="nav-link">Notícias</a></li>
+        <li><a href="#fotos" class="nav-link">Galeria</a></li>
+        <li><a href="#mantemos" class="nav-link">Transparência</a></li>
+        <li><a href="#memorial" class="nav-link">Memorial</a></li>
+        <li><a href="#contato" class="nav-link">Contato</a></li>
+        <li>
+          <a href="#doar" class="btn-primary text-sm">Doe Agora</a>
+        </li>
+      </ul>
+
+      <!-- Botão hambúrguer mobile -->
+      <button id="menu-toggle" class="lg:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5" aria-label="Abrir menu" aria-expanded="false">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
+    </nav>
+
+    <!-- Menu mobile -->
+    <div id="mobile-menu" class="lg:hidden hidden bg-white/95 backdrop-blur-md border-t border-gac-orange/10">
+      <ul class="flex flex-col px-6 py-4 gap-3 font-semibold">
+        <li><a href="#historia" class="mobile-link">História</a></li>
+        <li><a href="#acoes" class="mobile-link">Ações</a></li>
+        <li><a href="#eventos" class="mobile-link">Eventos</a></li>
+        <li><a href="#membros" class="mobile-link">Membros</a></li>
+        <li><a href="#noticias" class="mobile-link">Notícias</a></li>
+        <li><a href="#fotos" class="mobile-link">Galeria</a></li>
+        <li><a href="#mantemos" class="mobile-link">Transparência</a></li>
+        <li><a href="#memorial" class="mobile-link">Memorial</a></li>
+        <li><a href="#contato" class="mobile-link">Contato</a></li>
+        <li class="pt-2"><a href="#doar" class="btn-primary block text-center">Doe Agora</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- ===================== HERO ===================== -->
+  <section id="inicio" class="relative pt-32 pb-32 md:pt-40 md:pb-44 overflow-hidden hero-pattern">
+    <div class="relative z-10 max-w-5xl mx-auto px-5 text-center">
+      <p class="fade-in inline-block mb-5 px-4 py-1.5 rounded-full bg-gac-pink/60 text-gac-orange font-semibold text-xs tracking-wide uppercase">
+        Acolhimento • Esperança • União
+      </p>
+      <h1 class="fade-in font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gac-charcoal leading-tight mb-6">
+        Juntos somos <span class="text-gac-orange">mais fortes</span>
+      </h1>
+      <p class="fade-in max-w-2xl mx-auto text-base md:text-lg text-gac-charcoal/80 mb-10 leading-relaxed">
+        <!-- SUBSTITUIR: subtítulo final sobre a missão do grupo -->
+       O cancêr assusta. Parece não dar opções. Mas você pode nos ajudar a oferecer qualidade de vida ao paciente com a dor do cancêr
+      </p>
+      <div class="fade-in flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="#historia" class="btn-primary">Conheça Nossa História</a>
+        <a href="#doar" class="btn-secondary">Como Ajudar</a>
+      </div>
+    </div>
+
+    <!-- Onda decorativa na base do hero -->
+    <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none" aria-hidden="true">
+      <svg viewBox="0 0 1440 120" preserveAspectRatio="none" class="w-full h-16 md:h-24">
+        <path d="M0,64L60,69.3C120,75,240,85,360,80C480,75,600,53,720,53.3C840,53,960,75,1080,80C1200,85,1320,75,1380,69.3L1440,64L1440,120L0,120Z" fill="#FFF8F2"></path>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ===================== HISTÓRIA ===================== -->
+  <section id="historia" class="py-20 md:py-28 bg-gac-cream">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="text-center mb-14 fade-in">
+        <h2 class="section-title">Nossa História</h2>
+        <p class="section-subtitle">Uma trajetória feita de mãos dadas, doação e esperança.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-10 items-center mb-16">
+        <!-- Foto do grupo -->
+        <div class="fade-in aspect-[4/3] rounded-2xl shadow-lg overflow-hidden">
+          <img src="img/sede.jpg" alt="Membros do GAC Getulina" class="w-full h-full object-cover" />
         </div>
-      </nav>
-
-      <!-- MAIN NAVBAR -->
-      <nav class="navbar navbar-expand-lg navbar-dark header mainNavbar">
-        <div class="container-lg nav-shell px-3 px-lg-4">
-          <a
-            class="navbar-brand me-lg-4 flex-shrink-0"
-            href="#"
-            aria-label="Grupo Getulinense"
-          >
-            <img
-              src="img/logo.png"
-              alt="Logo Grupo Getulinense"
-              class="brand-logo"
-            />
+        <div class="fade-in">
+          <h3 class="font-display text-2xl md:text-3xl font-semibold mb-4 text-gac-orange">Como tudo começou</h3>
+          <p class="text-gac-charcoal/80 leading-relaxed mb-4">
+           Nossa história começa em 2001, quando o Hospital Amaral Carvalho de Jaú convidou lideranças de Getulina para conhecer o trabalho de grupos voluntários de apoio ao câncer em outros municípios. O convite chegou até seis pessoas dispostas a aceitar o desafio — e assim nasceu o Grupo Getulinense de Combate ao Câncer.
+Com sede cedida pelo Padre Donizete no Salão Paroquial, e movido por rifas, artesanatos, eventos e a generosidade da comunidade, o grupo foi crescendo. Hoje, com mais de 40 voluntários, atende 77 pacientes em tratamento no Hospital Amaral Carvalho em Jaú, além de encaminhamentos para Bauru, Marília e Barretos.
+Mensalmente, distribui cestas básicas e de alimentos frescos, custeia exames e medicamentos, e ampara as famílias. Mais do que apoio — oferece dignidade, carinho e esperança.
+          </p>
+          <p class="text-gac-charcoal/80 leading-relaxed mb-6">
+        
+            Atendemos pacientes carentes portadores de câncer que residem no município de Getulina e no município de Guaimbê
+          </p>
+          <a href="historico.pdf" target="_blank" rel="noopener noreferrer" class="btn-secondary inline-flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+            Ler história completa
           </a>
+        </div>
+      </div>
 
-          <button
-            class="navbar-toggler ms-auto me-3"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#menu"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
+      <!-- Estatísticas: Voluntários, Pacientes, Anos -->
+      <div class="grid md:grid-cols-3 gap-6">
+        <article class="fade-in stat-card">
+          <div class="icon-circle">
+            <!-- Ícone Voluntários -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-7 h-7"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <p class="stat-number" data-count-to="40">40</p>
+          <h4 class="stat-label">Voluntários</h4>
+          <p class="stat-desc">Pessoas dedicadas que doam tempo e amor todos os dias.</p>
+        </article>
 
-          <div
-            class="collapse navbar-collapse justify-content-center order-3 order-lg-2"
-            id="menu"
-          >
-            <ul
-              class="navbar-nav mx-lg-auto align-items-center gap-2 gap-lg-4 text-center"
-            >
-              <li class="nav-item">
-                <a
-                  class="nav-link active fw-semibold"
-                  aria-current="page"
-                  href="#inicio"
-                  >Início</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link fw-semibold" href="#about">História</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link fw-semibold" href="#members">Integrantes</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link fw-semibold" href="#news">Notícias</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link fw-semibold" href="#photo">Fotos</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link fw-semibold" href="#contact">Contato</a>
-              </li>
+        <article class="fade-in stat-card">
+          <div class="icon-circle">
+            <!-- Ícone Pacientes -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-7 h-7"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+          <p class="stat-number" data-count-to="77" data-suffix="+">+77</p>
+          <h4 class="stat-label">Pacientes Atendidos</h4>
+          <p class="stat-desc">Em tratamento no Hospital Amaral Carvalho</p>
+        </article>
+
+        <article class="fade-in stat-card">
+          <div class="icon-circle">
+            <!-- Ícone Anos de história -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-7 h-7"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <p class="stat-number" data-count-to="25" data-suffix="">25</p>
+          <h4 class="stat-label">Anos de História</h4>
+          <p class="stat-desc">Acolhendo, apoiando e transformando vidas desde 2001.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== NOSSAS AÇÕES ===================== -->
+  <section id="acoes" class="py-20 md:py-28 bg-white relative overflow-hidden">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="text-center mb-14 fade-in">
+        <h2 class="section-title">Nossas Ações</h2>
+        <p class="section-subtitle">O que fazemos todos os dias para apoiar pacientes e suas famílias.</p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <article class="fade-in action-card">
+          <div class="action-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-7 h-7">
+              <rect x="1" y="3" width="15" height="13"/>
+              <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
+              <circle cx="5.5" cy="18.5" r="2.5"/>
+              <circle cx="18.5" cy="18.5" r="2.5"/>
+            </svg>
+          </div>
+          <h3 class="action-title">Plantões de atendimento e encaminhamento</h3>
+          <p class="action-text">
+            Consultas e exames de sangue para tratamento quimioterápico/radioterápico
+          </p>
+        </article>
+
+        <article class="fade-in action-card">
+          <div class="action-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-7 h-7">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 0 1-8 0"/>
+            </svg>
+          </div>
+          <h3 class="action-title">Doação de cestas Básicas e medicamentos</h3>
+          <p class="action-text">
+           Fornecemos mensalmente cestas básicas e quinzenalmente cestas de frutas e legumes; Além de medicamentos não abrangidos pela Rede Básica de Saúde, inclusive oxigênios e fraldas.
+          </p>
+        </article>
+
+        <article class="fade-in action-card">
+          <div class="action-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-7 h-7">
+              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+            </svg>
+          </div>
+          <h3 class="action-title">Cobertura para exames emergenciais</h3>
+          <p class="action-text">
+           Equipo de sonda gástrica, próteses, aparelhos específicos para alguns tipodes de câncer, bolsa de colostomia e outras necessidades.
+          </p>
+        </article>
+
+        <article class="fade-in action-card">
+          <div class="action-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-7 h-7">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <h3 class="action-title">Apoio Emocional</h3>
+          <p class="action-text">
+            Visitas domiciliares e hospitalares ao paciente e sua família.
+          </p>
+        </article>
+
+        <article class="fade-in action-card">
+          <div class="action-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-7 h-7">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <h3 class="action-title">Complementação financeira</h3>
+          <p class="action-text">
+            Às casa de apoio(alojamento para pacientes) em Jaú.
+          </p>
+        </article>
+
+        <article class="fade-in action-card">
+          <div class="action-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-7 h-7">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          </div>
+          <h3 class="action-title">Empréstimo de equipamentos</h3>
+          <p class="action-text">
+            cama hospitalar, colchões casca de ovo, andadores, muletas, bengalas, cadeiras de roda e outros para a comunidade
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== EVENTOS ===================== -->
+  <section id="eventos" class="py-20 md:py-28 bg-gac-cream relative overflow-hidden">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="text-center mb-14 fade-in">
+        <h2 class="section-title">Eventos Anuais</h2>
+        <p class="section-subtitle">Campanhas e ações que mobilizam toda a comunidade.</p>
+      </div>
+
+      <!-- Scroll horizontal mobile, grid 2 colunas desktop -->
+      <div class="events-scroll">
+        <article class="fade-in card event-card">
+          <div class="event-icon bg-gac-pink/40 text-gac-orange">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          </div>
+          <p class="event-month">Outubro</p>
+          <h3 class="event-title">bazar de artesanato</h3>
+          <p class="event-desc">
+            Bazar beneficente com venda de artesanatos, roupas e acessórios doados pela comunidade.
+          </p>
+        </article>
+
+        <article class="fade-in card event-card">
+          <div class="event-icon bg-blue-100 text-blue-700">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8"><circle cx="12" cy="8" r="4"/><path d="M12 14c-4 0-8 2-8 6v2h16v-2c0-4-4-6-8-6z"/></svg>
+          </div>
+          <p class="event-month">Novembro</p>
+          <h3 class="event-title">Jantar Italiano</h3>
+          <p class="event-desc">
+            
+Tradicional jantar beneficente com pratos típicos italianos para arrecadação de fundos.
+          </p>
+        </article>
+
+        <article class="fade-in card event-card">
+          <div class="event-icon bg-gac-gold/30 text-gac-orange">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8"><path d="M12 2L4 8v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-8-6z"/></svg>
+          </div>
+          <p class="event-month">Junho</p>
+          <h3 class="event-title">Leilão de gado</h3>
+          <p class="event-desc">
+           >
+            Leilão beneficente com doações de animais e produtos rurais da comunidade.
+          </p>
+        </article>
+
+        <article class="fade-in card event-card">
+          <div class="event-icon bg-green-100 text-green-700">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8"><path d="M13 4.07V1h-2v3.07A8.001 8.001 0 0 0 4.07 11H1v2h3.07A8.001 8.001 0 0 0 11 19.93V23h2v-3.07A8.001 8.001 0 0 0 19.93 13H23v-2h-3.07A8.001 8.001 0 0 0 13 4.07z"/></svg>
+          </div>
+          <p class="event-month">Setembro</p>
+          <h3 class="event-title">chá beneficente</h3>
+          <p class="event-desc">
+            
+            Chá beneficente com venda de doces, salgados e artesanatos para arrecadação de fundos.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== MEMBROS ===================== -->
+  <section id="membros" class="py-20 md:py-28 bg-white">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="text-center mb-14 fade-in">
+        <h2 class="section-title">Nossa Equipe</h2>
+        <p class="section-subtitle">Pessoas que dedicam seu tempo e coração a esta causa.</p>
+      </div>
+
+      <!-- ===== BLOCO 1: DIRETORIA ===== -->
+      <div class="mb-16">
+        <h3 class="font-display text-2xl md:text-3xl font-semibold text-gac-orange mb-8 text-center md:text-left fade-in">Diretoria</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 md:gap-6"
+             data-team-grid="diretoria"
+             data-members='[
+               {"nome":"Rosana Marilia Rodrigues Methodio","cargo":"Presidente"},
+               {"nome":"Carmen Lidia Fernandes","cargo":"Vice-Presidente"},
+               {"nome":"Maristella Mattar Garcia","cargo":"1ª Secretária"},
+               {"nome":"Rita de Cássia Mengato Ferreira Lima","cargo":"2ª Secretária"},
+               {"nome":"Rita de Cássia Salhane Bessegato Gomes","cargo":"1ª Tesoureira"},
+               {"nome":"Jucelen Penachio de Carvalho","cargo":"2ª Tesoureira"}
+             ]'>
+          <!-- Cards gerados via JS -->
+        </div>
+      </div>
+
+      <!-- ===== BLOCO 2: CONSELHO FISCAL ===== -->
+      <div class="mb-16">
+        <h3 class="font-display text-2xl md:text-3xl font-semibold text-gac-orange mb-8 text-center md:text-left fade-in">Conselho Fiscal</h3>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Titulares -->
+          <div class="fade-in">
+            <h4 class="council-subtitle">Titulares</h4>
+            <ul class="council-list"
+                data-council-list="titulares"
+                data-members='[
+                  "Rosa Bulgarelli Antunes",
+                  "Maria Helena Guedes Ramos",
+                  "Maria Inês Biondo Mengato"
+                ]'>
             </ul>
           </div>
 
-          <a
-            class="btn btn-theme rounded-pill px-4 fw-semibold shadow-sm order-2 order-lg-3 ms-lg-4"
-            href="#doacao"
-          >
-            Faça sua doação
-          </a>
+          <!-- Suplentes -->
+          <div class="fade-in">
+            <h4 class="council-subtitle">Suplentes</h4>
+            <ul class="council-list"
+                data-council-list="suplentes"
+                data-members='[
+                  "Luzia Longhi",
+                  "Maria de Lourdes Martins de Oliveira",
+                  "Santina Marineli Fernandes"
+                ]'>
+            </ul>
+          </div>
         </div>
-      </nav>
-    </div>
-    <!-- HEAD -->
-    <section class="hero">
-      <div class="container hero-content">
-        <h1 class="display-4 fw-bold">
-          Juntos na luta contra o câncer
-        </h1>
-        <p class="lead mt-3">
-          O câncer assusta. Parece não dar opçoes. Mas você pode nos ajudar a oferecer qualidade de vida ao paciente com a dor do câncer
-        </p>
-        <a
-          href="https://wa.me/5514998973020"
-          class="btn btn-lg btn-theme rounded-pill px-4 fw-semibold shadow-sm order-2 order-lg-3 ms-lg-4 mt-3"
-          target="_blank"
-        >
-          Entre em contato conosco
-        </a>
       </div>
-    </section>
 
-    <h1>teste</h1>
-    <h1>teste</h1>
-    <h1>teste</h1>
-    <h1>teste</h1>
-    <h1>teste</h1>
-    <h1>teste</h1>
-    <h1>teste</h1>
+      <!-- ===== BLOCO 3: BANNER DE VOLUNTÁRIAS ===== -->
+      <div class="fade-in volunteer-banner">
+        <div class="volunteer-banner-image">
+          
+          <img src="img/membros.jpg" alt="Voluntárias do GAC Getulina"
+               onerror="this.style.display='none'; this.parentElement.classList.add('no-image');" />
+        </div>
+        <div class="volunteer-banner-content">
+          <h3 class="font-display text-2xl md:text-3xl font-semibold leading-tight mb-4">
+            Mais de 40 voluntárias que transformam vidas em Getulina desde 2001
+          </h3>
+          <a href="#contato" class="btn-outline-white">Quero ser voluntária →</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-      crossorigin="anonymous"
-    ></script>
-    <script src="index.js"></script>
-  </body>
+  <!-- ===================== NOTÍCIAS ===================== -->
+  <section id="noticias" class="py-20 md:py-28 bg-gac-cream">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="text-center mb-14 fade-in">
+        <h2 class="section-title">Notícias</h2>
+        <p class="section-subtitle">Últimas novidades do grupo e da comunidade.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <article class="fade-in card news-card">
+          <div class="news-image image-placeholder"></div>
+          <div class="p-5">
+           
+            <p class="news-date">15 de março de 2026</p>
+            <h3 class="news-title">Título da notícia em destaque</h3>
+            <p class="news-excerpt">
+              
+              Breve descrição da notícia para chamar atenção do leitor e introduzir o conteúdo principal.
+            </p>
+            <a href="noticias.html#noticia-1" class="news-link">Leia mais →</a>
+          </div>
+        </article>
+
+        <article class="fade-in card news-card">
+          <div class="news-image image-placeholder"></div>
+          <div class="p-5">
+            <p class="news-date">02 de março de 2026</p>
+            <h3 class="news-title">Outra notícia importante</h3>
+            <p class="news-excerpt">
+              
+              Resumo do segundo post recente do grupo, com conteúdo relevante para a comunidade.
+            </p>
+            <a href="noticias.html#noticia-2" class="news-link">Leia mais →</a>
+          </div>
+        </article>
+
+        <article class="fade-in card news-card">
+          <div class="news-image image-placeholder"></div>
+          <div class="p-5">
+            <p class="news-date">20 de fevereiro de 2026</p>
+            <h3 class="news-title">Mais uma novidade do GAC</h3>
+            <p class="news-excerpt">
+              
+              Texto curto sobre o que aconteceu de relevante neste mês no grupo.
+            </p>
+            <a href="noticias.html#noticia-3" class="news-link">Leia mais →</a>
+          </div>
+        </article>
+      </div>
+
+      <div class="text-center mt-10 fade-in">
+        <a href="noticias.html" class="btn-secondary">Ver todas as notícias</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== GALERIA DE FOTOS ===================== -->
+  <section id="fotos" class="py-20 md:py-28 bg-white">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="text-center mb-14 fade-in">
+        <h2 class="section-title">Galeria de Fotos</h2>
+        <p class="section-subtitle">Momentos que marcaram nossa caminhada.</p>
+      </div>
+
+      <div class="masonry">
+        <figure class="fade-in gallery-item tall" data-caption="Outubro Rosa 2024">
+          <div class="image-placeholder w-full h-full"></div>
+          <figcaption>Outubro Rosa 2024</figcaption>
+        </figure>
+        <figure class="fade-in gallery-item" data-caption="Caminhada pela Vida">
+          <div class="image-placeholder w-full h-full"></div>
+          <figcaption>Caminhada pela Vida</figcaption>
+        </figure>
+        <figure class="fade-in gallery-item" data-caption="Jantar Beneficente">
+          <div class="image-placeholder w-full h-full"></div>
+          <figcaption>Jantar Beneficente</figcaption>
+        </figure>
+        <figure class="fade-in gallery-item tall" data-caption="Voluntárias reunidas">
+          <div class="image-placeholder w-full h-full"></div>
+          <figcaption>Voluntárias reunidas</figcaption>
+        </figure>
+        <figure class="fade-in gallery-item" data-caption="Palestra de prevenção">
+          <div class="image-placeholder w-full h-full"></div>
+          <figcaption>Palestra de prevenção</figcaption>
+        </figure>
+        <figure class="fade-in gallery-item" data-caption="Doações arrecadadas">
+          <div class="image-placeholder w-full h-full"></div>
+          <figcaption>Doações arrecadadas</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox hidden" role="dialog" aria-modal="true" aria-label="Visualização ampliada">
+      <button id="lightbox-close" class="lightbox-close" aria-label="Fechar">&times;</button>
+      <div class="lightbox-content">
+        <div id="lightbox-image" class="lightbox-image image-placeholder"></div>
+        <p id="lightbox-caption" class="lightbox-caption"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== COMO NOS MANTEMOS ===================== -->
+  <section id="mantemos" class="py-20 md:py-28 bg-gac-cream relative overflow-hidden">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="text-center mb-14 fade-in">
+        <h2 class="section-title">Como Nos Mantemos</h2>
+        <p class="section-subtitle">Transparência é compromisso. Veja de onde vêm os recursos que sustentam o nosso trabalho.</p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <article class="fade-in support-card">
+          <div class="support-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-7 h-7">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          </div>
+          <h3 class="support-title">Doações da Comunidade</h3>
+          <p class="support-text">
+            Contribuições mensais e pontuais de sócios contribuintes(pessoas físicas e juridicas) através de carnês.
+          </p>
+        </article>
+
+        <article class="fade-in support-card">
+          <div class="support-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-7 h-7">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+          </div>
+          <h3 class="support-title">Eventos Beneficentes</h3>
+          <p class="support-text">
+            Jantares, eventos diversos e campanhas anuais que mobilizam Getulina e revertem 100% do arrecadado para os pacientes.
+          </p>
+        </article>
+
+        <article class="fade-in support-card">
+          <div class="support-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-7 h-7">
+              <polyline points="20 12 20 22 4 22 4 12"/>
+              <rect x="2" y="7" width="20" height="5"/>
+              <line x1="12" y1="22" x2="12" y2="7"/>
+              <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
+              <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+            </svg>
+          </div>
+          <h3 class="support-title">Rifas e Artesanatos</h3>
+          <p class="support-text">
+            Rifas mensais e o trabalho artesanal das voluntárias com venda permanente na sede do grupo
+          </p>
+        </article>
+
+        <article class="fade-in support-card">
+          <div class="support-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-7 h-7">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <h3 class="support-title">Bazar beneficente</h3>
+          <p class="support-text">
+            Doação de roupas usadas, móveis e utensílios para a Venda no bazar beneficente(brechó) permanente em nossa sede - Rua Barão do Rio Branco 551, Getulina
+          </p>
+        </article>
+      </div>
+
+      <!-- Selo de transparência -->
+      <div class="fade-in transparency-badge">
+        <div class="transparency-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-8 h-8">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <div>
+          <p class="transparency-title">100% dos recursos voltam para os pacientes</p>
+          <p class="transparency-text">
+            Não há funcionários remunerados. Cada real arrecadado é aplicado em transporte, exames, medicamentos, cestas básicas e suporte direto às famílias atendidas.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== COMO AJUDAR / DOE ===================== -->
+  <section id="doar" class="py-20 md:py-28 bg-white">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="text-center mb-14 fade-in">
+        <h2 class="section-title">Como Ajudar</h2>
+        <p class="section-subtitle">Sua contribuição transforma vidas. Escolha a forma que faz mais sentido para você.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6 mb-14">
+        <article class="fade-in card help-card">
+          <div class="text-5xl mb-4" aria-hidden="true">💰</div>
+          <h3 class="help-title">Doação Financeira</h3>
+          <p class="help-text mb-4">
+            Toda doação é destinada ao transporte, alimentação e suporte aos pacientes.
+          </p>
+          <div class="bg-gac-cream rounded-xl p-4 text-sm text-left">
+            <p class="font-semibold text-gac-orange mb-1">PIX</p>
+            <!-- SUBSTITUIR chave PIX -->
+            <p class="break-all text-gac-charcoal/80">gac.getulina@email.com</p>
+            <hr class="my-3 border-gac-orange/20" />
+            <p class="font-semibold text-gac-orange mb-1">Conta Bancária</p>
+            <!-- SUBSTITUIR dados bancários -->
+            <p class="text-gac-charcoal/80">Banco XX • Ag. 0000 • CC 00000-0</p>
+            <hr class="my-3 border-gac-orange/20" />
+            <p class="font-semibold text-gac-orange mb-1">CNPJ</p>
+            <p class="text-gac-charcoal/80">06.311.935/0001-75</p>
+          </div>
+        </article>
+
+        <article class="fade-in card help-card">
+          <div class="text-5xl mb-4" aria-hidden="true">👕</div>
+          <h3 class="help-title">Doação de Itens</h3>
+          <p class="help-text mb-4">
+            Aceitamos os seguintes itens em bom estado:
+          </p>
+          <ul class="text-sm text-gac-charcoal/80 space-y-2 text-left">
+            <!-- SUBSTITUIR lista de itens aceitos -->
+            <li>✓ Roupas e calçados</li>
+            <li>✓ Lenços e perucas</li>
+            <li>✓ Cestas básicas</li>
+            <li>✓ Produtos de higiene</li>
+            <li>✓ Materiais hospitalares</li>
+          </ul>
+        </article>
+
+        <article class="fade-in card help-card">
+          <div class="text-5xl mb-4" aria-hidden="true">🤝</div>
+          <h3 class="help-title">Seja Voluntário</h3>
+          <p class="help-text mb-4">
+            Doe seu tempo, talento e carinho. Junte-se à nossa rede de voluntários.
+          </p>
+          <a href="#contato" class="btn-primary inline-block mt-2">Quero Ser Voluntário</a>
+        </article>
+      </div>
+
+      <!-- CTA destacado -->
+      <div class="fade-in cta-banner">
+        <h3 class="font-display text-2xl md:text-3xl font-semibold mb-3">Cada gesto faz diferença.</h3>
+        <p class="mb-6 text-white/90 max-w-2xl mx-auto">
+          Conte com a gente para fazer chegar seu apoio às famílias que mais precisam em Getulina.
+        </p>
+        <a href="#contato" class="btn-white">Fale Conosco</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== MEMORIAL ===================== -->
+  <section id="memorial" class="memorial-section py-20 md:py-28">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="text-center mb-14 fade-in">
+        <h2 class="font-display text-3xl md:text-5xl font-semibold text-gac-gold mb-3">Em memória de quem passou por aqui</h2>
+        <p class="text-white/70 max-w-2xl mx-auto italic">
+          "Aqueles que amamos nunca morrem, apenas partem antes de nós."
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <article class="fade-in memorial-card">
+          <div class="avatar-placeholder dark"></div>
+          <h3 class="font-display text-xl text-gac-gold">Nome Sobrenome</h3>
+          <!-- SUBSTITUIR -->
+          <p class="text-sm text-white/60 mb-3">Voluntária • 2012 – 2023</p>
+          <p class="text-sm text-white/80 italic">
+            "Uma luz que iluminou nosso caminho com sua dedicação."
+          </p>
+        </article>
+
+        <article class="fade-in memorial-card">
+          <div class="avatar-placeholder dark"></div>
+          <h3 class="font-display text-xl text-gac-gold">Nome Sobrenome</h3>
+          <p class="text-sm text-white/60 mb-3">Membro fundador • 2010 – 2021</p>
+          <p class="text-sm text-white/80 italic">
+            "Seu legado vive em cada vida que tocamos."
+          </p>
+        </article>
+
+        <article class="fade-in memorial-card">
+          <div class="avatar-placeholder dark"></div>
+          <h3 class="font-display text-xl text-gac-gold">Nome Sobrenome</h3>
+          <p class="text-sm text-white/60 mb-3">Voluntário • 2015 – 2024</p>
+          <p class="text-sm text-white/80 italic">
+            "Sempre lembrado pelo sorriso e pelo carinho."
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONTATO ===================== -->
+  <section id="contato" class="py-20 md:py-28 bg-gac-cream">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="text-center mb-14 fade-in">
+        <h2 class="section-title">Entre em Contato</h2>
+        <p class="section-subtitle">Estamos aqui para ouvir, ajudar e acolher.</p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-10">
+        <!-- Formulário -->
+        <form
+          id="form-contato"
+          action="https://formspree.io/f/SUBSTITUIR_PELO_ID"
+          method="POST"
+          class="fade-in card p-6 md:p-8 space-y-5"
+          novalidate
+        >
+          <!-- Configurações Formspree -->
+          <input type="hidden" name="_subject" value="Novo contato pelo site GGCC" />
+          <input type="hidden" name="_language" value="pt" />
+
+          <div>
+            <label for="nome" class="form-label">Nome</label>
+            <input id="nome" name="nome" type="text" required class="form-input" />
+          </div>
+          <div>
+            <label for="email" class="form-label">E-mail</label>
+            <input id="email" name="email" type="email" required class="form-input" />
+          </div>
+          <div>
+            <label for="telefone" class="form-label">Telefone</label>
+            <input id="telefone" name="telefone" type="tel" class="form-input" />
+          </div>
+          <div>
+            <label for="mensagem" class="form-label">Mensagem</label>
+            <textarea id="mensagem" name="mensagem" rows="5" required class="form-input"></textarea>
+          </div>
+          <button type="submit" id="btn-enviar" class="btn-primary w-full">Enviar mensagem</button>
+
+          <div id="form-sucesso" class="hidden">
+            ✅ Mensagem enviada com sucesso! Entraremos em contato em breve.
+          </div>
+          <div id="form-erro" class="hidden">
+            ❌ Ocorreu um erro. Tente novamente ou nos ligue: (14) 3552-2966.
+          </div>
+        </form>
+
+        <!-- Informações de contato -->
+        <div class="fade-in space-y-6">
+          <div class="card p-6">
+            <h3 class="font-display text-xl font-semibold mb-4 text-gac-orange">Informações</h3>
+            <ul class="space-y-4 text-sm">
+              <li class="flex items-start gap-3">
+                <span class="text-gac-orange text-lg">📍</span>
+                <!-- SUBSTITUIR endereço -->
+                <span>Rua Barão do Rio Branco, 551<br>Getulina/SP — CEP 16450-000</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-gac-orange text-lg">📞</span>
+                <!-- SUBSTITUIR telefone -->
+                <span>(14) 3552-2966</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-gac-orange text-lg">📧</span>
+                <!-- SUBSTITUIR e-mail -->
+                <span>ggccancer@hotmail.com</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-gac-orange text-lg">🕐</span>
+                <span>Seg. a Sex. • 8h às 10h • 14h às 16h</span>
+              </li>
+            </ul>
+
+            <div class="flex gap-3 mt-6">
+              <a href="https://www.facebook.com/GRUPOGETULINENSEDECOMBATEAOCANCER/" aria-label="Facebook" class="social-link">
+                <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M22 12a10 10 0 1 0-11.5 9.87v-6.98H8v-2.89h2.5V9.41c0-2.47 1.47-3.83 3.72-3.83 1.08 0 2.21.2 2.21.2v2.43h-1.25c-1.23 0-1.61.76-1.61 1.55v1.86h2.74l-.44 2.89h-2.3v6.98A10 10 0 0 0 22 12z"/></svg>
+              </a>
+              <!-- <a href="#" aria-label="Instagram" class="social-link">
+                <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 5.68a4.16 4.16 0 1 0 0 8.32 4.16 4.16 0 0 0 0-8.32zM18.4 6.6a.97.97 0 1 0 0 1.94.97.97 0 0 0 0-1.94zM12 14.16a2.16 2.16 0 1 1 0-4.32 2.16 2.16 0 0 1 0 4.32z"/></svg>
+              </a>
+              <a href="#" aria-label="WhatsApp" class="social-link">
+                <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1s-.5-.1-.7.1c-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.4.4-.5.1-.2.2-.3.2-.5.1-.2 0-.4 0-.5 0-.1-.7-1.7-.9-2.3-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4s-1 1-1 2.4 1.1 2.8 1.2 3c.2.2 2.1 3.2 5 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.5.3-.7.3-1.4.2-1.5-.1-.2-.3-.3-.6-.4zM12 22a10 10 0 0 1-5.3-1.5L2 22l1.5-4.6A10 10 0 1 1 12 22z"/></svg>
+              </a> -->
+            </div>
+          </div>
+
+          <!-- Mapa -->
+          <div class="card overflow-hidden p-0">
+            <div class="map-embed">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3704.4865374925007!2d-49.934832188867645!3d-21.800124699176987!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94be222b7791b00b%3A0x3bb9b1b25e21747e!2sR.%20Bar%C3%A3o%20do%20Rio%20Branco%2C%20551%20-%20Getulina%2C%20SP%2C%2016450-000!5e0!3m2!1spt-BR!2sbr!4v1779046396893!5m2!1spt-BR!2sbr"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Localização do GAC Getulina"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="bg-gac-charcoal text-white/80 pt-14 pb-6">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="grid md:grid-cols-4 gap-10 mb-10">
+        <div>
+          <a href="#inicio" class="flex items-center gap-2 mb-3">
+            <img src="img/logo.png" alt="Logo GAC Getulina" class="logo-img logo-img-footer" />
+            <span class="font-display text-xl font-semibold text-gac-gold">GAC Getulina</span>
+          </a>
+          <p class="text-sm text-white/60 leading-relaxed">
+         Dar ao paciente diagnosticado com o câncer condiçoes de sobrevida maior e melhor, alcançando à cura!
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Navegação</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#historia" class="footer-link">História</a></li>
+            <li><a href="#acoes" class="footer-link">Ações</a></li>
+            <li><a href="#eventos" class="footer-link">Eventos</a></li>
+            <li><a href="#membros" class="footer-link">Membros</a></li>
+            <li><a href="#noticias" class="footer-link">Notícias</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Mais</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#fotos" class="footer-link">Galeria</a></li>
+            <li><a href="#mantemos" class="footer-link">Transparência</a></li>
+            <li><a href="#doar" class="footer-link">Doe Agora</a></li>
+            <li><a href="#memorial" class="footer-link">Memorial</a></li>
+            <li><a href="#contato" class="footer-link">Contato</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Siga-nos</h4>
+          <div class="flex gap-3">
+            <a href="https://www.facebook.com/GRUPOGETULINENSEDECOMBATEAOCANCER/" aria-label="Facebook" class="social-link dark">
+              <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M22 12a10 10 0 1 0-11.5 9.87v-6.98H8v-2.89h2.5V9.41c0-2.47 1.47-3.83 3.72-3.83 1.08 0 2.21.2 2.21.2v2.43h-1.25c-1.23 0-1.61.76-1.61 1.55v1.86h2.74l-.44 2.89h-2.3v6.98A10 10 0 0 0 22 12z"/></svg>
+            </a>
+            <!-- <a href="#" aria-label="Instagram" class="social-link dark">
+              <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 5.68a4.16 4.16 0 1 0 0 8.32 4.16 4.16 0 0 0 0-8.32zM18.4 6.6a.97.97 0 1 0 0 1.94.97.97 0 0 0 0-1.94zM12 14.16a2.16 2.16 0 1 1 0-4.32 2.16 2.16 0 0 1 0 4.32z"/></svg>
+            </a>
+            <a href="#" aria-label="WhatsApp" class="social-link dark">
+              <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1s-.5-.1-.7.1c-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.4.4-.5.1-.2.2-.3.2-.5.1-.2 0-.4 0-.5 0-.1-.7-1.7-.9-2.3-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4s-1 1-1 2.4 1.1 2.8 1.2 3c.2.2 2.1 3.2 5 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.5.3-.7.3-1.4.2-1.5-.1-.2-.3-.3-.6-.4zM12 22a10 10 0 0 1-5.3-1.5L2 22l1.5-4.6A10 10 0 1 1 12 22z"/></svg>
+            </a> -->
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-white/10 pt-6 text-center text-xs text-white/50 space-y-1">
+        <p>© <span id="current-year"></span> GAC Getulina — Grupo de Apoio ao Câncer de Getulina.</p>
+        <p>Organização sem fins lucrativos • Getulina, SP — Brasil</p>
+        <p class="pt-2">CNPJ: <span class="text-white/70">06.311.935/0001-75</span></p>
+        <p class="max-w-2xl mx-auto text-white/40">
+          Estatuto registrado em 17/05/2004 no Cartório de Pessoas Jurídicas sob nº R/186 no livro PJA. Atualizado em 01/12/2008.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
+</body>
 </html>
