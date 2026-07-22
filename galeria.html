@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Notícias do GAC Getulina — Grupo de Apoio ao Câncer de Getulina." />
-  <title>Notícias — GAC Getulina</title>
+  <meta name="description" content="Galeria de fotos do GAC Getulina — momentos, campanhas e eventos que marcaram a caminhada do Grupo Getulinense de Combate ao Câncer." />
+  <title>Galeria de Fotos — GAC Getulina</title>
 
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -127,9 +127,9 @@
         </svg>
         Voltar à página inicial
       </a>
-      <h1 class="font-display text-4xl md:text-5xl font-bold mb-3">Todas as Notícias</h1>
+      <h1 class="font-display text-4xl md:text-5xl font-bold mb-3">Galeria de Fotos</h1>
       <p class="text-gac-charcoal/70 max-w-2xl mx-auto">
-        Acompanhe o que tem acontecido no GAC Getulina — campanhas, eventos, conquistas e ações que tocam vidas.
+        Momentos que marcaram nossa caminhada.
       </p>
     </div>
     <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none" aria-hidden="true">
@@ -139,70 +139,49 @@
     </div>
   </section>
 
-  <!-- ===================== LISTA DE NOTÍCIAS ===================== -->
-  <main class="py-12 md:py-16">
-    <div class="max-w-4xl mx-auto px-5 space-y-12 md:space-y-16">
+  <!-- ===================== GALERIA COMPLETA ===================== -->
+  <main id="fotos" class="py-12 md:py-16">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="masonry">
+        <figure class="fade-in gallery-item tall" data-caption="Outubro Rosa 2024">
+          <div class="image-placeholder w-full h-full"></div>
+          <figcaption>Outubro Rosa 2024</figcaption>
+        </figure>
+        <figure class="fade-in gallery-item" data-caption="Caminhada pela Vida">
+          <div class="image-placeholder w-full h-full"></div>
+          <figcaption>Caminhada pela Vida</figcaption>
+        </figure>
+        <figure class="fade-in gallery-item" data-caption="Jantar Beneficente">
+          <div class="image-placeholder w-full h-full"></div>
+          <figcaption>Jantar Beneficente</figcaption>
+        </figure>
+        <figure class="fade-in gallery-item tall" data-caption="Voluntárias reunidas">
+          <div class="image-placeholder w-full h-full"></div>
+          <figcaption>Voluntárias reunidas</figcaption>
+        </figure>
+        <figure class="fade-in gallery-item" data-caption="Palestra de prevenção">
+          <div class="image-placeholder w-full h-full"></div>
+          <figcaption>Palestra de prevenção</figcaption>
+        </figure>
+        <figure class="fade-in gallery-item" data-caption="Doações arrecadadas">
+          <div class="image-placeholder w-full h-full"></div>
+          <figcaption>Doações arrecadadas</figcaption>
+        </figure>
+      </div>
 
-      <!-- ====== NOTÍCIA 1 ====== -->
-      <article id="noticia-1" class="news-article fade-in">
-        <div class="news-article-image image-placeholder rounded-2xl mb-6"></div>
-        <p class="news-date">15 de março de 2026</p>
-        <h2 class="news-article-title">Título da notícia em destaque</h2>
-        <div class="news-article-body">
-          <!-- SUBSTITUIR: conteúdo completo da notícia 1 -->
-          <p>
-            Conteúdo completo da primeira notícia. Aqui você pode contar com detalhes o que aconteceu, citar pessoas envolvidas, agradecer parceiros e descrever os impactos da ação para a comunidade.
-          </p>
-          <p>
-            Este espaço é dedicado ao texto integral, sem limite de tamanho como nos cards. Use parágrafos curtos para facilitar a leitura no celular.
-          </p>
-          <p>
-            Encerre com um chamado à ação ou uma reflexão sobre o significado do evento para o grupo e os pacientes atendidos.
-          </p>
-        </div>
-      </article>
-
-      <hr class="border-gac-orange/20" />
-
-      <!-- ====== NOTÍCIA 2 ====== -->
-      <article id="noticia-2" class="news-article fade-in">
-        <div class="news-article-image image-placeholder rounded-2xl mb-6"></div>
-        <p class="news-date">02 de março de 2026</p>
-        <h2 class="news-article-title">Outra notícia importante</h2>
-        <div class="news-article-body">
-          <!-- SUBSTITUIR: conteúdo completo da notícia 2 -->
-          <p>
-            Texto completo da segunda notícia. Descreva aqui o evento, a campanha ou a conquista de forma detalhada e acessível.
-          </p>
-          <p>
-            Inclua dados concretos quando possível — quantidade de pessoas atendidas, valor arrecadado, materiais doados — pois isso reforça a credibilidade e a transparência do grupo.
-          </p>
-        </div>
-      </article>
-
-      <hr class="border-gac-orange/20" />
-
-      <!-- ====== NOTÍCIA 3 ====== -->
-      <article id="noticia-3" class="news-article fade-in">
-        <div class="news-article-image image-placeholder rounded-2xl mb-6"></div>
-        <p class="news-date">20 de fevereiro de 2026</p>
-        <h2 class="news-article-title">Mais uma novidade do GAC</h2>
-        <div class="news-article-body">
-          <!-- SUBSTITUIR: conteúdo completo da notícia 3 -->
-          <p>
-            Texto completo da terceira notícia. Conte a história por trás da ação, mostrando o lado humano e o envolvimento da comunidade.
-          </p>
-          <p>
-            Fotos e depoimentos podem ser incluídos posteriormente para enriquecer o conteúdo.
-          </p>
-        </div>
-      </article>
-
-      <!-- ADICIONAR MAIS NOTÍCIAS:
-           Duplique o bloco <article id="noticia-X"> ... </article>
-           e atualize o id, data, título e conteúdo.
+      <!-- ADICIONAR MAIS FOTOS:
+           Duplique um bloco <figure class="fade-in gallery-item"> ... </figure>
+           e atualize o data-caption e a legenda.
       -->
+    </div>
 
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox hidden" role="dialog" aria-modal="true" aria-label="Visualização ampliada">
+      <button id="lightbox-close" class="lightbox-close" aria-label="Fechar">&times;</button>
+      <div class="lightbox-content">
+        <div id="lightbox-image" class="lightbox-image image-placeholder"></div>
+        <p id="lightbox-caption" class="lightbox-caption"></p>
+      </div>
     </div>
   </main>
 
@@ -247,15 +226,9 @@
         <div>
           <h4 class="footer-title">Siga-nos</h4>
           <div class="flex gap-3">
-            <a href="#" aria-label="Facebook" class="social-link dark">
+            <a href="https://www.facebook.com/GRUPOGETULINENSEDECOMBATEAOCANCER/" aria-label="Facebook" class="social-link dark">
               <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M22 12a10 10 0 1 0-11.5 9.87v-6.98H8v-2.89h2.5V9.41c0-2.47 1.47-3.83 3.72-3.83 1.08 0 2.21.2 2.21.2v2.43h-1.25c-1.23 0-1.61.76-1.61 1.55v1.86h2.74l-.44 2.89h-2.3v6.98A10 10 0 0 0 22 12z"/></svg>
             </a>
-            <!-- <a href="#" aria-label="Instagram" class="social-link dark">
-              <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 5.68a4.16 4.16 0 1 0 0 8.32 4.16 4.16 0 0 0 0-8.32zM18.4 6.6a.97.97 0 1 0 0 1.94.97.97 0 0 0 0-1.94zM12 14.16a2.16 2.16 0 1 1 0-4.32 2.16 2.16 0 0 1 0 4.32z"/></svg>
-            </a>
-            <a href="#" aria-label="WhatsApp" class="social-link dark">
-              <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1s-.5-.1-.7.1c-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.4.4-.5.1-.2.2-.3.2-.5.1-.2 0-.4 0-.5 0-.1-.7-1.7-.9-2.3-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4s-1 1-1 2.4 1.1 2.8 1.2 3c.2.2 2.1 3.2 5 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.5.3-.7.3-1.4.2-1.5-.1-.2-.3-.3-.6-.4zM12 22a10 10 0 0 1-5.3-1.5L2 22l1.5-4.6A10 10 0 1 1 12 22z"/></svg>
-            </a> -->
           </div>
         </div>
       </div>

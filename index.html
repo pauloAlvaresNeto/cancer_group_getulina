@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Grupo de Apoio ao Câncer de Getulina (GAC Getulina) — acolhimento, esperança e apoio a pacientes oncológicos e suas famílias em Getulina, SP." />
-  <title>GAC Getulina — Grupo de Apoio ao Câncer</title>
+  <!-- <title>GAC Getulina — Grupo de Apoio ao Câncer</title> -->
+  <title>GGGC — Grupo Getulinense </title>
 
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -43,28 +44,41 @@
 
   <!-- ===================== NAVBAR ===================== -->
   <header id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
-    <nav class="max-w-7xl mx-auto flex items-center justify-between px-5 py-4 md:px-8">
-      <!-- Logo -->
-      <a href="#inicio" class="flex items-center gap-2 group">
-        <img src="img/logo.png" alt="Logo GAC Getulina" class="logo-img transition-transform group-hover:scale-105" />
-        <span class="font-display text-xl md:text-2xl font-semibold text-gac-orange">GAC Getulina</span>
+    <nav class="max-w-7xl mx-auto flex items-center justify-between gap-6 px-5 py-4 md:px-8">
+      <!-- Zona 1: logo -->
+      <a href="#inicio" class="shrink-0 group">
+        <img src="img/logo.png" alt="GAC Getulina — Grupo Getulinense de Combate ao Câncer, ir para a página inicial" class="logo-img transition-transform group-hover:scale-105" />
       </a>
 
-      <!-- Menu desktop -->
-      <ul class="hidden lg:flex items-center gap-4 xl:gap-6 text-sm font-semibold">
+      <!-- Zona 2: menu desktop -->
+      <ul class="hidden lg:flex items-center justify-center gap-5 xl:gap-7 text-sm font-semibold">
         <li><a href="#historia" class="nav-link">História</a></li>
         <li><a href="#acoes" class="nav-link">Ações</a></li>
+        <li><a href="#bazar" class="nav-link">Bazar</a></li>
         <li><a href="#eventos" class="nav-link">Eventos</a></li>
-        <li><a href="#membros" class="nav-link">Membros</a></li>
+        <li><a href="evento-25-anos.html" class="nav-link text-gac-orange">25 Anos</a></li>
         <li><a href="#noticias" class="nav-link">Notícias</a></li>
-        <li><a href="#fotos" class="nav-link">Galeria</a></li>
-        <li><a href="#mantemos" class="nav-link">Transparência</a></li>
-        <li><a href="#memorial" class="nav-link">Memorial</a></li>
         <li><a href="#contato" class="nav-link">Contato</a></li>
-        <li>
-          <a href="#doar" class="btn-primary text-sm">Doe Agora</a>
+
+        <!-- Dropdown "Mais" -->
+        <li class="nav-dropdown">
+          <button type="button" class="nav-link nav-dropdown-toggle inline-flex items-center gap-1" aria-expanded="false" aria-haspopup="true" aria-controls="dropdown-mais">
+            Mais
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="w-3.5 h-3.5 nav-dropdown-caret" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+          <ul id="dropdown-mais" class="nav-dropdown-menu">
+            <li><a href="membros.html" class="nav-dropdown-link">Membros</a></li>
+            <li><a href="galeria.html" class="nav-dropdown-link">Galeria</a></li>
+            <li><a href="#mantemos" class="nav-dropdown-link">Transparência</a></li>
+            <li><a href="memorial.html" class="nav-dropdown-link">Memorial</a></li>
+          </ul>
         </li>
       </ul>
+
+      <!-- Zona 3: CTA -->
+      <a href="#doar" class="hidden lg:inline-block shrink-0 btn-primary text-sm">Quero Ajudar</a>
 
       <!-- Botão hambúrguer mobile -->
       <button id="menu-toggle" class="lg:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5" aria-label="Abrir menu" aria-expanded="false">
@@ -79,14 +93,29 @@
       <ul class="flex flex-col px-6 py-4 gap-3 font-semibold">
         <li><a href="#historia" class="mobile-link">História</a></li>
         <li><a href="#acoes" class="mobile-link">Ações</a></li>
+        <li><a href="#bazar" class="mobile-link">Bazar</a></li>
         <li><a href="#eventos" class="mobile-link">Eventos</a></li>
-        <li><a href="#membros" class="mobile-link">Membros</a></li>
+        <li><a href="evento-25-anos.html" class="mobile-link text-gac-orange">25 Anos</a></li>
         <li><a href="#noticias" class="mobile-link">Notícias</a></li>
-        <li><a href="#fotos" class="mobile-link">Galeria</a></li>
-        <li><a href="#mantemos" class="mobile-link">Transparência</a></li>
-        <li><a href="#memorial" class="mobile-link">Memorial</a></li>
         <li><a href="#contato" class="mobile-link">Contato</a></li>
-        <li class="pt-2"><a href="#doar" class="btn-primary block text-center">Doe Agora</a></li>
+
+        <!-- Sub-lista "Mais" -->
+        <li>
+          <button type="button" class="mobile-link mobile-dropdown-toggle flex items-center justify-between" aria-expanded="false" aria-controls="mobile-dropdown-mais">
+            Mais
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="w-4 h-4 mobile-dropdown-caret" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+          <ul id="mobile-dropdown-mais" class="mobile-dropdown-menu">
+            <li><a href="membros.html" class="mobile-link mobile-sublink">Membros</a></li>
+            <li><a href="galeria.html" class="mobile-link mobile-sublink">Galeria</a></li>
+            <li><a href="#mantemos" class="mobile-link mobile-sublink">Transparência</a></li>
+            <li><a href="memorial.html" class="mobile-link mobile-sublink">Memorial</a></li>
+          </ul>
+        </li>
+
+        <li class="pt-2"><a href="#doar" class="btn-primary block text-center">Quero Ajudar</a></li>
       </ul>
     </div>
   </header>
@@ -98,7 +127,7 @@
         Acolhimento • Esperança • União
       </p>
       <h1 class="fade-in font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gac-charcoal leading-tight mb-6">
-        Juntos somos <span class="text-gac-orange">mais fortes</span>
+        Grupo Getulinense <span class="text-gac-orange">de Combate ao Câncer</span>
       </h1>
       <p class="fade-in max-w-2xl mx-auto text-base md:text-lg text-gac-charcoal/80 mb-10 leading-relaxed">
         <!-- SUBSTITUIR: subtítulo final sobre a missão do grupo -->
@@ -115,6 +144,27 @@
       <svg viewBox="0 0 1440 120" preserveAspectRatio="none" class="w-full h-16 md:h-24">
         <path d="M0,64L60,69.3C120,75,240,85,360,80C480,75,600,53,720,53.3C840,53,960,75,1080,80C1200,85,1320,75,1380,69.3L1440,64L1440,120L0,120Z" fill="#FFF8F2"></path>
       </svg>
+    </div>
+  </section>
+
+  <!-- ===================== DESTAQUE 25 ANOS ===================== -->
+  <section id="destaque-25-anos" class="pb-6 md:pb-10 -mt-12 md:-mt-16 bg-gac-cream relative z-20">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="fade-in anniversary-banner">
+        <!-- OPCIONAL: foto de fundo do evento
+             <img src="img/25-anos.jpg" alt="" class="anniversary-banner-photo" data-hide-on-error /> -->
+        <p class="inline-block mb-5 px-4 py-1.5 rounded-full border border-gac-gold/50 bg-gac-gold/10 text-gac-gold font-semibold text-xs tracking-[0.15em] uppercase">
+          Janeiro de 2027 — data a confirmar
+        </p>
+        <h2 class="font-display text-3xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
+          <span class="text-gac-gold">25 anos</span> do GAC Getulina
+        </h2>
+        <p class="mb-8 text-white/80 max-w-2xl mx-auto leading-relaxed">
+          Vamos celebrar 25 anos de acolhimento com o maior evento que o grupo já realizou.
+          Uma festa para toda a comunidade, em agradecimento a cada pessoa que caminhou conosco desde 2001.
+        </p>
+        <a href="evento-25-anos.html" class="btn-gold">Saiba mais sobre o evento</a>
+      </div>
     </div>
   </section>
 
@@ -293,7 +343,7 @@ Mensalmente, distribui cestas básicas e de alimentos frescos, custeia exames e 
           <div class="event-icon bg-gac-pink/40 text-gac-orange">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
           </div>
-          <p class="event-month">Outubro</p>
+          <!-- <p class="event-month">Outubro</p> -->
           <h3 class="event-title">bazar de artesanato</h3>
           <p class="event-desc">
             Bazar beneficente com venda de artesanatos, roupas e acessórios doados pela comunidade.
@@ -304,7 +354,7 @@ Mensalmente, distribui cestas básicas e de alimentos frescos, custeia exames e 
           <div class="event-icon bg-blue-100 text-blue-700">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8"><circle cx="12" cy="8" r="4"/><path d="M12 14c-4 0-8 2-8 6v2h16v-2c0-4-4-6-8-6z"/></svg>
           </div>
-          <p class="event-month">Novembro</p>
+          <!-- <p class="event-month">Novembro</p> -->
           <h3 class="event-title">Jantar Italiano</h3>
           <p class="event-desc">
             
@@ -316,11 +366,11 @@ Tradicional jantar beneficente com pratos típicos italianos para arrecadação 
           <div class="event-icon bg-gac-gold/30 text-gac-orange">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8"><path d="M12 2L4 8v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-8-6z"/></svg>
           </div>
-          <p class="event-month">Junho</p>
+          <!-- <p class="event-month">Junho</p> -->
           <h3 class="event-title">Leilão de gado</h3>
           <p class="event-desc">
-           >
-            Leilão beneficente com doações de animais e produtos rurais da comunidade.
+           
+            Leilão beneficente com doações de animais doados pela comunidade e é realizado, anualmente, juntamente com o leilão da Paróquia
           </p>
         </article>
 
@@ -328,91 +378,18 @@ Tradicional jantar beneficente com pratos típicos italianos para arrecadação 
           <div class="event-icon bg-green-100 text-green-700">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8"><path d="M13 4.07V1h-2v3.07A8.001 8.001 0 0 0 4.07 11H1v2h3.07A8.001 8.001 0 0 0 11 19.93V23h2v-3.07A8.001 8.001 0 0 0 19.93 13H23v-2h-3.07A8.001 8.001 0 0 0 13 4.07z"/></svg>
           </div>
-          <p class="event-month">Setembro</p>
+          <!-- <p class="event-month">Setembro</p> -->
           <h3 class="event-title">chá beneficente</h3>
           <p class="event-desc">
             
-            Chá beneficente com venda de doces, salgados e artesanatos para arrecadação de fundos.
+            Chá beneficente com venda de ingressos para concorrer ao prêmio especial e com direito a degustar os salgados e chás oferecidos no evento
           </p>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- ===================== MEMBROS ===================== -->
-  <section id="membros" class="py-20 md:py-28 bg-white">
-    <div class="max-w-6xl mx-auto px-5">
-      <div class="text-center mb-14 fade-in">
-        <h2 class="section-title">Nossa Equipe</h2>
-        <p class="section-subtitle">Pessoas que dedicam seu tempo e coração a esta causa.</p>
-      </div>
-
-      <!-- ===== BLOCO 1: DIRETORIA ===== -->
-      <div class="mb-16">
-        <h3 class="font-display text-2xl md:text-3xl font-semibold text-gac-orange mb-8 text-center md:text-left fade-in">Diretoria</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 md:gap-6"
-             data-team-grid="diretoria"
-             data-members='[
-               {"nome":"Rosana Marilia Rodrigues Methodio","cargo":"Presidente"},
-               {"nome":"Carmen Lidia Fernandes","cargo":"Vice-Presidente"},
-               {"nome":"Maristella Mattar Garcia","cargo":"1ª Secretária"},
-               {"nome":"Rita de Cássia Mengato Ferreira Lima","cargo":"2ª Secretária"},
-               {"nome":"Rita de Cássia Salhane Bessegato Gomes","cargo":"1ª Tesoureira"},
-               {"nome":"Jucelen Penachio de Carvalho","cargo":"2ª Tesoureira"}
-             ]'>
-          <!-- Cards gerados via JS -->
-        </div>
-      </div>
-
-      <!-- ===== BLOCO 2: CONSELHO FISCAL ===== -->
-      <div class="mb-16">
-        <h3 class="font-display text-2xl md:text-3xl font-semibold text-gac-orange mb-8 text-center md:text-left fade-in">Conselho Fiscal</h3>
-
-        <div class="grid md:grid-cols-2 gap-8">
-          <!-- Titulares -->
-          <div class="fade-in">
-            <h4 class="council-subtitle">Titulares</h4>
-            <ul class="council-list"
-                data-council-list="titulares"
-                data-members='[
-                  "Rosa Bulgarelli Antunes",
-                  "Maria Helena Guedes Ramos",
-                  "Maria Inês Biondo Mengato"
-                ]'>
-            </ul>
-          </div>
-
-          <!-- Suplentes -->
-          <div class="fade-in">
-            <h4 class="council-subtitle">Suplentes</h4>
-            <ul class="council-list"
-                data-council-list="suplentes"
-                data-members='[
-                  "Luzia Longhi",
-                  "Maria de Lourdes Martins de Oliveira",
-                  "Santina Marineli Fernandes"
-                ]'>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- ===== BLOCO 3: BANNER DE VOLUNTÁRIAS ===== -->
-      <div class="fade-in volunteer-banner">
-        <div class="volunteer-banner-image">
-          
-          <img src="img/membros.jpg" alt="Voluntárias do GAC Getulina"
-               onerror="this.style.display='none'; this.parentElement.classList.add('no-image');" />
-        </div>
-        <div class="volunteer-banner-content">
-          <h3 class="font-display text-2xl md:text-3xl font-semibold leading-tight mb-4">
-            Mais de 40 voluntárias que transformam vidas em Getulina desde 2001
-          </h3>
-          <a href="#contato" class="btn-outline-white">Quero ser voluntária →</a>
-        </div>
-      </div>
-    </div>
-  </section>
+  <!-- Equipe movida para membros.html (link no menu e no rodapé) -->
 
   <!-- ===================== NOTÍCIAS ===================== -->
   <section id="noticias" class="py-20 md:py-28 bg-gac-cream">
@@ -470,7 +447,7 @@ Tradicional jantar beneficente com pratos típicos italianos para arrecadação 
     </div>
   </section>
 
-  <!-- ===================== GALERIA DE FOTOS ===================== -->
+  <!-- ===================== GALERIA DE FOTOS (teaser → galeria.html) ===================== -->
   <section id="fotos" class="py-20 md:py-28 bg-white">
     <div class="max-w-6xl mx-auto px-5">
       <div class="text-center mb-14 fade-in">
@@ -478,8 +455,8 @@ Tradicional jantar beneficente com pratos típicos italianos para arrecadação 
         <p class="section-subtitle">Momentos que marcaram nossa caminhada.</p>
       </div>
 
-      <div class="masonry">
-        <figure class="fade-in gallery-item tall" data-caption="Outubro Rosa 2024">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+        <figure class="fade-in gallery-item" data-caption="Outubro Rosa 2024">
           <div class="image-placeholder w-full h-full"></div>
           <figcaption>Outubro Rosa 2024</figcaption>
         </figure>
@@ -491,18 +468,14 @@ Tradicional jantar beneficente com pratos típicos italianos para arrecadação 
           <div class="image-placeholder w-full h-full"></div>
           <figcaption>Jantar Beneficente</figcaption>
         </figure>
-        <figure class="fade-in gallery-item tall" data-caption="Voluntárias reunidas">
+        <figure class="fade-in gallery-item" data-caption="Voluntárias reunidas">
           <div class="image-placeholder w-full h-full"></div>
           <figcaption>Voluntárias reunidas</figcaption>
         </figure>
-        <figure class="fade-in gallery-item" data-caption="Palestra de prevenção">
-          <div class="image-placeholder w-full h-full"></div>
-          <figcaption>Palestra de prevenção</figcaption>
-        </figure>
-        <figure class="fade-in gallery-item" data-caption="Doações arrecadadas">
-          <div class="image-placeholder w-full h-full"></div>
-          <figcaption>Doações arrecadadas</figcaption>
-        </figure>
+      </div>
+
+      <div class="text-center mt-10 fade-in">
+        <a href="galeria.html" class="btn-secondary">Ver galeria completa</a>
       </div>
     </div>
 
@@ -512,6 +485,75 @@ Tradicional jantar beneficente com pratos típicos italianos para arrecadação 
       <div class="lightbox-content">
         <div id="lightbox-image" class="lightbox-image image-placeholder"></div>
         <p id="lightbox-caption" class="lightbox-caption"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BAZAR ===================== -->
+  <section id="bazar" class="py-20 md:py-28 bg-gac-cream relative overflow-hidden">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="text-center mb-14 fade-in">
+        <h2 class="section-title">Nosso Bazar</h2>
+        <p class="section-subtitle">O brechó beneficente é a nossa principal fonte de recursos — e funciona o ano inteiro.</p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-10 items-start mb-10">
+        <!-- Intro + fotos -->
+        <div class="fade-in">
+          <p class="text-gac-charcoal/80 leading-relaxed mb-4">
+            O bazar beneficente do GAC Getulina funciona na nossa sede com roupas, calçados, móveis e utensílios
+            doados pela comunidade. Tudo passa pelas mãos das voluntárias, que separam, organizam e colocam à venda
+            por preços simbólicos.
+          </p>
+          <p class="text-gac-charcoal/80 leading-relaxed mb-6">
+            É daqui que vem a maior parte dos recursos que sustentam o nosso trabalho: cada peça vendida vira
+            cesta básica, exame, medicamento e transporte para os pacientes em tratamento. Doar uma roupa que
+            você não usa mais é uma forma simples e direta de ajudar.
+          </p>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4">
+            <figure class="gallery-item" data-caption="Bazar beneficente — arrecadação de roupas">
+              <div class="image-placeholder w-full h-full"></div>
+              <figcaption>Arrecadação de roupas</figcaption>
+            </figure>
+            <figure class="gallery-item" data-caption="Bazar beneficente — voluntárias organizando as peças">
+              <div class="image-placeholder w-full h-full"></div>
+              <figcaption>Voluntárias organizando</figcaption>
+            </figure>
+            <figure class="gallery-item" data-caption="Bazar beneficente — peças à venda na sede">
+              <div class="image-placeholder w-full h-full"></div>
+              <figcaption>Peças à venda</figcaption>
+            </figure>
+            <figure class="gallery-item" data-caption="Bazar beneficente — móveis e utensílios">
+              <div class="image-placeholder w-full h-full"></div>
+              <figcaption>Móveis e utensílios</figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <!-- Endereço, horários e CTAs -->
+        <div class="fade-in card p-6 md:p-8">
+          <h3 class="font-display text-xl md:text-2xl font-semibold mb-5 text-gac-orange">Onde e quando visitar</h3>
+          <ul class="space-y-4 text-sm mb-6">
+            <li class="flex items-start gap-3">
+              <span class="text-gac-orange text-lg">📍</span>
+              <span>Rua Barão do Rio Branco, 551<br>Getulina/SP — CEP 16450-000</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-gac-orange text-lg">🕐</span>
+              <span>Seg. a Sex. • 8h às 10h • 14h às 16h</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-gac-orange text-lg">📞</span>
+              <span>(14) 3552-2966</span>
+            </li>
+          </ul>
+
+          <div class="flex flex-col sm:flex-row gap-3">
+            <a href="#contato" class="btn-primary">Quero doar roupa</a>
+            <a href="#contato" class="btn-secondary">Quero visitar/comprar</a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -619,15 +661,12 @@ Tradicional jantar beneficente com pratos típicos italianos para arrecadação 
           </p>
           <div class="bg-gac-cream rounded-xl p-4 text-sm text-left">
             <p class="font-semibold text-gac-orange mb-1">PIX</p>
-            <!-- SUBSTITUIR chave PIX -->
-            <p class="break-all text-gac-charcoal/80">gac.getulina@email.com</p>
-            <hr class="my-3 border-gac-orange/20" />
-            <p class="font-semibold text-gac-orange mb-1">Conta Bancária</p>
-            <!-- SUBSTITUIR dados bancários -->
-            <p class="text-gac-charcoal/80">Banco XX • Ag. 0000 • CC 00000-0</p>
-            <hr class="my-3 border-gac-orange/20" />
-            <p class="font-semibold text-gac-orange mb-1">CNPJ</p>
-            <p class="text-gac-charcoal/80">06.311.935/0001-75</p>
+            <p class="break-all text-gac-charcoal/80">06.311.935/0001-75</p>
+            <p class="text-xs text-gac-charcoal/60 mb-4">Chave PIX: CNPJ do grupo</p>
+
+            <!-- SUBSTITUIR: imagem do QR Code do PIX -->
+            <div class="image-placeholder w-36 h-36 mx-auto rounded-xl" role="img" aria-label="Espaço reservado para o QR Code do PIX"></div>
+            <p class="text-xs text-gac-charcoal/60 text-center mt-2">QR Code em breve</p>
           </div>
         </article>
 
@@ -644,6 +683,7 @@ Tradicional jantar beneficente com pratos típicos italianos para arrecadação 
             <li>✓ Cestas básicas</li>
             <li>✓ Produtos de higiene</li>
             <li>✓ Materiais hospitalares</li>
+            <li>✓ Móveis e eletrodomésticos</li>
           </ul>
         </article>
 
@@ -668,47 +708,7 @@ Tradicional jantar beneficente com pratos típicos italianos para arrecadação 
     </div>
   </section>
 
-  <!-- ===================== MEMORIAL ===================== -->
-  <section id="memorial" class="memorial-section py-20 md:py-28">
-    <div class="max-w-6xl mx-auto px-5">
-      <div class="text-center mb-14 fade-in">
-        <h2 class="font-display text-3xl md:text-5xl font-semibold text-gac-gold mb-3">Em memória de quem passou por aqui</h2>
-        <p class="text-white/70 max-w-2xl mx-auto italic">
-          "Aqueles que amamos nunca morrem, apenas partem antes de nós."
-        </p>
-      </div>
-
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <article class="fade-in memorial-card">
-          <div class="avatar-placeholder dark"></div>
-          <h3 class="font-display text-xl text-gac-gold">Nome Sobrenome</h3>
-          <!-- SUBSTITUIR -->
-          <p class="text-sm text-white/60 mb-3">Voluntária • 2012 – 2023</p>
-          <p class="text-sm text-white/80 italic">
-            "Uma luz que iluminou nosso caminho com sua dedicação."
-          </p>
-        </article>
-
-        <article class="fade-in memorial-card">
-          <div class="avatar-placeholder dark"></div>
-          <h3 class="font-display text-xl text-gac-gold">Nome Sobrenome</h3>
-          <p class="text-sm text-white/60 mb-3">Membro fundador • 2010 – 2021</p>
-          <p class="text-sm text-white/80 italic">
-            "Seu legado vive em cada vida que tocamos."
-          </p>
-        </article>
-
-        <article class="fade-in memorial-card">
-          <div class="avatar-placeholder dark"></div>
-          <h3 class="font-display text-xl text-gac-gold">Nome Sobrenome</h3>
-          <p class="text-sm text-white/60 mb-3">Voluntário • 2015 – 2024</p>
-          <p class="text-sm text-white/80 italic">
-            "Sempre lembrado pelo sorriso e pelo carinho."
-          </p>
-        </article>
-      </div>
-    </div>
-  </section>
+  <!-- Memorial movido para memorial.html (link no menu e no rodapé) -->
 
   <!-- ===================== CONTATO ===================== -->
   <section id="contato" class="py-20 md:py-28 bg-gac-cream">
@@ -832,7 +832,9 @@ Tradicional jantar beneficente com pratos típicos italianos para arrecadação 
             <li><a href="#historia" class="footer-link">História</a></li>
             <li><a href="#acoes" class="footer-link">Ações</a></li>
             <li><a href="#eventos" class="footer-link">Eventos</a></li>
-            <li><a href="#membros" class="footer-link">Membros</a></li>
+            <li><a href="evento-25-anos.html" class="footer-link">25 Anos</a></li>
+            <li><a href="#bazar" class="footer-link">Bazar</a></li>
+            <li><a href="membros.html" class="footer-link">Membros</a></li>
             <li><a href="#noticias" class="footer-link">Notícias</a></li>
           </ul>
         </div>
@@ -840,10 +842,10 @@ Tradicional jantar beneficente com pratos típicos italianos para arrecadação 
         <div>
           <h4 class="footer-title">Mais</h4>
           <ul class="space-y-2 text-sm">
-            <li><a href="#fotos" class="footer-link">Galeria</a></li>
+            <li><a href="galeria.html" class="footer-link">Galeria</a></li>
             <li><a href="#mantemos" class="footer-link">Transparência</a></li>
             <li><a href="#doar" class="footer-link">Doe Agora</a></li>
-            <li><a href="#memorial" class="footer-link">Memorial</a></li>
+            <li><a href="memorial.html" class="footer-link">Memorial</a></li>
             <li><a href="#contato" class="footer-link">Contato</a></li>
           </ul>
         </div>

@@ -35,6 +35,62 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /* ---------- 1.1) DROPDOWN "MAIS" (DESKTOP) ---------- */
+  // O hover é tratado no CSS; aqui cuidamos do clique/teclado e do fechamento.
+  const navDropdowns = document.querySelectorAll('.nav-dropdown');
+
+  const closeNavDropdowns = () => {
+    navDropdowns.forEach(dropdown => {
+      dropdown.classList.remove('open');
+      const toggle = dropdown.querySelector('.nav-dropdown-toggle');
+      if (toggle) toggle.setAttribute('aria-expanded', 'false');
+    });
+  };
+
+  navDropdowns.forEach(dropdown => {
+    const toggle = dropdown.querySelector('.nav-dropdown-toggle');
+    if (!toggle) return;
+
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const wasOpen = dropdown.classList.contains('open');
+      closeNavDropdowns();
+      if (!wasOpen) {
+        dropdown.classList.add('open');
+        toggle.setAttribute('aria-expanded', 'true');
+      }
+    });
+
+    // Fecha ao escolher um item do menu
+    dropdown.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', closeNavDropdowns);
+    });
+  });
+
+  if (navDropdowns.length) {
+    document.addEventListener('click', (e) => {
+      if (![...navDropdowns].some(dropdown => dropdown.contains(e.target))) {
+        closeNavDropdowns();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeNavDropdowns();
+    });
+  }
+
+  /* ---------- 1.2) SUB-LISTA "MAIS" (MENU MOBILE) ---------- */
+  document.querySelectorAll('.mobile-dropdown-toggle').forEach(toggle => {
+    const submenu = document.getElementById(toggle.getAttribute('aria-controls'));
+    if (!submenu) return;
+
+    toggle.addEventListener('click', () => {
+      const isOpen = submenu.classList.toggle('open');
+      toggle.classList.toggle('open', isOpen);
+      toggle.setAttribute('aria-expanded', String(isOpen));
+    });
+  });
+
   /* ---------- 2) NAVBAR GLASS AO ROLAR ---------- */
   const navbar = document.getElementById('navbar');
   const SCROLL_THRESHOLD = 80;
@@ -247,6 +303,18 @@ document.addEventListener('DOMContentLoaded', () => {
       li.appendChild(span);
       list.appendChild(li);
     });
+  });
+
+  /* ---------- 5.2) IMAGENS COM FALLBACK (data-hide-on-error) ---------- */
+  // Se a imagem não carregar, esconde o <img> e marca o container para
+  // exibir o fundo/ícone decorativo definido no CSS (.no-image).
+  document.querySelectorAll('img[data-hide-on-error]').forEach(img => {
+    const handleError = () => {
+      img.classList.add('hidden');
+      if (img.parentElement) img.parentElement.classList.add('no-image');
+    };
+    img.addEventListener('error', handleError);
+    if (img.complete && img.naturalWidth === 0) handleError();
   });
 
   /* ---------- 6) ANO ATUAL NO FOOTER ---------- */
