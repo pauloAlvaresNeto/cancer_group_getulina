@@ -223,6 +223,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  /* ---------- 5.05) MAPA GOOGLE (lazy-load ao entrar na viewport) ---------- */
+  // O iframe guarda o endereço em data-src; só injetamos o src real quando
+  // a seção do mapa se aproxima da viewport, evitando a requisição no load.
+  const lazyMap = document.querySelector('iframe[data-src]');
+
+  const loadMap = () => {
+    if (lazyMap && !lazyMap.src) {
+      lazyMap.src = lazyMap.dataset.src;
+    }
+  };
+
+  if (lazyMap) {
+    if ('IntersectionObserver' in window) {
+      const mapObserver = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            loadMap();
+            obs.disconnect();
+          }
+        });
+      }, { rootMargin: '200px 0px' });
+      mapObserver.observe(lazyMap);
+    } else {
+      loadMap();
+    }
+  }
+
   /* ---------- 5.1) AVATAR HELPER + RENDER DA EQUIPE ---------- */
 
   // Gera avatar: se existir imagem com o nome, usa <img>; caso contrário cria círculo com inicial.
