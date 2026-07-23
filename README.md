@@ -36,7 +36,11 @@ caminhos relativos compatíveis com projetos do GitHub Pages.
 
 O workflow em `.github/workflows/deploy.yml` gera e publica o site automaticamente a cada push para a branch `main`.
 
-No repositório do GitHub, selecione **Settings → Pages → Source → GitHub Actions** uma única vez para ativar o fluxo.
+No repositório do GitHub, selecione obrigatoriamente
+**Settings → Pages → Build and deployment → Source → GitHub Actions**.
+
+Não selecione **Deploy from a branch**: essa opção publica o HTML-fonte sem
+compilar o Vite e o Tailwind, deixando o layout sem estilos.
 
 ## Atualização de conteúdo
 
