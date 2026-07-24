@@ -18,15 +18,16 @@ npm run preview
 
 O resultado temporário é gerado em `dist/`. Essa pasta não contém código-fonte:
 ela é recriada pelo build e fica oculta no explorador do VS Code para evitar
-confusão com as páginas originais. A configuração `base: './'` mantém os
-caminhos relativos compatíveis com projetos do GitHub Pages.
+confusão com as páginas originais. No GitHub Actions, o caminho-base do
+repositório é informado automaticamente ao Vite.
 
 ## Organização
 
 - `index.html`: landing page;
-- `interna.html`: exibe Membros, Memorial, Notícias e a notícia completa conforme a URL;
+- `interna.html`: exibe Membros, Memorial, Galeria, Notícias e a notícia completa conforme a URL;
 - `src/app.js`: todo o comportamento do site;
-- `src/data.js`: todo o conteúdo editável;
+- `src/data.js`: conteúdo institucional, Bazar, Eventos e configurações;
+- `src/galeria.js`: fotografias da galeria e seleção exibida na home;
 - `src/styles.css`: Tailwind CSS e estilos compartilhados;
 - `img/`: imagens e logotipo;
 - `historico.pdf`: história completa;
@@ -44,6 +45,18 @@ compilar o Vite e o Tailwind, deixando o layout sem estilos.
 
 ## Atualização de conteúdo
 
+Os elementos dinâmicos do `index.html` são apenas estruturas vazias. Não
+duplique neles os textos dos arquivos de dados: o `src/app.js` preenche esses
+elementos durante o carregamento da página. Dessa forma, cada informação possui
+uma única fonte oficial.
+
+### Evento de 25 anos
+
+Edite somente o objeto `anniversaryEvent` no início de `src/data.js`. Nele ficam
+data, horário, local, cantor, imagem, link dos convites e mensagem de
+disponibilidade. Para ativar o contador, preencha `targetDate` no formato ISO
+indicado no comentário do arquivo, incluindo o fuso horário.
+
 ### Membros
 
 Edite os arrays `diretoria`, `conselhoFiscal` e `suplentes` em `src/data.js`.
@@ -53,6 +66,27 @@ Adicione as fotografias em `img/` e informe o caminho no campo `foto`.
 
 Edite o array `memorialSlots` em `src/data.js` somente depois de confirmar
 nomes, homenagens, fotografias e autorizações das famílias.
+
+### Bazar
+
+Edite `bazarConfig` em `src/data.js`. As quatro posições de imagem ficam no
+array `images`: salve os arquivos finais em `img/` e atualize os campos `src` e
+`alt`. O endereço oficial usado pelo botão e pelo rodapé fica em
+`bazarConfig.facebookUrl`.
+
+### Eventos
+
+Os cards ficam no array `events` de `src/data.js`. O evento “Barraca do Pastel”
+pode ser alterado diretamente nesse array, sem editar o HTML.
+
+### Galeria
+
+Todas as fotografias ficam em `src/galeria.js`. Cada item possui `src`, `alt`,
+legenda opcional em `caption` e a opção `featured`.
+
+A página inicial mostra as seis primeiras imagens marcadas com
+`featured: true`. A página completa usa
+`interna.html?pagina=galeria` e exibe todos os itens do arquivo.
 
 ### Notícias
 

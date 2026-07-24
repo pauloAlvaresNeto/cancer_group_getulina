@@ -1,28 +1,24 @@
 import './styles.css';
 import {
   actions,
+  anniversaryEvent,
+  bazarConfig,
   conselhoFiscal,
   contactConfig,
   diretoria,
   events,
-  gallery,
   memorialSlots,
   noticias,
   pixConfig,
-  quickLinks,
   suplentes,
 } from './data.js';
+import { gallery } from './galeria.js';
 
-const historyPdfUrl = new URL('../historico.pdf', import.meta.url).href;
 const logoUrl = new URL('../img/logo.png', import.meta.url).href;
 
 const icons = {
-  heartPulse: '<path d="M3 12h4l2-5 4 10 2-5h6"/><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5a5.5 5.5 0 0 0 1-8.9Z"/>',
-  pill: '<path d="m10.5 20.5 10-10a5 5 0 0 0-7-7l-10 10a5 5 0 0 0 7 7Z"/><path d="m8.5 8.5 7 7"/>',
   wheelchair: '<circle cx="8.5" cy="4.5" r="2"/><path d="M10 9H7l-1 5h7l2 5"/><path d="M7 11a5 5 0 1 0 6 6"/><path d="M15 11h3l2 4"/>',
   heartHands: '<path d="M20.8 8.6c.7-2.3-.7-4.6-3-5.2-1.8-.4-3.4.3-4.4 1.7L12 7l-1.4-1.9a4.4 4.4 0 0 0-7.4 4.7C4.8 12.8 12 18 12 18s5.4-3.9 7.8-6.8"/><path d="M3 16v2l4 3h3M21 16v2l-4 3h-3"/>',
-  shirt: '<path d="m16 3-4 4-4-4-5 3 3 5v10h12V11l3-5-5-3Z"/>',
-  handHeart: '<path d="M11 14.5c-2.5-2-5-3.7-5-6.5a3 3 0 0 1 5.3-2L12 7l.7-1A3 3 0 0 1 18 8c0 2.8-2.5 4.5-5 6.5l-1 .8-1-.8Z"/><path d="M3 16v2l4 3h4l3-3M21 16v2l-4 3h-2"/>',
   clipboard: '<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4.5V3h6v1.5M9 10h6M9 14h6"/>',
   basket: '<path d="M4 10h16l-2 10H6L4 10Z"/><path d="m8 10 4-6 4 6M8 14v2M12 14v2M16 14v2"/>',
   stethoscope: '<path d="M6 3v5a4 4 0 0 0 8 0V3"/><path d="M10 12v2a5 5 0 0 0 10 0v-1"/><circle cx="20" cy="10" r="2"/>',
@@ -31,6 +27,7 @@ const icons = {
   utensils: '<path d="M7 3v8M4 3v5a3 3 0 0 0 6 0V3M7 11v10M15 3v18M15 3c3 1 5 4 5 8h-5"/>',
   gavel: '<path d="m14 7 3 3M5 16l6-6M8 5l6 6 3-3-6-6-3 3ZM3 21h12"/>',
   cup: '<path d="M4 8h14v5a6 6 0 0 1-12 0V8ZM18 10h1a3 3 0 0 1 0 6h-2M6 21h10"/>',
+  pastel: '<path d="M4 15a8 8 0 0 1 16 0H4Z"/><path d="M6.5 12.5 8 14l1.5-1.5L11 14l1.5-1.5L14 14l1.5-1.5L17 14M4 18h16"/>',
 };
 
 const svg = (name, className = 'size-6') =>
@@ -65,18 +62,163 @@ const renderNewsCard = (noticia, { compact = false } = {}) => {
     </article>`;
 };
 
+const renderGalleryCard = ({ src, alt, caption = '' }) => `
+  <button
+    type="button"
+    class="gallery-button reveal group relative aspect-[4/3] overflow-hidden rounded-[1.5rem] bg-stone-100 text-left shadow-sm focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600"
+    data-src="${src}"
+    data-alt="${alt}"
+    data-caption="${caption}"
+    aria-label="Ampliar foto: ${caption || alt}"
+  >
+    <img src="${src}" alt="${alt}" loading="lazy" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
+    ${
+      caption
+        ? `<span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/90 to-transparent px-5 pb-5 pt-14 text-sm font-bold leading-5 text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">${caption}</span>`
+        : ''
+    }
+  </button>`;
+
+const lightboxMarkup = () => `
+  <dialog
+    id="lightbox"
+    class="m-auto max-h-[92vh] w-[min(92vw,1100px)] overflow-hidden rounded-[2rem] bg-slate-950 p-0 text-white shadow-2xl backdrop:bg-slate-950/85 backdrop:backdrop-blur-sm"
+    aria-labelledby="lightbox-caption"
+  >
+    <button id="lightbox-close" type="button" class="absolute right-4 top-4 z-20 grid size-11 place-items-center rounded-full bg-black/55 text-2xl text-white backdrop-blur transition hover:bg-white hover:text-slate-950 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-white" aria-label="Fechar imagem">×</button>
+    <div class="relative">
+      <img id="lightbox-image" src="" alt="" class="max-h-[78vh] w-full object-contain" />
+      <button id="lightbox-previous" type="button" class="absolute left-4 top-1/2 grid size-11 -translate-y-1/2 place-items-center rounded-full bg-black/55 text-2xl text-white backdrop-blur transition hover:bg-white hover:text-slate-950 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-white" aria-label="Fotografia anterior">‹</button>
+      <button id="lightbox-next" type="button" class="absolute right-4 top-1/2 grid size-11 -translate-y-1/2 place-items-center rounded-full bg-black/55 text-2xl text-white backdrop-blur transition hover:bg-white hover:text-slate-950 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-white" aria-label="Próxima fotografia">›</button>
+    </div>
+    <p id="lightbox-caption" class="min-h-16 px-6 py-5 text-sm text-white/75"></p>
+  </dialog>`;
+
+const initGalleryLightbox = () => {
+  const buttons = [...document.querySelectorAll('.gallery-button')];
+  if (!buttons.length) return;
+
+  if (!document.querySelector('#lightbox')) {
+    document.body.insertAdjacentHTML('beforeend', lightboxMarkup());
+  }
+
+  const lightbox = document.querySelector('#lightbox');
+  const image = document.querySelector('#lightbox-image');
+  const caption = document.querySelector('#lightbox-caption');
+  const closeButton = document.querySelector('#lightbox-close');
+  const previousButton = document.querySelector('#lightbox-previous');
+  const nextButton = document.querySelector('#lightbox-next');
+  let currentIndex = 0;
+  let lastTrigger = null;
+
+  const showImage = (index) => {
+    currentIndex = (index + buttons.length) % buttons.length;
+    const button = buttons[currentIndex];
+    image.src = button.dataset.src;
+    image.alt = button.dataset.alt;
+    caption.textContent = button.dataset.caption || button.dataset.alt;
+  };
+
+  buttons.forEach((button, index) => {
+    button.addEventListener('click', () => {
+      lastTrigger = button;
+      showImage(index);
+      lightbox.showModal();
+      closeButton.focus();
+    });
+  });
+
+  closeButton.addEventListener('click', () => lightbox.close());
+  previousButton.addEventListener('click', () => showImage(currentIndex - 1));
+  nextButton.addEventListener('click', () => showImage(currentIndex + 1));
+  lightbox.addEventListener('click', (event) => {
+    if (event.target === lightbox) lightbox.close();
+  });
+  lightbox.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft') showImage(currentIndex - 1);
+    if (event.key === 'ArrowRight') showImage(currentIndex + 1);
+  });
+  lightbox.addEventListener('close', () => lastTrigger?.focus());
+};
+
 if (document.body.dataset.page === 'home') {
 
-document.querySelector('#quick-links').innerHTML = quickLinks
+const setEventText = (selector, value) => {
+  const element = document.querySelector(selector);
+  if (element) element.textContent = value;
+};
+
+setEventText('#event-badge', anniversaryEvent.badge);
+setEventText('#anniversary-title', anniversaryEvent.title);
+setEventText('#event-introduction', anniversaryEvent.introduction);
+setEventText('#event-date', anniversaryEvent.date);
+setEventText('#event-time', anniversaryEvent.time);
+setEventText('#event-venue', anniversaryEvent.venue);
+setEventText('#event-singer', anniversaryEvent.singer);
+setEventText('#event-ticket-message', anniversaryEvent.ticketMessage);
+
+const eventImage = document.querySelector('#event-image');
+if (eventImage && anniversaryEvent.image) eventImage.src = anniversaryEvent.image;
+
+const eventTicketLink = document.querySelector('#event-ticket-link');
+if (eventTicketLink) {
+  eventTicketLink.href = anniversaryEvent.ticketUrl || '#contato';
+  if (/^https?:\/\//.test(anniversaryEvent.ticketUrl)) {
+    eventTicketLink.target = '_blank';
+    eventTicketLink.rel = 'noopener noreferrer';
+  }
+}
+
+const countdown = {
+  days: document.querySelector('#countdown-days'),
+  hours: document.querySelector('#countdown-hours'),
+  minutes: document.querySelector('#countdown-minutes'),
+  status: document.querySelector('#countdown-status'),
+};
+
+const updateEventCountdown = () => {
+  const target = Date.parse(anniversaryEvent.targetDate);
+  if (!anniversaryEvent.targetDate || Number.isNaN(target)) {
+    countdown.days.textContent = '—';
+    countdown.hours.textContent = '—';
+    countdown.minutes.textContent = '—';
+    countdown.status.textContent = 'Data exata a confirmar para os 25 anos do Grupo.';
+    return;
+  }
+
+  const remaining = target - Date.now();
+  if (remaining <= 0) {
+    countdown.days.textContent = '00';
+    countdown.hours.textContent = '00';
+    countdown.minutes.textContent = '00';
+    countdown.status.textContent = 'O grande evento de 25 anos chegou.';
+    return;
+  }
+
+  countdown.days.textContent = String(Math.floor(remaining / 86_400_000));
+  countdown.hours.textContent = String(Math.floor((remaining % 86_400_000) / 3_600_000)).padStart(2, '0');
+  countdown.minutes.textContent = String(Math.floor((remaining % 3_600_000) / 60_000)).padStart(2, '0');
+  countdown.status.textContent = 'para os 25 anos do Grupo.';
+};
+
+updateEventCountdown();
+window.setInterval(updateEventCountdown, 60_000);
+
+document.querySelectorAll('[data-facebook-link]').forEach((link) => {
+  link.href = bazarConfig.facebookUrl;
+});
+
+document.querySelector('#bazar-gallery').innerHTML = bazarConfig.images
   .map(
-    ({ label, href, icon }) => `
-      <a href="${href}" class="group reveal flex min-h-36 flex-col justify-between rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-orange-200 hover:shadow-xl hover:shadow-slate-900/5 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600">
-        <span class="grid size-11 place-items-center rounded-xl bg-orange-50 text-orange-700 transition group-hover:bg-orange-600 group-hover:text-white">${svg(icon)}</span>
-        <span class="flex items-end justify-between gap-2 text-sm font-extrabold leading-tight text-slate-900">
-          ${label}
-          <svg class="size-4 shrink-0 text-orange-600 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
-        </span>
-      </a>`,
+    ({ src, alt }, index) =>
+      src
+        ? `<img src="${src}" alt="${alt}" loading="lazy" class="aspect-[4/3] h-full w-full rounded-[1.5rem] object-cover" />`
+        : `<div class="grid aspect-[4/3] place-items-center rounded-[1.5rem] border border-dashed border-white/25 bg-white/5 p-6 text-center text-white/45">
+            <span class="flex flex-col items-center gap-3 text-xs font-extrabold uppercase tracking-[0.14em]">
+              <svg class="size-8 text-orange-400/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m5 18 5-5 3 3 2-2 4 4"/></svg>
+              Fotografia ${index + 1} a adicionar
+            </span>
+          </div>`,
   )
   .join('');
 
@@ -96,8 +238,14 @@ document.querySelector('#actions-grid').innerHTML = actions
 
 document.querySelector('#events-grid').innerHTML = events
   .map(
-    ({ title, text, icon }) => `
-      <article class="reveal group flex flex-col rounded-[1.5rem] border border-slate-200 bg-white p-6 transition hover:-translate-y-1 hover:border-orange-200 hover:shadow-xl hover:shadow-slate-900/5 lg:min-h-72">
+    ({ title, text, icon }, index) => `
+      <article class="reveal group flex flex-col rounded-[1.5rem] border border-slate-200 bg-white p-6 transition hover:-translate-y-1 hover:border-orange-200 hover:shadow-xl hover:shadow-slate-900/5 lg:col-span-2 lg:min-h-72 xl:col-span-1 ${
+        index === 3 ? 'lg:col-start-2 xl:col-start-auto' : ''
+      } ${
+        index === 4
+          ? 'sm:col-span-2 sm:mx-auto sm:w-[calc(50%-0.5rem)] lg:col-span-2 lg:mx-0 lg:w-full xl:col-span-1'
+          : ''
+      }">
         <span class="grid size-12 place-items-center rounded-2xl bg-slate-950 text-orange-400">${svg(icon)}</span>
         <div class="mt-8 lg:mt-auto lg:pt-8">
           <h3 class="text-xl font-black leading-tight tracking-tight text-slate-900">${title}</h3>
@@ -114,28 +262,15 @@ document.querySelector('#home-news-grid').innerHTML = noticias
   .join('');
 
 document.querySelector('#gallery-grid').innerHTML = gallery
-  .map(
-    ({ src, alt, caption, featured }, index) => `
-      <button
-        type="button"
-        class="gallery-button reveal group relative overflow-hidden rounded-2xl text-left focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600 ${featured ? 'col-span-2 row-span-2' : index === 3 ? 'row-span-2' : ''}"
-        data-src="${src}"
-        data-alt="${alt}"
-        data-caption="${caption}"
-        aria-label="Ampliar foto: ${caption}"
-      >
-        <img src="${src}" alt="${alt}" loading="lazy" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
-        <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/90 to-transparent px-4 pb-4 pt-12 text-xs font-bold leading-5 text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 sm:text-sm">${caption}</span>
-      </button>`,
-  )
+  .filter(({ featured }) => featured)
+  .slice(0, 6)
+  .map((item) => renderGalleryCard(item))
   .join('');
 
 const header = document.querySelector('#site-header');
 const updateHeader = () => {
   header.classList.toggle('border-slate-200', window.scrollY > 24);
-  header.classList.toggle('bg-white/95', window.scrollY > 24);
   header.classList.toggle('shadow-sm', window.scrollY > 24);
-  header.classList.toggle('backdrop-blur-xl', window.scrollY > 24);
 };
 updateHeader();
 window.addEventListener('scroll', updateHeader, { passive: true });
@@ -200,24 +335,7 @@ if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-mot
   revealElements.forEach((element) => element.classList.add('is-visible'));
 }
 
-const lightbox = document.querySelector('#lightbox');
-const lightboxImage = document.querySelector('#lightbox-image');
-const lightboxCaption = document.querySelector('#lightbox-caption');
-const lightboxClose = document.querySelector('#lightbox-close');
-
-document.querySelectorAll('.gallery-button').forEach((button) => {
-  button.addEventListener('click', () => {
-    lightboxImage.src = button.dataset.src;
-    lightboxImage.alt = button.dataset.alt;
-    lightboxCaption.textContent = button.dataset.caption;
-    lightbox.showModal();
-  });
-});
-
-lightboxClose.addEventListener('click', () => lightbox.close());
-lightbox.addEventListener('click', (event) => {
-  if (event.target === lightbox) lightbox.close();
-});
+initGalleryLightbox();
 
 const copyButton = document.querySelector('#copy-pix');
 const pixKey = document.querySelector('#pix-key');
@@ -240,8 +358,6 @@ copyButton.addEventListener('click', async () => {
     copyButton.textContent = 'Copiar chave PIX';
   }, 2500);
 });
-
-document.querySelector('#history-pdf-link').href = historyPdfUrl;
 
 const contactForm = document.querySelector('#contact-form');
 const contactSubmit = document.querySelector('#contact-submit');
@@ -356,8 +472,6 @@ const initInternalLayout = (active) => {
             <ul id="more-menu" class="absolute right-0 top-full hidden w-48 rounded-2xl border border-slate-200 bg-white p-2 text-sm shadow-xl">
               <li><a class="dropdown-link" href="./interna.html?pagina=membros">Membros</a></li>
               <li><a class="dropdown-link" href="./interna.html?pagina=memorial">Memorial</a></li>
-              <li><a class="dropdown-link" href="./index.html#galeria">Galeria</a></li>
-              <li><a class="dropdown-link" href="./index.html#25-anos">25 Anos</a></li>
             </ul>
           </li>
         </ul>
@@ -378,8 +492,6 @@ const initInternalLayout = (active) => {
           <li><a class="mobile-nav-link" href="./index.html#contato">Contato</a></li>
           <li><a class="mobile-nav-link" href="./interna.html?pagina=membros">Membros</a></li>
           <li><a class="mobile-nav-link" href="./interna.html?pagina=memorial">Memorial</a></li>
-          <li><a class="mobile-nav-link" href="./index.html#galeria">Galeria</a></li>
-          <li><a class="mobile-nav-link" href="./index.html#25-anos">25 Anos</a></li>
         </ul>
       </div>
     </header>`;
@@ -401,7 +513,6 @@ const initInternalLayout = (active) => {
               <li><a class="footer-link" href="./interna.html?pagina=noticias">Notícias</a></li>
               <li><a class="footer-link" href="./interna.html?pagina=membros">Membros</a></li>
               <li><a class="footer-link" href="./interna.html?pagina=memorial">Memorial</a></li>
-              <li><a class="footer-link" href="./index.html#galeria">Galeria</a></li>
             </ul>
           </div>
           <div>
@@ -473,8 +584,8 @@ const renderSmallMembers = (members) =>
     .join('');
 
 const renderMembers = () => `
-  <header class="bg-[#f7f4ef] py-16 sm:py-24">
-    <div class="mx-auto max-w-7xl px-5 sm:px-8"><p class="eyebrow">Quem faz acontecer</p><h1 class="section-title mt-3">Membros e voluntários</h1><p class="section-copy mt-5">Conta atualmente com 40 voluntários.</p></div>
+  <header class="bg-[#f7f4ef] py-20 sm:py-28">
+    <div class="mx-auto max-w-4xl px-5 text-center sm:px-8"><p class="eyebrow">Quem faz acontecer</p><h1 class="section-title mx-auto mt-4">Membros e voluntários</h1><p class="section-copy mx-auto mt-6">Conta atualmente com 40 voluntários.</p></div>
   </header>
   <section class="bg-white py-20 sm:py-28">
     <div class="mx-auto max-w-7xl px-5 sm:px-8">
@@ -529,6 +640,23 @@ const renderMemorial = () => `
     </div>
   </section>`;
 
+const renderGallery = () => `
+  <header class="bg-slate-950 py-20 text-white sm:py-28">
+    <div class="mx-auto max-w-4xl px-5 text-center sm:px-8">
+      <p class="text-xs font-extrabold uppercase tracking-[0.2em] text-orange-400">Nossa caminhada</p>
+      <h1 class="mt-4 text-4xl font-black sm:text-6xl">Galeria</h1>
+      <p class="mx-auto mt-6 max-w-2xl leading-8 text-white/65">Registros das ações, encontros e momentos compartilhados pelo Grupo Getulinense de Combate ao Câncer.</p>
+    </div>
+  </header>
+  <section class="bg-[#f7f4ef] py-20 sm:py-28">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        ${gallery.map((item) => renderGalleryCard(item)).join('')}
+      </div>
+      <a href="./index.html#galeria" class="mt-12 inline-flex rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-extrabold text-slate-900 transition hover:border-orange-300 hover:text-orange-700 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600">Voltar à página inicial</a>
+    </div>
+  </section>`;
+
 const renderNewsList = () => `
   <header class="bg-[#f7f4ef] py-16 sm:py-24">
     <div class="mx-auto max-w-7xl px-5 sm:px-8"><p class="eyebrow">Fique por dentro</p><h1 class="section-title mt-3">Notícias</h1><p class="section-copy mt-5">Eventos, campanhas, reuniões, avisos e registros das atividades do grupo.</p></div>
@@ -573,6 +701,7 @@ if (document.body.dataset.page === 'internal') {
   const views = {
     membros: { title: 'Membros — GGCC Getulina', html: renderMembers },
     memorial: { title: 'Memorial — GGCC Getulina', html: renderMemorial },
+    galeria: { title: 'Galeria — GGCC Getulina', html: renderGallery },
     noticias: { title: 'Notícias — GGCC Getulina', html: renderNewsList },
     noticia: { title: 'Notícia — GGCC Getulina', html: () => renderArticle(params.get('slug')) },
   };
@@ -581,4 +710,5 @@ if (document.body.dataset.page === 'internal') {
   initInternalLayout(page === 'noticia' ? 'noticias' : page);
   document.querySelector('#internal-content').innerHTML = view.html();
   initReveal();
+  initGalleryLightbox();
 }

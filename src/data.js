@@ -1,20 +1,21 @@
-const galleryImages = {
-  equipe: new URL('../img/membros.jpg', import.meta.url).href,
-  doacoes: new URL('../img/WhatsApp Image 2026-07-20 at 15.15.28.jpeg', import.meta.url).href,
-  evento: new URL('../img/IMG_8755.jpeg', import.meta.url).href,
-  voluntarias: new URL('../img/2.jpeg', import.meta.url).href,
-  produtos: new URL('../img/WhatsApp Image 2026-07-20 at 15.15.31.jpeg', import.meta.url).href,
-  campanha: new URL('../img/WhatsApp Image 2026-07-20 at 15.15.32.jpeg', import.meta.url).href,
+// Evento de 25 anos: altere somente este objeto quando os dados forem confirmados.
+// Em targetDate, use o formato ISO com fuso horário, por exemplo:
+// '2027-01-30T20:00:00-03:00'. Enquanto estiver vazio, o contador informa
+// que a data ainda será confirmada.
+export const anniversaryEvent = {
+  badge: 'Evento Especial',
+  title: 'Celebração dos 25 Anos do GGCC',
+  introduction:
+    'Convidamos a comunidade para celebrar as bodas de prata do grupo, em um jantar de comemoração. Venha participar deste momento especial conosco!',
+  date: '22 de janeiro de 2027',
+  targetDate: '',
+  time: 'A confirmar',
+  venue: 'SAG - Sociedade Amigos de Getulina',
+  singer: ' banda freeson',
+  image: new URL('../img/foto_25anos.jpeg', import.meta.url).href,
+  ticketUrl: '#contato',
+  ticketMessage: 'Os convites são limitados. Garanta sua participação antecipadamente.',
 };
-
-export const quickLinks = [
-  { label: 'Atendimento', href: '#contato', icon: 'heartPulse' },
-  { label: 'Medicamentos', href: '#acoes', icon: 'pill' },
-  { label: 'Equipamentos', href: '#acoes', icon: 'wheelchair' },
-  { label: 'Apoio emocional', href: '#acoes', icon: 'heartHands' },
-  { label: 'Bazar', href: '#bazar', icon: 'shirt' },
-  { label: 'Como ajudar', href: '#ajudar', icon: 'handHeart' },
-];
 
 export const actions = [
   {
@@ -49,6 +50,29 @@ export const actions = [
   },
 ];
 
+// Bazar: substitua os campos src vazios pelos arquivos finais quando disponíveis.
+export const bazarConfig = {
+  facebookUrl: 'https://www.facebook.com/profile.php?id=61561690959148',
+  images: [
+    {
+      src: new URL('../img/bazar_1.jpg', import.meta.url).href,
+      alt: 'Banca de artesanato do GGCC em evento comunitário',
+    },
+    {
+      src: new URL('../img/bazar_2.jpg', import.meta.url).href,
+      alt: 'Banca de artesanato do GGCC em evento comunitário',
+    },
+    {
+      src: new URL('../img/bazar_3.jpg', import.meta.url).href,
+      alt: 'Banca de artesanato do GGCC em evento comunitário',
+    },
+    {
+      src: new URL('../img/bazar_4.jpg', import.meta.url).href,
+      alt: 'Banca de artesanato do GGCC em evento comunitário',
+    },
+  ],
+};
+
 export const events = [
   {
     title: 'Bazar de artesanato',
@@ -70,39 +94,10 @@ export const events = [
     text: 'Encontro com venda de ingressos, prêmio especial e alimentos preparados para o evento.',
     icon: 'cup',
   },
-];
-
-export const gallery = [
   {
-    src: galleryImages.equipe,
-    alt: 'Equipe de voluntários reunida durante evento beneficente',
-    caption: 'Voluntários reunidos em mais uma ação beneficente',
-    featured: true,
-  },
-  {
-    src: galleryImages.doacoes,
-    alt: 'Voluntários recebendo grande doação de alimentos',
-    caption: 'Doações de alimentos recebidas pela equipe',
-  },
-  {
-    src: galleryImages.evento,
-    alt: 'Salão cheio durante evento realizado pelo GGCC',
-    caption: 'A comunidade reunida em um dos eventos do grupo',
-  },
-  {
-    src: galleryImages.voluntarias,
-    alt: 'Voluntárias preparando alimentos em evento',
-    caption: 'Voluntárias trabalhando juntas em evento beneficente',
-  },
-  {
-    src: galleryImages.produtos,
-    alt: 'Equipe com itens produzidos para ação beneficente',
-    caption: 'Produtos preparados com dedicação pelos voluntários',
-  },
-  {
-    src: galleryImages.campanha,
-    alt: 'Equipe do GGCC em campanha na praça',
-    caption: 'Mobilização do grupo junto à comunidade',
+    title: 'Barraca do Pastel',
+    text: 'Ação beneficente realizada algumas vezes ao longo do ano, com venda de pastéis para arrecadação de recursos para o grupo.',
+    icon: 'pastel',
   },
 ];
 
@@ -140,46 +135,44 @@ export const memorialSlots = [
 export const noticias = [
   {
     id: 1,
-    slug: 'feira-do-pastel',
+    slug: 'Baile-dos-Namorados',
+    titulo: 'Baile dos Namorados',
+    data: '13/06/26',
+    categoria: 'Já Realizado',
+    resumo: 'A partir das 22H na SAG, venha celebrar o AMOR e a ALEGRIA no Baile dos namorados do GGCC',
+    conteudo: [
+      'Prepare-se para uma noite especial com muita música dança e diversão com a banda MAMÃO COM AÇÚCAR. Garanta já o seu lugar!',
+    ],
+    imagem: new URL('../img/news_baileNamorados.jpeg', import.meta.url).href,
+    destaque: true,
+  },
+  {
+   slug: 'feira-do-pastel',
     titulo: 'Feira do Pastel',
-    data: 'Data a confirmar',
-    categoria: 'Evento',
-    resumo: 'Espaço reservado para divulgar data, horário, local e informações da próxima feira beneficente.',
+    data: '11/04/2026',
+    categoria: 'Já Realizado',
+    resumo: 'A partir das 19h na praça 9 de julho, o GGCC realiza mais uma feira beneficente com venda de pastéis e bebidas.',
     conteudo: [
-      'Este conteúdo é provisório. Use este primeiro parágrafo para apresentar a Feira do Pastel e explicar como a comunidade poderá participar.',
-      'Use este segundo parágrafo para informar data, horário, local, formas de colaboração e demais orientações importantes.',
+      'Entre em contato com o grupo para adquirir a sua ficha ou então compre na hora do evento. Toda Ajuda é bem-vinda e será revertida para as ações do GGCC junto à comunidade.',
+      
     ],
-    imagem: null,
+    imagem: new URL('../img/news_pastel.jpeg', import.meta.url).href,
     destaque: true,
   },
-  {
-    id: 2,
-    slug: 'reuniao-de-voluntarios',
-    titulo: 'Reunião de voluntários',
-    data: 'Data a confirmar',
-    categoria: 'Encontro',
-    resumo: 'Espaço reservado para comunicados, pautas e registros das reuniões da equipe de voluntários.',
-    conteudo: [
-      'Este conteúdo é provisório. Apresente aqui o objetivo da reunião, os temas tratados e os encaminhamentos definidos pelo grupo.',
-      'Quando houver um registro oficial, substitua este texto pelas informações revisadas e adicione uma fotografia autorizada.',
-    ],
-    imagem: null,
-    destaque: true,
-  },
-  {
-    id: 3,
-    slug: 'acao-beneficente',
-    titulo: 'Ação beneficente',
-    data: 'Data a confirmar',
-    categoria: 'Ação',
-    resumo: 'Espaço reservado para apresentar campanhas, resultados e atividades realizadas junto à comunidade.',
-    conteudo: [
-      'Este conteúdo é provisório. Conte aqui como a ação foi realizada, quem participou e qual foi o resultado alcançado.',
-      'Inclua somente informações confirmadas pelo grupo e fotografias cuja publicação tenha sido autorizada.',
-    ],
-    imagem: null,
-    destaque: true,
-  },
+  // {
+  //   id: 3,
+  //   slug: 'acao-beneficente',
+  //   titulo: 'Ação beneficente',
+  //   data: 'Data a confirmar',
+  //   categoria: 'Ação',
+  //   resumo: 'Espaço reservado para apresentar campanhas, resultados e atividades realizadas junto à comunidade.',
+  //   conteudo: [
+  //     'Este conteúdo é provisório. Conte aqui como a ação foi realizada, quem participou e qual foi o resultado alcançado.',
+  //     'Inclua somente informações confirmadas pelo grupo e fotografias cuja publicação tenha sido autorizada.',
+  //   ],
+  //   imagem: null,
+  //   destaque: true,
+  // },
 ];
 
 export const contactConfig = {
@@ -191,5 +184,5 @@ export const contactConfig = {
 export const pixConfig = {
   key: '06.311.935/0001-75',
   // Adicione a imagem oficial em img/qrcode-pix.png e informe o caminho abaixo.
-  qrCodeImage: '',
+qrCodeImage: new URL('../img/pix_qrCode.jpeg', import.meta.url).href,
 };
