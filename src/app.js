@@ -231,7 +231,7 @@ document.querySelector('#bazar-gallery').innerHTML = bazarConfig.images
   .map(
     ({ src, alt, width, height }, index) =>
       src
-        ? `<img src="${src}" alt="${alt}" width="${width}" height="${height}" loading="lazy" decoding="async" class="aspect-[4/3] h-full w-full rounded-[1.5rem] object-cover" />`
+        ? `<img src="${src}" alt="${alt}" width="${width}" height="${height}" loading="lazy" decoding="async" class="block aspect-[4/3] w-full rounded-[1.5rem] object-cover" />`
         : `<div class="grid aspect-[4/3] place-items-center rounded-[1.5rem] border border-dashed border-white/25 bg-white/5 p-6 text-center text-white/45">
             <span class="flex flex-col items-center gap-3 text-xs font-extrabold uppercase tracking-[0.14em]">
               <svg class="size-8 text-orange-400/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m5 18 5-5 3 3 2-2 4 4"/></svg>
