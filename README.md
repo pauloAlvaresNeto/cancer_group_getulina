@@ -31,7 +31,7 @@ repositório é informado automaticamente ao Vite.
 - `src/galeria.js`: fotografias da galeria e seleção exibida na home;
 - `src/countdown.js`: cálculo isolado do contador dos 25 anos;
 - `src/styles.css`: Tailwind CSS e estilos compartilhados;
-- `img/`: imagens e logotipo;
+- `img/`: fotografias em WebP, logotipo em PNG e QR Code oficial;
 - `historico.pdf`: história completa;
 - `dist/`: saída automática do build, não deve ser editada.
 
@@ -63,7 +63,8 @@ fuso de São Paulo (`UTC-03:00`).
 ### Membros
 
 Edite os arrays `diretoria`, `conselhoFiscal` e `suplentes` em `src/data.js`.
-Adicione as fotografias em `img/` e informe o caminho no campo `foto`.
+Adicione as fotografias em WebP na pasta `img/` e informe caminho, largura e
+altura nos campos `foto`, `fotoWidth` e `fotoHeight`.
 
 ### Memorial
 
@@ -73,15 +74,16 @@ nomes, homenagens, fotografias e autorizações das famílias.
 ### Bazar
 
 Edite `bazarConfig` em `src/data.js`. As quatro posições de imagem ficam no
-array `images`: salve os arquivos finais em `img/` e atualize os campos `src` e
-`alt`. O endereço oficial usado pelo botão e pelo rodapé fica em
+array `images`: salve as fotografias em WebP na pasta `img/` e atualize os
+campos `src`, `alt`, `width` e `height`. O endereço oficial usado pelo botão e pelo rodapé fica em
 `bazarConfig.facebookUrl`.
 
 ### Eventos
 
 Os cards ficam no array `events` de `src/eventos.js`. Cada item centraliza
-título, descrição, fotografia, texto alternativo, categoria e ícone. O Leilão
-de Gado utiliza um placeholder até receber uma fotografia oficial.
+título, descrição, fotografia em WebP, dimensões, texto alternativo, categoria
+e ícone. O Leilão de Gado utiliza um placeholder até receber uma fotografia
+oficial.
 
 ### Como ajudar
 
@@ -91,8 +93,9 @@ continuam centralizados em `pixConfig`, no final de `src/data.js`.
 
 ### Galeria
 
-Todas as fotografias ficam em `src/galeria.js`. Cada item possui `src`, `alt`,
-legenda opcional em `caption` e a opção `featured`.
+Todas as fotografias em WebP ficam em `src/galeria.js`. Cada item possui `src`,
+`width`, `height`, `alt` para acessibilidade e a opção `featured`. A galeria
+não exibe legendas visíveis.
 
 A página inicial mostra as seis primeiras imagens marcadas com
 `featured: true`. A página completa usa
@@ -105,8 +108,9 @@ As publicações ficam no array `noticias` de `src/data.js`. Para criar uma not�
 1. duplique um objeto existente no array `noticias`;
 2. escolha um `id` e um `slug` únicos;
 3. atualize título, data, categoria, resumo e conteúdo;
-4. salve a imagem em `img/`;
-5. informe o caminho no campo `imagem`;
+4. salve a fotografia em WebP na pasta `img/`;
+5. informe caminho, largura e altura nos campos `imagem`, `imageWidth` e
+   `imageHeight`;
 6. use `destaque: true` para exibi-la também na página inicial.
 
 A página individual usa
@@ -129,6 +133,20 @@ e exibirá os estados de carregamento, sucesso e erro.
 
 ### QR Code do Pix
 
-Salve o QR Code oficial em `img/qrcode-pix.png` e atualize
-`pixConfig.qrCodeImage` em `src/data.js`. Não use um QR Code antes de sua
-validação pelo grupo.
+A chave e a imagem oficial ficam em `pixConfig`, no final de `src/data.js`.
+Para trocar o QR Code, salve a nova imagem em `img/` e atualize
+`pixConfig.qrCodeImage`. Não use um QR Code antes de sua validação pelo grupo.
+O QR Code não deve ser convertido para WebP.
+
+### Formatos de imagem
+
+Use WebP com qualidade entre 82% e 85% para todas as fotografias novas. Preserve
+o logotipo oficial em PNG, pois ele utiliza transparência, e mantenha o QR Code
+no formato original. Informe sempre as dimensões reais da imagem nos respectivos
+arquivos de dados para evitar deslocamentos de layout durante o carregamento.
+
+### Botão “Voltar ao topo”
+
+O botão é criado pela função `initBackToTop` em `src/app.js` e funciona na
+página inicial e nas páginas internas. A distância de rolagem necessária para
+exibi-lo fica na constante `BACK_TO_TOP_THRESHOLD`, no mesmo arquivo.

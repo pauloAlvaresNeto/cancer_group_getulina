@@ -12,7 +12,9 @@ export const anniversaryEvent = {
   utcOffset: '-03:00',
   venue: 'SAG - Sociedade Amigos de Getulina',
   singer: 'Banda Freeson',
-  image: new URL('../img/foto_25anos.jpeg', import.meta.url).href,
+  image: new URL('../img/foto_25anos.webp', import.meta.url).href,
+  imageWidth: 1280,
+  imageHeight: 960,
   ticketUrl: '#contato',
   ticketMessage: 'Os convites são limitados. Garanta sua participação antecipadamente.',
 };
@@ -55,20 +57,28 @@ export const bazarConfig = {
   facebookUrl: 'https://www.facebook.com/profile.php?id=61561690959148',
   images: [
     {
-      src: new URL('../img/bazar_1.jpg', import.meta.url).href,
+      src: new URL('../img/bazar_1.webp', import.meta.url).href,
       alt: 'Banca de artesanato do GGCC em evento comunitário',
+      width: 2048,
+      height: 2048,
     },
     {
-      src: new URL('../img/bazar_2.jpg', import.meta.url).href,
+      src: new URL('../img/bazar_2.webp', import.meta.url).href,
       alt: 'Banca de artesanato do GGCC em evento comunitário',
+      width: 2048,
+      height: 2048,
     },
     {
-      src: new URL('../img/bazar_3.jpg', import.meta.url).href,
+      src: new URL('../img/bazar_3.webp', import.meta.url).href,
       alt: 'Banca de artesanato do GGCC em evento comunitário',
+      width: 2048,
+      height: 2048,
     },
     {
-      src: new URL('../img/bazar_4.jpg', import.meta.url).href,
+      src: new URL('../img/bazar_4.webp', import.meta.url).href,
       alt: 'Banca de artesanato do GGCC em evento comunitário',
+      width: 1536,
+      height: 2048,
     },
   ],
 };
@@ -76,12 +86,12 @@ export const bazarConfig = {
 // Dados institucionais editáveis das páginas internas.
 // Para adicionar fotografias, salve-as em img/ e informe o caminho no campo correspondente.
 export const diretoria = [
-  { nome: 'Rosana Marilia Rodrigues Methodio', cargo: 'Presidente', foto:  new URL('../img/Dona_Rosana.jpeg', import.meta.url).href },
-  { nome: 'Carmen Lidia Fernandes', cargo: 'Vice-presidente', foto:new URL('../img/Dona_carmen.png', import.meta.url).href },
-  { nome: 'Maristella Mattar Garcia', cargo: '1º Secretário', foto: new URL('../img/Dona_Maristella.png', import.meta.url).href },
-  { nome: 'Rita de Cássia Mengato Ferreira Lima', cargo: '2º Secretário', foto: new URL('../img/Dona_Rita_Mengato.jpeg', import.meta.url).href },
-  { nome: 'Rita de Cássia Salhane Bessegato Gomes', cargo: '1º Tesoureiro', foto: new URL('../img/Dona_Rita.png', import.meta.url).href },
-  { nome: 'Jucelen Penachio de Carvalho', cargo: '2º Tesoureiro', foto: new URL('../img/Dona_Jucelen.png', import.meta.url).href },
+  { nome: 'Rosana Marilia Rodrigues Methodio', cargo: 'Presidente', foto: new URL('../img/Dona_Rosana.webp', import.meta.url).href, fotoWidth: 959, fotoHeight: 1280 },
+  { nome: 'Carmen Lidia Fernandes', cargo: 'Vice-presidente', foto: new URL('../img/Dona_Carmen.webp', import.meta.url).href, fotoWidth: 1254, fotoHeight: 1254 },
+  { nome: 'Maristella Mattar Garcia', cargo: '1º Secretário', foto: new URL('../img/Dona_Maristella.webp', import.meta.url).href, fotoWidth: 1254, fotoHeight: 1254 },
+  { nome: 'Rita de Cássia Mengato Ferreira Lima', cargo: '2º Secretário', foto: new URL('../img/Dona_Rita_Mengato.webp', import.meta.url).href, fotoWidth: 1280, fotoHeight: 853 },
+  { nome: 'Rita de Cássia Salhane Bessegato Gomes', cargo: '1º Tesoureiro', foto: new URL('../img/Dona_Rita.webp', import.meta.url).href, fotoWidth: 1254, fotoHeight: 1254 },
+  { nome: 'Jucelen Penachio de Carvalho', cargo: '2º Tesoureiro', foto: new URL('../img/Dona_Jucelen.webp', import.meta.url).href, fotoWidth: 1303, fotoHeight: 1207 },
 ];
 
 export const conselhoFiscal = [
@@ -115,7 +125,9 @@ export const noticias = [
     conteudo: [
       'Prepare-se para uma noite especial com muita música dança e diversão com a banda MAMÃO COM AÇÚCAR. Garanta já o seu lugar!',
     ],
-    imagem: new URL('../img/news_baileNamorados.jpeg', import.meta.url).href,
+    imagem: new URL('../img/news_baileNamorados.webp', import.meta.url).href,
+    imageWidth: 875,
+    imageHeight: 1280,
     destaque: true,
   },
   {
@@ -128,7 +140,9 @@ export const noticias = [
       'Entre em contato com o grupo para adquirir a sua ficha ou então compre na hora do evento. Toda Ajuda é bem-vinda e será revertida para as ações do GGCC junto à comunidade.',
       
     ],
-    imagem: new URL('../img/news_pastel.jpeg', import.meta.url).href,
+    imagem: new URL('../img/news_pastel.webp', import.meta.url).href,
+    imageWidth: 1280,
+    imageHeight: 692,
     destaque: true,
   },
   // {
@@ -155,6 +169,8 @@ export const contactConfig = {
 
 export const pixConfig = {
   key: '06.311.935/0001-75',
-  // Adicione a imagem oficial em img/qrcode-pix.png e informe o caminho abaixo.
-qrCodeImage: new URL('../img/pix_qrCode.jpeg', import.meta.url).href,
+  // Salve uma nova imagem em img/ e atualize somente este caminho.
+  qrCodeImage: new URL('../img/pix_qrCode.jpeg', import.meta.url).href,
+  qrCodeWidth: 697,
+  qrCodeHeight: 720,
 };

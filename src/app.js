@@ -36,7 +36,7 @@ const svg = (name, className = 'size-6') =>
 
 const renderNewsCard = (noticia, { compact = false } = {}) => {
   const visual = noticia.imagem
-    ? `<img src="${noticia.imagem}" alt="" loading="lazy" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />`
+    ? `<img src="${noticia.imagem}" alt="" width="${noticia.imageWidth}" height="${noticia.imageHeight}" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />`
     : `<div class="grid h-full w-full place-items-center bg-gradient-to-br from-orange-50 to-stone-100 text-orange-300">
         <span class="flex flex-col items-center gap-2 text-xs font-bold uppercase tracking-[0.12em]">
           <svg class="size-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m5 18 5-5 3 3 2-2 4 4"/></svg>
@@ -63,36 +63,38 @@ const renderNewsCard = (noticia, { compact = false } = {}) => {
     </article>`;
 };
 
-const renderGalleryCard = ({ src, alt, caption = '' }) => `
-  <button
-    type="button"
-    class="gallery-button reveal group relative aspect-[4/3] overflow-hidden rounded-[1.5rem] bg-stone-100 text-left shadow-sm focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600"
-    data-src="${src}"
-    data-alt="${alt}"
-    data-caption="${caption}"
-    aria-label="Ampliar foto: ${caption || alt}"
-  >
-    <img src="${src}" alt="${alt}" loading="lazy" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
-    ${
-      caption
-        ? `<span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/90 to-transparent px-5 pb-5 pt-14 text-sm font-bold leading-5 text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">${caption}</span>`
-        : ''
-    }
-  </button>`;
+const renderGalleryCard = ({ src, alt = '', width, height }) => {
+  const safeAlt =
+    typeof alt === 'string' && alt.trim()
+      ? alt.trim()
+      : 'Registro das atividades do Grupo Getulinense de Combate ao Câncer';
+
+  return `
+    <button
+      type="button"
+      class="gallery-button reveal group relative aspect-[4/3] overflow-hidden rounded-[1.5rem] bg-stone-100 text-left shadow-sm focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600"
+      data-src="${src}"
+      data-alt="${safeAlt}"
+      data-width="${width}"
+      data-height="${height}"
+      aria-label="Ampliar foto: ${safeAlt}"
+    >
+      <img src="${src}" alt="${safeAlt}" width="${width}" height="${height}" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
+    </button>`;
+};
 
 const lightboxMarkup = () => `
   <dialog
     id="lightbox"
     class="m-auto max-h-[92vh] w-[min(92vw,1100px)] overflow-hidden rounded-[2rem] bg-slate-950 p-0 text-white shadow-2xl backdrop:bg-slate-950/85 backdrop:backdrop-blur-sm"
-    aria-labelledby="lightbox-caption"
+    aria-label="Visualização ampliada da galeria"
   >
     <button id="lightbox-close" type="button" class="absolute right-4 top-4 z-20 grid size-11 place-items-center rounded-full bg-black/55 text-2xl text-white backdrop-blur transition hover:bg-white hover:text-slate-950 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-white" aria-label="Fechar imagem">×</button>
     <div class="relative">
-      <img id="lightbox-image" src="" alt="" class="max-h-[78vh] w-full object-contain" />
+      <img id="lightbox-image" src="" alt="" decoding="async" class="max-h-[78vh] w-full object-contain" />
       <button id="lightbox-previous" type="button" class="absolute left-4 top-1/2 grid size-11 -translate-y-1/2 place-items-center rounded-full bg-black/55 text-2xl text-white backdrop-blur transition hover:bg-white hover:text-slate-950 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-white" aria-label="Fotografia anterior">‹</button>
       <button id="lightbox-next" type="button" class="absolute right-4 top-1/2 grid size-11 -translate-y-1/2 place-items-center rounded-full bg-black/55 text-2xl text-white backdrop-blur transition hover:bg-white hover:text-slate-950 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-white" aria-label="Próxima fotografia">›</button>
     </div>
-    <p id="lightbox-caption" class="min-h-16 px-6 py-5 text-sm text-white/75"></p>
   </dialog>`;
 
 const initGalleryLightbox = () => {
@@ -105,7 +107,6 @@ const initGalleryLightbox = () => {
 
   const lightbox = document.querySelector('#lightbox');
   const image = document.querySelector('#lightbox-image');
-  const caption = document.querySelector('#lightbox-caption');
   const closeButton = document.querySelector('#lightbox-close');
   const previousButton = document.querySelector('#lightbox-previous');
   const nextButton = document.querySelector('#lightbox-next');
@@ -117,7 +118,8 @@ const initGalleryLightbox = () => {
     const button = buttons[currentIndex];
     image.src = button.dataset.src;
     image.alt = button.dataset.alt;
-    caption.textContent = button.dataset.caption || button.dataset.alt;
+    image.width = Number(button.dataset.width);
+    image.height = Number(button.dataset.height);
   };
 
   buttons.forEach((button, index) => {
@@ -166,7 +168,11 @@ setEventText('#event-singer', anniversaryEvent.singer);
 setEventText('#event-ticket-message', anniversaryEvent.ticketMessage);
 
 const eventImage = document.querySelector('#event-image');
-if (eventImage && anniversaryEvent.image) eventImage.src = anniversaryEvent.image;
+if (eventImage && anniversaryEvent.image) {
+  eventImage.src = anniversaryEvent.image;
+  eventImage.width = anniversaryEvent.imageWidth;
+  eventImage.height = anniversaryEvent.imageHeight;
+}
 
 const eventTicketLink = document.querySelector('#event-ticket-link');
 if (eventTicketLink) {
@@ -223,9 +229,9 @@ document.querySelectorAll('[data-facebook-link]').forEach((link) => {
 
 document.querySelector('#bazar-gallery').innerHTML = bazarConfig.images
   .map(
-    ({ src, alt }, index) =>
+    ({ src, alt, width, height }, index) =>
       src
-        ? `<img src="${src}" alt="${alt}" loading="lazy" class="aspect-[4/3] h-full w-full rounded-[1.5rem] object-cover" />`
+        ? `<img src="${src}" alt="${alt}" width="${width}" height="${height}" loading="lazy" decoding="async" class="aspect-[4/3] h-full w-full rounded-[1.5rem] object-cover" />`
         : `<div class="grid aspect-[4/3] place-items-center rounded-[1.5rem] border border-dashed border-white/25 bg-white/5 p-6 text-center text-white/45">
             <span class="flex flex-col items-center gap-3 text-xs font-extrabold uppercase tracking-[0.14em]">
               <svg class="size-8 text-orange-400/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m5 18 5-5 3 3 2-2 4 4"/></svg>
@@ -251,7 +257,7 @@ document.querySelector('#actions-grid').innerHTML = actions
 
 document.querySelector('#events-grid').innerHTML = events
   .map(
-    ({ titulo, descricao, imagem, alt, icone, categoria }, index) => `
+    ({ titulo, descricao, imagem, alt, width, height, icone, categoria }, index) => `
       <article class="reveal group flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white transition hover:-translate-y-1 hover:border-orange-200 hover:shadow-xl hover:shadow-slate-900/5 lg:col-span-2 ${
         index === 3 ? 'lg:col-start-2' : ''
       } ${
@@ -259,10 +265,10 @@ document.querySelector('#events-grid').innerHTML = events
           ? 'sm:col-span-2 sm:mx-auto sm:w-[calc(50%-0.5rem)] lg:col-span-2 lg:mx-0 lg:w-full'
           : ''
       }">
-        <div class="aspect-[4/3] overflow-hidden bg-gradient-to-br from-stone-100 to-orange-50">
+        <div class="h-28 shrink-0 overflow-hidden rounded-t-[1.5rem] bg-gradient-to-br from-stone-100 to-orange-50 sm:h-32 xl:h-36">
           ${
             imagem
-              ? `<img src="${imagem}" alt="${alt}" loading="lazy" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" />`
+              ? `<img src="${imagem}" alt="${alt}" width="${width}" height="${height}" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" />`
               : `<div class="grid h-full w-full place-items-center p-6 text-center text-orange-700/55">
                   <span class="flex flex-col items-center gap-3 text-xs font-extrabold uppercase tracking-[0.14em]">
                     ${svg(icone, 'size-9')}
@@ -368,28 +374,81 @@ initGalleryLightbox();
 const copyButton = document.querySelector('#copy-pix');
 const pixKey = document.querySelector('#pix-key');
 const pixQrPlaceholder = document.querySelector('#pix-qr-placeholder');
+const pixCopyStatus = document.querySelector('#pix-copy-status');
 
 pixKey.textContent = pixConfig.key;
 if (pixConfig.qrCodeImage) {
-  pixQrPlaceholder.innerHTML = `<img src="${pixConfig.qrCodeImage}" alt="QR Code oficial do Pix do GGCC" class="h-full w-full rounded-xl object-contain" />`;
+  pixQrPlaceholder.innerHTML = `<img src="${pixConfig.qrCodeImage}" alt="QR Code oficial do Pix do GGCC" width="${pixConfig.qrCodeWidth}" height="${pixConfig.qrCodeHeight}" loading="lazy" decoding="async" class="h-full w-full rounded-xl object-contain" />`;
   pixQrPlaceholder.classList.remove('border-dashed');
 }
 
-copyButton.addEventListener('click', async () => {
-  try {
-    await navigator.clipboard.writeText(pixConfig.key);
-    copyButton.textContent = 'Chave copiada!';
-  } catch {
-    copyButton.textContent = `PIX: ${pixConfig.key}`;
+const fallbackCopyText = (value) => {
+  const temporaryField = document.createElement('textarea');
+  temporaryField.value = value;
+  temporaryField.setAttribute('readonly', '');
+  temporaryField.style.position = 'fixed';
+  temporaryField.style.inset = '0 auto auto -9999px';
+  temporaryField.style.opacity = '0';
+  document.body.append(temporaryField);
+  temporaryField.focus();
+  temporaryField.select();
+  temporaryField.setSelectionRange(0, value.length);
+  const copied = document.execCommand('copy');
+  temporaryField.remove();
+  if (!copied) throw new Error('Não foi possível copiar a chave Pix');
+};
+
+const copyText = async (value) => {
+  if (navigator.clipboard?.writeText && window.isSecureContext) {
+    try {
+      await navigator.clipboard.writeText(value);
+      return;
+    } catch {
+      // Alguns navegadores bloqueiam a API mesmo em contexto seguro.
+    }
   }
+  fallbackCopyText(value);
+};
+
+const defaultCopyButtonContent = copyButton.innerHTML;
+let copyFeedbackActive = false;
+
+copyButton.addEventListener('click', async () => {
+  if (copyFeedbackActive) return;
+  copyFeedbackActive = true;
+  copyButton.disabled = true;
+  pixCopyStatus.textContent = '';
+
+  try {
+    await copyText(pixConfig.key);
+    copyButton.innerHTML = `
+      <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+        <path d="m5 12 4 4L19 6" />
+      </svg>
+      <span>Chave copiada!</span>`;
+    pixCopyStatus.textContent = 'Chave Pix copiada com sucesso.';
+  } catch {
+    copyButton.innerHTML = '<span>Não foi possível copiar</span>';
+    pixCopyStatus.textContent = `Não foi possível copiar automaticamente. A chave Pix é ${pixConfig.key}.`;
+  }
+
   window.setTimeout(() => {
-    copyButton.textContent = 'Copiar chave PIX';
-  }, 2500);
+    copyButton.innerHTML = defaultCopyButtonContent;
+    copyButton.disabled = false;
+    copyFeedbackActive = false;
+  }, 2_000);
 });
 
 const contactForm = document.querySelector('#contact-form');
 const contactSubmit = document.querySelector('#contact-submit');
 const contactFeedback = document.querySelector('#contact-feedback');
+const contactSubject = document.querySelector('#contact-subject');
+
+document.querySelectorAll('[data-contact-subject]').forEach((link) => {
+  link.addEventListener('click', () => {
+    contactSubject.value = link.dataset.contactSubject;
+  });
+});
 
 const showContactFeedback = (message, type) => {
   contactFeedback.textContent = message;
@@ -479,7 +538,7 @@ const initInternalLayout = (active) => {
     <header class="fixed inset-x-0 top-0 z-50 border-b border-slate-200 bg-white/95 shadow-sm backdrop-blur-xl">
       <nav class="mx-auto flex h-20 max-w-7xl items-center justify-between gap-6 px-5 sm:px-8" aria-label="Navegação principal">
         <a href="./index.html#inicio" class="group flex min-w-0 items-center gap-3" aria-label="GGCC, voltar ao início">
-          <img src="${logoUrl}" alt="" width="1024" height="1024" class="size-12 shrink-0 object-contain sm:size-14" />
+          <img src="${logoUrl}" alt="" width="1024" height="1024" decoding="async" class="size-12 shrink-0 object-contain sm:size-14" />
           <span class="min-w-0 leading-tight">
             <strong class="block truncate text-sm font-extrabold text-slate-900 sm:text-base">Grupo Getulinense</strong>
             <span class="block truncate text-[10px] font-bold uppercase tracking-[0.18em] text-orange-600 sm:text-xs">Combate ao Câncer</span>
@@ -530,7 +589,7 @@ const initInternalLayout = (active) => {
         <div class="grid gap-10 border-b border-white/10 pb-10 md:grid-cols-[1.4fr_1fr_1fr]">
           <div class="max-w-sm">
             <a href="./index.html#inicio" class="flex items-center gap-3">
-              <img src="${logoUrl}" alt="" class="size-14 object-contain" />
+              <img src="${logoUrl}" alt="" width="1024" height="1024" loading="lazy" decoding="async" class="size-14 object-contain" />
               <span><strong class="block text-lg font-black">GGCC Getulina</strong><span class="text-xs font-bold uppercase tracking-[0.14em] text-orange-400">Combate ao Câncer</span></span>
             </a>
             <p class="mt-5 text-sm leading-6 text-white/55">Dar ao paciente diagnosticado com câncer condições de sobrevida maior e melhor, caminhando em direção à cura.</p>
@@ -594,7 +653,7 @@ const initInternalLayout = (active) => {
 
 const memberVisual = (member, compact = false) =>
   member.foto
-    ? `<img src="${member.foto}" alt="Fotografia de ${member.nome}" class="h-full w-full object-cover" />`
+    ? `<img src="${member.foto}" alt="Fotografia de ${member.nome}" width="${member.fotoWidth}" height="${member.fotoHeight}" loading="lazy" decoding="async" class="h-full w-full object-cover" />`
     : `<div class="flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-orange-50 to-stone-100 text-orange-700">
         <span class="grid ${compact ? 'size-14' : 'size-20'} place-items-center rounded-full bg-white text-xl font-black shadow-sm">${getInitials(member.nome)}</span>
         ${compact ? '' : '<span class="mt-3 text-[10px] font-extrabold uppercase tracking-[0.14em] text-slate-400">Fotografia a adicionar</span>'}
@@ -691,7 +750,6 @@ const renderNewsList = () => `
   </header>
   <section class="bg-white py-20 sm:py-28">
     <div class="mx-auto max-w-7xl px-5 sm:px-8">
-      <div class="mb-10 rounded-2xl border border-dashed border-orange-300 bg-orange-50 p-5 text-sm leading-6 text-orange-900">Os conteúdos exibidos nesta etapa são exemplos editáveis e devem ser substituídos pelas publicações oficiais do grupo.</div>
       <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">${noticias.map((item) => renderNewsCard(item)).join('')}</div>
     </div>
   </section>`;
@@ -720,7 +778,7 @@ const renderArticle = (slug) => {
         ${
           noticia.imagem
             ? `<figure class="overflow-hidden rounded-[2rem] bg-stone-100">
-                <img src="${noticia.imagem}" alt="${noticia.titulo}" class="aspect-[16/9] h-full w-full object-cover" />
+                <img src="${noticia.imagem}" alt="${noticia.titulo}" width="${noticia.imageWidth}" height="${noticia.imageHeight}" loading="lazy" decoding="async" class="aspect-[16/9] h-full w-full object-cover" />
               </figure>`
             : `<div class="grid aspect-[16/9] place-items-center rounded-[2rem] bg-gradient-to-br from-orange-50 to-stone-100 text-xs font-extrabold uppercase tracking-widest text-orange-300">Imagem da notícia a adicionar</div>`
         }
@@ -747,3 +805,66 @@ if (document.body.dataset.page === 'internal') {
   initGalleryLightbox();
 }
 
+// Distância em pixels antes de exibir o botão flutuante.
+const BACK_TO_TOP_THRESHOLD = 500;
+
+const initBackToTop = () => {
+  document.body.insertAdjacentHTML(
+    'beforeend',
+    `<button
+      id="back-to-top"
+      type="button"
+      class="pointer-events-none fixed bottom-5 right-5 z-40 grid size-12 translate-y-4 place-items-center rounded-full bg-orange-600 text-white opacity-0 shadow-xl shadow-slate-900/20 transition duration-300 motion-safe:hover:-translate-y-1 hover:bg-orange-700 motion-reduce:transition-none sm:bottom-6 sm:right-6 sm:size-14"
+      aria-label="Voltar ao topo"
+      aria-hidden="true"
+      tabindex="-1"
+    >
+      <svg class="size-5 sm:size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="m6 15 6-6 6 6" />
+      </svg>
+    </button>`,
+  );
+
+  const button = document.querySelector('#back-to-top');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let visible = false;
+  let scrollUpdateScheduled = false;
+
+  const setVisible = (nextVisible) => {
+    if (visible === nextVisible) return;
+    visible = nextVisible;
+    button.classList.toggle('pointer-events-none', !visible);
+    button.classList.toggle('translate-y-4', !visible);
+    button.classList.toggle('opacity-0', !visible);
+    button.classList.toggle('translate-y-0', visible);
+    button.classList.toggle('opacity-100', visible);
+    button.setAttribute('aria-hidden', String(!visible));
+    button.tabIndex = visible ? 0 : -1;
+  };
+
+  const updateVisibility = () => {
+    setVisible(window.scrollY >= BACK_TO_TOP_THRESHOLD);
+    scrollUpdateScheduled = false;
+  };
+
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (scrollUpdateScheduled) return;
+      scrollUpdateScheduled = true;
+      window.requestAnimationFrame(updateVisibility);
+    },
+    { passive: true },
+  );
+
+  button.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: reducedMotion.matches ? 'auto' : 'smooth',
+    });
+  });
+
+  updateVisibility();
+};
+
+initBackToTop();
