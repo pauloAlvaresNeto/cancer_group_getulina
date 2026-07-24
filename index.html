@@ -244,21 +244,25 @@
 
             <div class="relative z-10 -mt-8 mx-3 rounded-[1.5rem] border border-orange-100 bg-white p-6 text-slate-900 shadow-xl shadow-slate-900/10 sm:mx-8 sm:p-8">
               <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-orange-700">Faltam</p>
-              <div class="mt-4 grid grid-cols-3 gap-2 sm:gap-4" aria-live="polite" aria-label="Contagem regressiva para o evento">
+              <div class="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-3" aria-label="Contagem regressiva para o evento">
                 <div class="rounded-2xl bg-orange-50 p-3 text-center sm:p-4">
-                  <strong id="countdown-days" class="block text-3xl font-black tracking-tight text-slate-950 sm:text-4xl"></strong>
+                  <strong id="countdown-days" class="block min-w-10 text-3xl font-black tabular-nums tracking-tight text-slate-950 sm:text-4xl"></strong>
                   <span class="mt-1 block text-[10px] font-extrabold uppercase tracking-[0.12em] text-slate-500 sm:text-xs">dias</span>
                 </div>
                 <div class="rounded-2xl bg-orange-50 p-3 text-center sm:p-4">
-                  <strong id="countdown-hours" class="block text-3xl font-black tracking-tight text-slate-950 sm:text-4xl"></strong>
+                  <strong id="countdown-hours" class="block min-w-10 text-3xl font-black tabular-nums tracking-tight text-slate-950 sm:text-4xl"></strong>
                   <span class="mt-1 block text-[10px] font-extrabold uppercase tracking-[0.12em] text-slate-500 sm:text-xs">horas</span>
                 </div>
                 <div class="rounded-2xl bg-orange-50 p-3 text-center sm:p-4">
-                  <strong id="countdown-minutes" class="block text-3xl font-black tracking-tight text-slate-950 sm:text-4xl"></strong>
+                  <strong id="countdown-minutes" class="block min-w-10 text-3xl font-black tabular-nums tracking-tight text-slate-950 sm:text-4xl"></strong>
                   <span class="mt-1 block text-[10px] font-extrabold uppercase tracking-[0.12em] text-slate-500 sm:text-xs">minutos</span>
                 </div>
+                <div class="rounded-2xl bg-orange-50 p-3 text-center sm:p-4">
+                  <strong id="countdown-seconds" class="block min-w-10 text-3xl font-black tabular-nums tracking-tight text-slate-950 sm:text-4xl"></strong>
+                  <span class="mt-1 block text-[10px] font-extrabold uppercase tracking-[0.12em] text-slate-500 sm:text-xs">segundos</span>
+                </div>
               </div>
-              <p id="countdown-status" class="mt-4 text-sm font-semibold text-slate-600"></p>
+              <p id="countdown-status" class="mt-4 text-sm font-semibold text-slate-600" aria-live="polite" aria-atomic="true"></p>
             </div>
           </div>
         </div>
@@ -391,7 +395,7 @@
             </p>
           </div>
           <!-- Preenchido pelo array events em src/data.js. -->
-          <div id="events-grid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-6 xl:grid-cols-5"></div>
+          <div id="events-grid" class="grid items-start gap-5 sm:grid-cols-2 lg:grid-cols-6"></div>
         </div>
       </section>
 
@@ -449,13 +453,14 @@
             <p class="eyebrow">Faça parte</p>
             <h2 id="ajudar-title" class="section-title mt-3">Todo gesto pode virar cuidado.</h2>
             <p class="section-copy mt-5">
-              Escolha uma forma de contribuir. Os recursos arrecadados retornam ao atendimento direto
-              de pacientes e famílias.
+
+               O câncer assusta. Parece não dar opçoes. Mas você pode nos ajudar a oferecer qualidade de vida ao paciente com a dor do câncer.
             </p>
           </div>
 
-          <div class="grid gap-4 lg:grid-cols-3">
-            <article class="reveal rounded-[2rem] bg-orange-600 p-7 text-white sm:p-8">
+          <!-- Os tópicos dos três cards de ajuda são editados diretamente nesta seção. -->
+          <div class="grid items-start gap-4 lg:grid-cols-3">
+            <article class="reveal flex flex-col rounded-[2rem] bg-orange-600 p-7 text-white sm:p-8">
               <span class="grid size-12 place-items-center rounded-2xl bg-white/15">
                 <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                   <rect x="3" y="5" width="18" height="14" rx="2" /><path d="M16 12h.01M3 9h18" />
@@ -463,6 +468,11 @@
               </span>
               <h3 class="mt-8 text-2xl font-black">Doação financeira</h3>
               <p class="mt-3 text-sm leading-6 text-white/80">Contribua via PIX usando o CNPJ do grupo.</p>
+              <ul class="mt-5 grid gap-3 text-sm leading-5 text-white/85">
+                <li class="flex items-start gap-3"><span class="mt-1 size-2 shrink-0 rounded-full bg-orange-200"></span>Doação rápida via Pix</li>
+                <li class="flex items-start gap-3"><span class="mt-1 size-2 shrink-0 rounded-full bg-orange-200"></span>Recursos destinados ao atendimento</li>
+                <li class="flex items-start gap-3"><span class="mt-1 size-2 shrink-0 rounded-full bg-orange-200"></span>Copie a chave ou leia o QR Code</li>
+              </ul>
               <div class="mt-6 rounded-2xl bg-white/10 p-4">
                 <span class="text-xs font-bold uppercase tracking-[0.15em] text-orange-100">Chave PIX</span>
                 <!-- Preenchido por pixConfig.key em src/data.js. -->
@@ -488,34 +498,40 @@
               </button>
             </article>
 
-            <article class="reveal rounded-[2rem] border border-slate-200 bg-white p-7 shadow-sm sm:p-8">
+            <article class="reveal flex flex-col rounded-[2rem] border border-slate-200 bg-white p-7 shadow-sm sm:p-8">
               <span class="grid size-12 place-items-center rounded-2xl bg-orange-50 text-orange-700">
                 <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                   <path d="m16 3-4 4-4-4-5 3 3 5v10h12V11l3-5-5-3Z" />
                 </svg>
               </span>
               <h3 class="mt-8 text-2xl font-black text-slate-900">Doe itens</h3>
-              <p class="mt-3 text-sm leading-6 text-slate-600">
-                Roupas, calçados, cestas básicas, produtos de higiene, materiais hospitalares,
-                móveis e eletrodomésticos em bom estado.
-              </p>
+              <ul class="mt-5 grid gap-3 text-sm leading-5 text-slate-600">
+                <li class="flex items-start gap-3"><span class="mt-1 size-2 shrink-0 rounded-full bg-orange-500"></span>Roupas e calçados</li>
+                <li class="flex items-start gap-3"><span class="mt-1 size-2 shrink-0 rounded-full bg-orange-500"></span>Cestas básicas</li>
+                <li class="flex items-start gap-3"><span class="mt-1 size-2 shrink-0 rounded-full bg-orange-500"></span>Produtos de higiene</li>
+                <li class="flex items-start gap-3"><span class="mt-1 size-2 shrink-0 rounded-full bg-orange-500"></span>Materiais hospitalares</li>
+                <li class="flex items-start gap-3"><span class="mt-1 size-2 shrink-0 rounded-full bg-orange-500"></span>Móveis</li>
+                <li class="flex items-start gap-3"><span class="mt-1 size-2 shrink-0 rounded-full bg-orange-500"></span>Eletrodomésticos em bom estado</li>
+              </ul>
               <a href="#contato" class="mt-7 inline-flex items-center gap-2 text-sm font-extrabold text-orange-700 hover:text-orange-800">
                 Combine a entrega
                 <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg>
               </a>
             </article>
 
-            <article class="reveal rounded-[2rem] border border-slate-200 bg-white p-7 shadow-sm sm:p-8">
+            <article class="reveal flex flex-col rounded-[2rem] border border-slate-200 bg-white p-7 shadow-sm sm:p-8">
               <span class="grid size-12 place-items-center rounded-2xl bg-orange-50 text-orange-700">
                 <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                   <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="m16 11 2 2 4-4" />
                 </svg>
               </span>
               <h3 class="mt-8 text-2xl font-black text-slate-900">Seja voluntário</h3>
-              <p class="mt-3 text-sm leading-6 text-slate-600">
-                Doe tempo, talento e carinho. O grupo é mantido pelo compromisso de pessoas que
-                acreditam na solidariedade.
-              </p>
+              <ul class="mt-5 grid gap-3 text-sm leading-5 text-slate-600">
+                <li class="flex items-start gap-3"><span class="mt-1 size-2 shrink-0 rounded-full bg-orange-500"></span>Apoio em eventos</li>
+                <li class="flex items-start gap-3"><span class="mt-1 size-2 shrink-0 rounded-full bg-orange-500"></span>Organização de doações</li>
+                <li class="flex items-start gap-3"><span class="mt-1 size-2 shrink-0 rounded-full bg-orange-500"></span>Auxílio nas ações do grupo</li>
+                <li class="flex items-start gap-3"><span class="mt-1 size-2 shrink-0 rounded-full bg-orange-500"></span>Disponibilidade de tempo e cuidado</li>
+              </ul>
               <a href="#contato" class="mt-7 inline-flex items-center gap-2 text-sm font-extrabold text-orange-700 hover:text-orange-800">
                 Quero participar
                 <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg>

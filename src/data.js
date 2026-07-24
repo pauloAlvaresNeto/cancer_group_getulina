@@ -1,17 +1,17 @@
 // Evento de 25 anos: altere somente este objeto quando os dados forem confirmados.
-// Em targetDate, use o formato ISO com fuso horário, por exemplo:
-// '2027-01-30T20:00:00-03:00'. Enquanto estiver vazio, o contador informa
-// que a data ainda será confirmada.
+// Informe time no formato 'HH:mm'. Enquanto estiver null, o contador usa
+// provisoriamente 00:00:00 no fuso de São Paulo (UTC-03:00).
 export const anniversaryEvent = {
   badge: 'Evento Especial',
   title: 'Celebração dos 25 Anos do GGCC',
   introduction:
     'Convidamos a comunidade para celebrar as bodas de prata do grupo, em um jantar de comemoração. Venha participar deste momento especial conosco!',
-  date: '22 de janeiro de 2027',
-  targetDate: '',
-  time: 'A confirmar',
+  date: '2027-01-22',
+  time: null,
+  timezone: 'America/Sao_Paulo',
+  utcOffset: '-03:00',
   venue: 'SAG - Sociedade Amigos de Getulina',
-  singer: ' banda freeson',
+  singer: 'Banda Freeson',
   image: new URL('../img/foto_25anos.jpeg', import.meta.url).href,
   ticketUrl: '#contato',
   ticketMessage: 'Os convites são limitados. Garanta sua participação antecipadamente.',
@@ -73,43 +73,15 @@ export const bazarConfig = {
   ],
 };
 
-export const events = [
-  {
-    title: 'Bazar de artesanato',
-    text: 'Venda beneficente de artesanatos, roupas e acessórios doados pela comunidade.',
-    icon: 'sparkles',
-  },
-  {
-    title: 'Jantar italiano',
-    text: 'Tradicional jantar beneficente com pratos típicos para arrecadação de recursos.',
-    icon: 'utensils',
-  },
-  {
-    title: 'Leilão de gado',
-    text: 'Evento anual realizado junto ao leilão da Paróquia, com animais doados pela comunidade.',
-    icon: 'gavel',
-  },
-  {
-    title: 'Chá beneficente',
-    text: 'Encontro com venda de ingressos, prêmio especial e alimentos preparados para o evento.',
-    icon: 'cup',
-  },
-  {
-    title: 'Barraca do Pastel',
-    text: 'Ação beneficente realizada algumas vezes ao longo do ano, com venda de pastéis para arrecadação de recursos para o grupo.',
-    icon: 'pastel',
-  },
-];
-
 // Dados institucionais editáveis das páginas internas.
 // Para adicionar fotografias, salve-as em img/ e informe o caminho no campo correspondente.
 export const diretoria = [
-  { nome: 'Rosana Marilia Rodrigues Methodio', cargo: 'Presidente', foto: null },
-  { nome: 'Carmen Lidia Fernandes', cargo: 'Vice-presidente', foto: null },
-  { nome: 'Maristella Mattar Garcia', cargo: '1º Secretário', foto: null },
-  { nome: 'Rita de Cássia Mengato Ferreira Lima', cargo: '2º Secretário', foto: null },
-  { nome: 'Rita de Cássia Salhane Bessegato Gomes', cargo: '1º Tesoureiro', foto: null },
-  { nome: 'Jucelen Penachio de Carvalho', cargo: '2º Tesoureiro', foto: null },
+  { nome: 'Rosana Marilia Rodrigues Methodio', cargo: 'Presidente', foto:  new URL('../img/Dona_Rosana.jpeg', import.meta.url).href },
+  { nome: 'Carmen Lidia Fernandes', cargo: 'Vice-presidente', foto:new URL('../img/Dona_carmen.png', import.meta.url).href },
+  { nome: 'Maristella Mattar Garcia', cargo: '1º Secretário', foto: new URL('../img/Dona_Maristella.png', import.meta.url).href },
+  { nome: 'Rita de Cássia Mengato Ferreira Lima', cargo: '2º Secretário', foto: new URL('../img/Dona_Rita_Mengato.jpeg', import.meta.url).href },
+  { nome: 'Rita de Cássia Salhane Bessegato Gomes', cargo: '1º Tesoureiro', foto: new URL('../img/Dona_Rita.png', import.meta.url).href },
+  { nome: 'Jucelen Penachio de Carvalho', cargo: '2º Tesoureiro', foto: new URL('../img/Dona_Jucelen.png', import.meta.url).href },
 ];
 
 export const conselhoFiscal = [

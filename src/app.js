@@ -6,12 +6,13 @@ import {
   conselhoFiscal,
   contactConfig,
   diretoria,
-  events,
   memorialSlots,
   noticias,
   pixConfig,
   suplentes,
 } from './data.js';
+import { getCountdownState } from './countdown.js';
+import { events } from './eventos.js';
 import { gallery } from './galeria.js';
 
 const logoUrl = new URL('../img/logo.png', import.meta.url).href;
@@ -151,8 +152,15 @@ const setEventText = (selector, value) => {
 setEventText('#event-badge', anniversaryEvent.badge);
 setEventText('#anniversary-title', anniversaryEvent.title);
 setEventText('#event-introduction', anniversaryEvent.introduction);
-setEventText('#event-date', anniversaryEvent.date);
-setEventText('#event-time', anniversaryEvent.time);
+const [eventYear, eventMonth, eventDay] = anniversaryEvent.date.split('-').map(Number);
+const eventDateLabel = new Intl.DateTimeFormat('pt-BR', {
+  day: '2-digit',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+}).format(new Date(Date.UTC(eventYear, eventMonth - 1, eventDay)));
+setEventText('#event-date', eventDateLabel);
+setEventText('#event-time', anniversaryEvent.time || 'Horário oficial a confirmar');
 setEventText('#event-venue', anniversaryEvent.venue);
 setEventText('#event-singer', anniversaryEvent.singer);
 setEventText('#event-ticket-message', anniversaryEvent.ticketMessage);
@@ -173,36 +181,41 @@ const countdown = {
   days: document.querySelector('#countdown-days'),
   hours: document.querySelector('#countdown-hours'),
   minutes: document.querySelector('#countdown-minutes'),
+  seconds: document.querySelector('#countdown-seconds'),
   status: document.querySelector('#countdown-status'),
 };
 
-const updateEventCountdown = () => {
-  const target = Date.parse(anniversaryEvent.targetDate);
-  if (!anniversaryEvent.targetDate || Number.isNaN(target)) {
-    countdown.days.textContent = '—';
-    countdown.hours.textContent = '—';
-    countdown.minutes.textContent = '—';
-    countdown.status.textContent = 'Data exata a confirmar para os 25 anos do Grupo.';
-    return;
-  }
-
-  const remaining = target - Date.now();
-  if (remaining <= 0) {
-    countdown.days.textContent = '00';
-    countdown.hours.textContent = '00';
-    countdown.minutes.textContent = '00';
-    countdown.status.textContent = 'O grande evento de 25 anos chegou.';
-    return;
-  }
-
-  countdown.days.textContent = String(Math.floor(remaining / 86_400_000));
-  countdown.hours.textContent = String(Math.floor((remaining % 86_400_000) / 3_600_000)).padStart(2, '0');
-  countdown.minutes.textContent = String(Math.floor((remaining % 3_600_000) / 60_000)).padStart(2, '0');
-  countdown.status.textContent = 'para os 25 anos do Grupo.';
+const setCountdownStatus = (message) => {
+  if (countdown.status.textContent !== message) countdown.status.textContent = message;
 };
 
-updateEventCountdown();
-window.setInterval(updateEventCountdown, 60_000);
+let countdownInterval;
+const updateEventCountdown = () => {
+  const result = getCountdownState(anniversaryEvent);
+  const values = [result.days, result.hours, result.minutes, result.seconds];
+  [countdown.days, countdown.hours, countdown.minutes, countdown.seconds].forEach((element, index) => {
+    element.textContent = String(values[index]).padStart(2, '0');
+  });
+
+  if (result.state === 'future') {
+    setCountdownStatus(
+      anniversaryEvent.time
+        ? `para o jantar dos 25 anos do Grupo · ${anniversaryEvent.time}.`
+        : 'para o jantar dos 25 anos do Grupo',
+    );
+    return result.state;
+  }
+
+  window.clearInterval(countdownInterval);
+  if (result.state === 'today') setCountdownStatus('O grande dia chegou!');
+  else if (result.state === 'past') setCountdownStatus('Evento realizado.');
+  else setCountdownStatus('Confira a configuração da data do evento.');
+  return result.state;
+};
+
+if (updateEventCountdown() === 'future') {
+  countdownInterval = window.setInterval(updateEventCountdown, 1_000);
+}
 
 document.querySelectorAll('[data-facebook-link]').forEach((link) => {
   link.href = bazarConfig.facebookUrl;
@@ -238,18 +251,33 @@ document.querySelector('#actions-grid').innerHTML = actions
 
 document.querySelector('#events-grid').innerHTML = events
   .map(
-    ({ title, text, icon }, index) => `
-      <article class="reveal group flex flex-col rounded-[1.5rem] border border-slate-200 bg-white p-6 transition hover:-translate-y-1 hover:border-orange-200 hover:shadow-xl hover:shadow-slate-900/5 lg:col-span-2 lg:min-h-72 xl:col-span-1 ${
-        index === 3 ? 'lg:col-start-2 xl:col-start-auto' : ''
+    ({ titulo, descricao, imagem, alt, icone, categoria }, index) => `
+      <article class="reveal group flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white transition hover:-translate-y-1 hover:border-orange-200 hover:shadow-xl hover:shadow-slate-900/5 lg:col-span-2 ${
+        index === 3 ? 'lg:col-start-2' : ''
       } ${
         index === 4
-          ? 'sm:col-span-2 sm:mx-auto sm:w-[calc(50%-0.5rem)] lg:col-span-2 lg:mx-0 lg:w-full xl:col-span-1'
+          ? 'sm:col-span-2 sm:mx-auto sm:w-[calc(50%-0.5rem)] lg:col-span-2 lg:mx-0 lg:w-full'
           : ''
       }">
-        <span class="grid size-12 place-items-center rounded-2xl bg-slate-950 text-orange-400">${svg(icon)}</span>
-        <div class="mt-8 lg:mt-auto lg:pt-8">
-          <h3 class="text-xl font-black leading-tight tracking-tight text-slate-900">${title}</h3>
-          <p class="mt-3 text-sm leading-6 text-slate-600">${text}</p>
+        <div class="aspect-[4/3] overflow-hidden bg-gradient-to-br from-stone-100 to-orange-50">
+          ${
+            imagem
+              ? `<img src="${imagem}" alt="${alt}" loading="lazy" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" />`
+              : `<div class="grid h-full w-full place-items-center p-6 text-center text-orange-700/55">
+                  <span class="flex flex-col items-center gap-3 text-xs font-extrabold uppercase tracking-[0.14em]">
+                    ${svg(icone, 'size-9')}
+                    Fotografia a adicionar
+                  </span>
+                </div>`
+          }
+        </div>
+        <div class="flex flex-1 flex-col p-6">
+          <div class="flex items-center gap-3 text-xs font-extrabold uppercase tracking-[0.12em] text-orange-700">
+            <span class="grid size-9 shrink-0 place-items-center rounded-xl bg-orange-50">${svg(icone, 'size-5')}</span>
+            <span>${categoria}</span>
+          </div>
+          <h3 class="mt-5 text-xl font-black leading-tight tracking-tight text-slate-900">${titulo}</h3>
+          <p class="mt-3 text-sm leading-6 text-slate-600">${descricao}</p>
         </div>
       </article>`,
   )
@@ -689,7 +717,13 @@ const renderArticle = (slug) => {
         </div>
       </header>
       <div class="mx-auto max-w-5xl px-5 py-16 sm:px-8">
-        <div class="grid aspect-[16/9] place-items-center rounded-[2rem] bg-gradient-to-br from-orange-50 to-stone-100 text-xs font-extrabold uppercase tracking-widest text-orange-300">Imagem da notícia a adicionar</div>
+        ${
+          noticia.imagem
+            ? `<figure class="overflow-hidden rounded-[2rem] bg-stone-100">
+                <img src="${noticia.imagem}" alt="${noticia.titulo}" class="aspect-[16/9] h-full w-full object-cover" />
+              </figure>`
+            : `<div class="grid aspect-[16/9] place-items-center rounded-[2rem] bg-gradient-to-br from-orange-50 to-stone-100 text-xs font-extrabold uppercase tracking-widest text-orange-300">Imagem da notícia a adicionar</div>`
+        }
         <div class="mx-auto mt-12 max-w-3xl"><div class="space-y-6 text-base leading-8 text-slate-700">${noticia.conteudo.map((paragraph) => `<p>${paragraph}</p>`).join('')}</div><div class="mt-14 border-t border-slate-200 pt-10"><h2 class="text-2xl font-black text-slate-900">Outras notícias recentes</h2><div class="mt-6 grid gap-4 sm:grid-cols-2">${recent}</div></div></div>
       </div>
     </article>`;
@@ -699,11 +733,11 @@ if (document.body.dataset.page === 'internal') {
   const params = new URLSearchParams(window.location.search);
   const page = params.get('pagina') || 'noticias';
   const views = {
-    membros: { title: 'Membros — GGCC Getulina', html: renderMembers },
-    memorial: { title: 'Memorial — GGCC Getulina', html: renderMemorial },
-    galeria: { title: 'Galeria — GGCC Getulina', html: renderGallery },
-    noticias: { title: 'Notícias — GGCC Getulina', html: renderNewsList },
-    noticia: { title: 'Notícia — GGCC Getulina', html: () => renderArticle(params.get('slug')) },
+    membros: { title: 'Membros — GGCC', html: renderMembers },
+    memorial: { title: 'Memorial — GGCC', html: renderMemorial },
+    galeria: { title: 'Galeria — GGCC', html: renderGallery },
+    noticias: { title: 'Notícias — GGCC', html: renderNewsList },
+    noticia: { title: 'Notícia — GGCC', html: () => renderArticle(params.get('slug')) },
   };
   const view = views[page] || views.noticias;
   document.title = view.title;
@@ -712,3 +746,4 @@ if (document.body.dataset.page === 'internal') {
   initReveal();
   initGalleryLightbox();
 }
+

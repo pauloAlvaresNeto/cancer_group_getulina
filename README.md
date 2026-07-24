@@ -26,8 +26,10 @@ repositório é informado automaticamente ao Vite.
 - `index.html`: landing page;
 - `interna.html`: exibe Membros, Memorial, Galeria, Notícias e a notícia completa conforme a URL;
 - `src/app.js`: todo o comportamento do site;
-- `src/data.js`: conteúdo institucional, Bazar, Eventos e configurações;
+- `src/data.js`: conteúdo institucional, Bazar e configurações;
+- `src/eventos.js`: textos, imagens, categorias e ícones dos eventos;
 - `src/galeria.js`: fotografias da galeria e seleção exibida na home;
+- `src/countdown.js`: cálculo isolado do contador dos 25 anos;
 - `src/styles.css`: Tailwind CSS e estilos compartilhados;
 - `img/`: imagens e logotipo;
 - `historico.pdf`: história completa;
@@ -54,8 +56,9 @@ uma única fonte oficial.
 
 Edite somente o objeto `anniversaryEvent` no início de `src/data.js`. Nele ficam
 data, horário, local, cantor, imagem, link dos convites e mensagem de
-disponibilidade. Para ativar o contador, preencha `targetDate` no formato ISO
-indicado no comentário do arquivo, incluindo o fuso horário.
+disponibilidade. A data usa `AAAA-MM-DD`; o horário usa `HH:mm`. Enquanto
+`time` estiver como `null`, o contador considera provisoriamente `00:00:00` no
+fuso de São Paulo (`UTC-03:00`).
 
 ### Membros
 
@@ -76,8 +79,15 @@ array `images`: salve os arquivos finais em `img/` e atualize os campos `src` e
 
 ### Eventos
 
-Os cards ficam no array `events` de `src/data.js`. O evento “Barraca do Pastel”
-pode ser alterado diretamente nesse array, sem editar o HTML.
+Os cards ficam no array `events` de `src/eventos.js`. Cada item centraliza
+título, descrição, fotografia, texto alternativo, categoria e ícone. O Leilão
+de Gado utiliza um placeholder até receber uma fotografia oficial.
+
+### Como ajudar
+
+Os tópicos de “Doação financeira”, “Doe itens” e “Seja voluntário” ficam
+diretamente na seção `#ajudar` do `index.html`. A chave e o QR Code do Pix
+continuam centralizados em `pixConfig`, no final de `src/data.js`.
 
 ### Galeria
 
