@@ -29,6 +29,7 @@ const icons = {
   gavel: '<path d="m14 7 3 3M5 16l6-6M8 5l6 6 3-3-6-6-3 3ZM3 21h12"/>',
   cup: '<path d="M4 8h14v5a6 6 0 0 1-12 0V8ZM18 10h1a3 3 0 0 1 0 6h-2M6 21h10"/>',
   pastel: '<path d="M4 15a8 8 0 0 1 16 0H4Z"/><path d="M6.5 12.5 8 14l1.5-1.5L11 14l1.5-1.5L14 14l1.5-1.5L17 14M4 18h16"/>',
+  sprig: '<path d="M6 19c5-3 9-8 12-15"/><path d="M10 15c-3 .2-5-1.2-6-3.8 3-.3 5.3.9 6 3.8ZM13.5 10.5c.2-3 1.9-5.2 4.7-6.1.1 3-1.5 5.2-4.7 6.1ZM8 17.7c-2.1.2-3.8 1.1-5 2.8"/>',
 };
 
 const svg = (name, className = 'size-6') =>
@@ -330,12 +331,14 @@ document.querySelectorAll('.mobile-nav-link').forEach((link) => {
 
 const testimonialButton = document.querySelector('#depoimento-toggle');
 const testimonialContent = document.querySelector('#depoimento-completo');
+const testimonialPreview = document.querySelector('#depoimento-previa');
 
 testimonialButton?.addEventListener('click', () => {
   const expanded = testimonialButton.getAttribute('aria-expanded') === 'true';
   testimonialButton.setAttribute('aria-expanded', String(!expanded));
   testimonialButton.textContent = expanded ? 'Ler depoimento completo' : 'Recolher depoimento';
   testimonialContent.hidden = expanded;
+  testimonialPreview.hidden = !expanded;
 });
 
 const moreButton = document.querySelector('#more-button');
@@ -682,9 +685,24 @@ const renderSmallMembers = (members) =>
     )
     .join('');
 
+const internalPanel = {
+  header: 'py-20 sm:py-24 lg:py-28',
+  container: 'mx-auto max-w-5xl px-5 sm:px-8',
+  content: 'max-w-3xl',
+  title:
+    'text-4xl font-black leading-[1.08] tracking-[-0.04em] sm:text-5xl lg:text-6xl',
+  copy: 'max-w-2xl text-base leading-8 sm:text-lg',
+};
+
 const renderMembers = () => `
-  <header class="bg-[#f7f4ef] py-20 sm:py-28">
-    <div class="mx-auto max-w-4xl px-5 text-center sm:px-8"><p class="eyebrow">Quem faz acontecer</p><h1 class="section-title mx-auto mt-4">Membros e voluntários</h1><p class="section-copy mx-auto mt-6">Conta atualmente com 40 voluntários.</p></div>
+  <header class="bg-[#f7f4ef] ${internalPanel.header}">
+    <div class="${internalPanel.container}">
+      <div class="${internalPanel.content}">
+        <p class="eyebrow">Quem faz acontecer</p>
+        <h1 class="${internalPanel.title} mt-4 text-slate-900">Membros e voluntários</h1>
+        <p class="${internalPanel.copy} mt-6 text-slate-600">Conta atualmente com 40 voluntários.</p>
+      </div>
+    </div>
   </header>
   <section class="bg-white py-20 sm:py-28">
     <div class="mx-auto max-w-7xl px-5 sm:px-8">
@@ -718,34 +736,58 @@ const renderMembers = () => `
   </section>`;
 
 const renderMemorial = () => `
-  <header class="bg-slate-950 py-32 text-white sm:py-36">
-    <div class="mx-auto max-w-4xl px-5 text-center sm:px-8">
-      <span class="mx-auto grid size-9 place-items-center text-orange-400/75" aria-hidden="true">
-        <svg class="size-8" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M11 31c8-5 14-12 19-23" />
-          <path d="M17 25c-4 .2-7-1.7-8.5-5.2 4-.4 7.2 1.3 8.5 5.2Z" />
-          <path d="M22 19c.2-4.1 2.5-7 6.2-8.2.1 4-2 7-6.2 8.2Z" />
-          <path d="M14 29.2c-2.8.2-5 1.5-6.5 3.8" />
-        </svg>
-      </span>
-      <p class="mt-5 text-[0.6875rem] font-extrabold uppercase tracking-[0.3em] text-orange-400">Memorial</p>
-      <h1 class="mt-5 text-4xl font-black leading-tight tracking-[-0.04em] sm:text-6xl">Para sempre em nossa história</h1>
-      <p class="mx-auto mt-7 max-w-2xl text-base leading-8 text-white/70 sm:text-lg sm:leading-8">Com carinho e respeito, preservamos a memória daqueles que fizeram parte da caminhada do Grupo Getulinense de Combate ao Câncer.</p>
+  <header class="bg-slate-950 text-white ${internalPanel.header}">
+    <div class="${internalPanel.container}">
+      <div class="${internalPanel.content}">
+        <span class="grid size-9 place-items-center text-orange-400/75" aria-hidden="true">
+          ${svg('sprig', 'size-8')}
+        </span>
+        <p class="mt-5 text-[0.6875rem] font-extrabold uppercase tracking-[0.3em] text-orange-400">Memorial</p>
+        <h1 class="${internalPanel.title} mt-4 text-white">Para sempre em nossa história</h1>
+        <p class="${internalPanel.copy} mt-6 text-white/75">Algumas pessoas deixam marcas que o tempo não apaga.</p>
+      </div>
     </div>
   </header>
-  <section class="bg-[#f7f4ef] pb-24 pt-24 sm:pb-32 sm:pt-32 lg:pb-36 lg:pt-36">
+  <section class="bg-[#f7f4ef] py-20 sm:py-24 lg:py-28">
     <div class="mx-auto max-w-7xl px-5 sm:px-8">
-      <ul class="reveal grid grid-cols-1 gap-x-12 border-t border-slate-900/[0.08] sm:grid-cols-2 xl:grid-cols-3" role="list">
+      <div class="reveal mx-auto max-w-3xl text-center">
+        <p class="text-lg leading-8 text-slate-700 sm:text-xl sm:leading-9">
+          Este memorial é uma forma singela de agradecer àqueles que dedicaram parte de suas vidas ao Grupo Getulinense de Combate ao Câncer.
+        </p>
+        <p class="mt-5 text-lg leading-8 text-slate-700 sm:text-xl sm:leading-9">
+          Seu legado permanece vivo em cada gesto de cuidado, solidariedade e esperança.
+        </p>
+      </div>
+
+      <ul class="reveal mt-16 grid grid-cols-1 gap-4 sm:mt-20 sm:grid-cols-2 sm:gap-5 xl:grid-cols-3" role="list">
         ${memorialNames
           .map(
             (name) => `
-              <li class="min-w-0 whitespace-normal break-words border-b border-slate-900/[0.08] py-8 text-lg font-medium leading-8 tracking-[-0.01em] text-slate-800 sm:py-9 sm:text-xl lg:py-10">
-                ${name}
+              <li class="flex min-h-32 min-w-0 flex-col items-center justify-center rounded-sm border border-slate-900/[0.09] bg-white/60 px-6 py-7 text-center sm:min-h-36 sm:px-8">
+                <span class="mb-5 h-px w-10 bg-orange-500/45" aria-hidden="true"></span>
+                <span class="whitespace-normal break-words text-lg font-medium leading-8 tracking-[-0.01em] text-slate-800 sm:text-xl">
+                  ${name}
+                </span>
               </li>`,
           )
           .join('')}
       </ul>
-      <a href="./index.html" class="mt-12 inline-flex min-h-12 items-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-extrabold text-slate-900 transition hover:border-orange-300 hover:text-orange-700 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600">Voltar à página inicial</a>
+
+      <div class="mt-12 text-center">
+        <a href="./index.html" class="inline-flex min-h-12 items-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-extrabold text-slate-900 transition hover:border-orange-300 hover:text-orange-700 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600">Voltar à página inicial</a>
+      </div>
+
+      <div class="reveal mx-auto mt-20 max-w-3xl border-t border-slate-900/[0.08] pt-12 text-center sm:mt-24 sm:pt-14">
+        <span class="mx-auto grid size-8 place-items-center text-orange-600/65" aria-hidden="true">
+          ${svg('sprig', 'size-7')}
+        </span>
+        <p class="mt-6 text-base leading-8 text-slate-600 sm:text-lg">
+          O cuidado, a dedicação e a solidariedade de cada um continuam presentes na história do Grupo Getulinense de Combate ao Câncer.
+        </p>
+        <p class="mt-6 text-xl font-semibold leading-8 tracking-[-0.015em] text-slate-900 sm:text-2xl sm:leading-9">
+          Quem dedica parte da própria vida ao cuidado do próximo jamais será esquecido.
+        </p>
+      </div>
     </div>
   </section>`;
 
@@ -767,8 +809,14 @@ const renderGallery = () => `
   </section>`;
 
 const renderNewsList = () => `
-  <header class="bg-[#f7f4ef] py-16 sm:py-24">
-    <div class="mx-auto max-w-7xl px-5 sm:px-8"><p class="eyebrow">Fique por dentro</p><h1 class="section-title mt-3">Notícias</h1><p class="section-copy mt-5">Eventos, campanhas, reuniões, avisos e registros das atividades do grupo.</p></div>
+  <header class="bg-[#f7f4ef] ${internalPanel.header}">
+    <div class="${internalPanel.container}">
+      <div class="${internalPanel.content}">
+        <p class="eyebrow">Fique por dentro</p>
+        <h1 class="${internalPanel.title} mt-4 text-slate-900">Notícias</h1>
+        <p class="${internalPanel.copy} mt-6 text-slate-600">Eventos, campanhas, reuniões, avisos e registros das atividades do grupo.</p>
+      </div>
+    </div>
   </header>
   <section class="bg-white py-20 sm:py-28">
     <div class="mx-auto max-w-7xl px-5 sm:px-8">
@@ -789,11 +837,14 @@ const renderArticle = (slug) => {
 
   return `
     <article>
-      <header class="bg-[#f7f4ef] px-5 pb-16 pt-16 sm:px-8 sm:pb-20">
-        <div class="mx-auto max-w-4xl">
-          <a href="./interna.html?pagina=noticias" class="text-sm font-extrabold text-orange-700">← Voltar às notícias</a>
-          <div class="mt-10 flex gap-3 text-xs font-bold"><span class="rounded-full bg-orange-100 px-3 py-1.5 text-orange-800">${noticia.categoria}</span><time class="py-1.5 text-slate-500">${noticia.data}</time></div>
-          <h1 class="mt-5 text-4xl font-black leading-tight text-slate-900 sm:text-6xl">${noticia.titulo}</h1><p class="mt-6 max-w-3xl text-lg leading-8 text-slate-600">${noticia.resumo}</p>
+      <header class="bg-[#f7f4ef] ${internalPanel.header}">
+        <div class="${internalPanel.container}">
+          <div class="${internalPanel.content}">
+            <a href="./interna.html?pagina=noticias" class="text-sm font-extrabold text-orange-700">← Voltar às notícias</a>
+            <div class="mt-8 flex gap-3 text-xs font-bold"><span class="rounded-full bg-orange-100 px-3 py-1.5 text-orange-800">${noticia.categoria}</span><time class="py-1.5 text-slate-500">${noticia.data}</time></div>
+            <h1 class="${internalPanel.title} mt-5 text-slate-900">${noticia.titulo}</h1>
+            <p class="${internalPanel.copy} mt-6 text-slate-600">${noticia.resumo}</p>
+          </div>
         </div>
       </header>
       <div class="mx-auto max-w-5xl px-5 py-16 sm:px-8">

@@ -111,22 +111,14 @@ export const memorialNames = [
   'Acácio Pereira de Oliveira',
   'Adavaldi de Souza',
   'Antonia Dagmar Penachio Moraes',
-  'Antonia Ferreira Raiz',
   'Aparecida dos Santos Canazaro',
+  'Antonia Ferreira Raiz',
   'Aurécio B. Ruellas',
   'Eurides Bana de Oliveira',
   'Hermenegildo Antonio Becegatto',
   'Iracema Alfieri',
   'Laurite M. Caliani',
   'Luiz Bernardes',
-  'Luiz Fernando Campos Marques',
-  'Lizette Cecílio Janeiro',
-  'Maria Aparecida Teixeira',
-  'Maria de Lurdes Moreira Bernardes',
-  'Nercides Menegatti',
-  'Paula Jandira Guidetti Antunes',
-  'Petronilha Lopes Caliani',
-  'Sebastião Aleixo Zabeu',
 ];
 
 // Notícias provisórias. Substitua estes exemplos pelo conteúdo oficial.
