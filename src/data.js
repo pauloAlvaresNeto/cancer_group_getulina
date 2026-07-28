@@ -107,18 +107,27 @@ export const suplentes = [
 ];
 
 export const memorialNames = [
-  'Aracê Campanha Rocchi Rodrigues',
   'Acácio Pereira de Oliveira',
   'Adavaldi de Souza',
   'Antonia Dagmar Penachio Moraes',
-  'Aparecida dos Santos Canazaro',
   'Antonia Ferreira Raiz',
+  'Aparecida dos Santos Canazaro',
+  'Aracê Campanha Rocchi Rodrigues',
   'Aurécio B. Ruellas',
   'Eurides Bana de Oliveira',
   'Hermenegildo Antonio Becegatto',
   'Iracema Alfieri',
   'Laurite M. Caliani',
+  'Lizetti Cecílio Janeiro',
   'Luiz Bernardes',
+  'Luiz Fernando Campos Marques',
+  'Maria Aparecida Teixeira',
+  'Maria de Lurdes Moreira Bernardes',
+  'Nercides Menegatti',
+  'Paula Jandira Guidetti Antunes',
+  'Petronilha Lopes Caliani',
+  'Sebastião Aleixo Zebeu',
+  
 ];
 
 // Notícias provisórias. Use type: 'short' quando todo o conteúdo couber no card
