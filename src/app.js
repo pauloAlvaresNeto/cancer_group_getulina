@@ -6,7 +6,7 @@ import {
   conselhoFiscal,
   contactConfig,
   diretoria,
-  memorialSlots,
+  memorialNames,
   noticias,
   pixConfig,
   suplentes,
@@ -328,6 +328,16 @@ document.querySelectorAll('.mobile-nav-link').forEach((link) => {
   link.addEventListener('click', () => setMenuOpen(false));
 });
 
+const testimonialButton = document.querySelector('#depoimento-toggle');
+const testimonialContent = document.querySelector('#depoimento-completo');
+
+testimonialButton?.addEventListener('click', () => {
+  const expanded = testimonialButton.getAttribute('aria-expanded') === 'true';
+  testimonialButton.setAttribute('aria-expanded', String(!expanded));
+  testimonialButton.textContent = expanded ? 'Ler depoimento completo' : 'Recolher depoimento';
+  testimonialContent.hidden = expanded;
+});
+
 const moreButton = document.querySelector('#more-button');
 const moreMenu = document.querySelector('#more-menu');
 const setMoreOpen = (open) => {
@@ -544,8 +554,9 @@ const initInternalLayout = (active) => {
             <span class="block truncate text-[10px] font-bold uppercase tracking-[0.18em] text-orange-600 sm:text-xs">Combate ao Câncer</span>
           </span>
         </a>
-        <ul class="hidden items-center gap-6 text-sm font-semibold text-slate-700 lg:flex">
+        <ul class="hidden items-center gap-6 text-sm font-semibold text-slate-700 xl:flex">
           <li><a class="nav-link" href="./index.html#historia">História</a></li>
+          <li><a class="nav-link" href="./index.html#depoimento">Depoimento</a></li>
           <li><a class="nav-link" href="./index.html#acoes">Ações</a></li>
           <li><a class="nav-link" href="./index.html#bazar">Bazar</a></li>
           <li><a class="nav-link" href="./index.html#eventos">Eventos</a></li>
@@ -564,14 +575,15 @@ const initInternalLayout = (active) => {
         </ul>
         <div class="flex items-center gap-2">
           <a href="./index.html#ajudar" class="hidden rounded-full bg-orange-600 px-5 py-3 text-sm font-extrabold text-white sm:inline-flex">Quero ajudar</a>
-          <button id="menu-button" type="button" class="grid size-11 place-items-center rounded-full border border-slate-200 bg-white text-slate-900 lg:hidden" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-menu">
+          <button id="menu-button" type="button" class="grid size-11 place-items-center rounded-full border border-slate-200 bg-white text-slate-900 xl:hidden" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-menu">
             <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path id="menu-icon-path" d="M4 7h16M4 12h16M4 17h16"/></svg>
           </button>
         </div>
       </nav>
-      <div id="mobile-menu" class="hidden max-h-[calc(100vh-5rem)] overflow-y-auto border-t border-slate-100 bg-white px-5 pb-6 pt-3 shadow-xl lg:hidden">
+      <div id="mobile-menu" class="hidden max-h-[calc(100vh-5rem)] overflow-y-auto border-t border-slate-100 bg-white px-5 pb-6 pt-3 shadow-xl xl:hidden">
         <ul class="mx-auto grid max-w-7xl gap-1 text-base font-bold">
           <li><a class="mobile-nav-link" href="./index.html#historia">História</a></li>
+          <li><a class="mobile-nav-link" href="./index.html#depoimento">Depoimento</a></li>
           <li><a class="mobile-nav-link" href="./index.html#acoes">Nossas ações</a></li>
           <li><a class="mobile-nav-link" href="./index.html#bazar">Bazar beneficente</a></li>
           <li><a class="mobile-nav-link" href="./index.html#eventos">Eventos</a></li>
@@ -706,24 +718,34 @@ const renderMembers = () => `
   </section>`;
 
 const renderMemorial = () => `
-  <header class="bg-slate-950 py-20 text-white sm:py-28">
-    <div class="mx-auto max-w-4xl px-5 text-center sm:px-8"><p class="text-xs font-extrabold uppercase tracking-[0.2em] text-orange-400">Memória e gratidão</p><h1 class="mt-4 text-4xl font-black sm:text-6xl">Memorial</h1><p class="mx-auto mt-6 max-w-2xl leading-8 text-white/65">Um espaço de respeito e carinho para preservar a memória de pessoas que fizeram parte da caminhada do grupo.</p></div>
+  <header class="bg-slate-950 py-32 text-white sm:py-36">
+    <div class="mx-auto max-w-4xl px-5 text-center sm:px-8">
+      <span class="mx-auto grid size-9 place-items-center text-orange-400/75" aria-hidden="true">
+        <svg class="size-8" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 31c8-5 14-12 19-23" />
+          <path d="M17 25c-4 .2-7-1.7-8.5-5.2 4-.4 7.2 1.3 8.5 5.2Z" />
+          <path d="M22 19c.2-4.1 2.5-7 6.2-8.2.1 4-2 7-6.2 8.2Z" />
+          <path d="M14 29.2c-2.8.2-5 1.5-6.5 3.8" />
+        </svg>
+      </span>
+      <p class="mt-5 text-[0.6875rem] font-extrabold uppercase tracking-[0.3em] text-orange-400">Memorial</p>
+      <h1 class="mt-5 text-4xl font-black leading-tight tracking-[-0.04em] sm:text-6xl">Para sempre em nossa história</h1>
+      <p class="mx-auto mt-7 max-w-2xl text-base leading-8 text-white/70 sm:text-lg sm:leading-8">Com carinho e respeito, preservamos a memória daqueles que fizeram parte da caminhada do Grupo Getulinense de Combate ao Câncer.</p>
+    </div>
   </header>
-  <section class="bg-[#f7f4ef] py-20 sm:py-28">
+  <section class="bg-[#f7f4ef] pb-24 pt-24 sm:pb-32 sm:pt-32 lg:pb-36 lg:pt-36">
     <div class="mx-auto max-w-7xl px-5 sm:px-8">
-      <div class="mb-12 max-w-3xl"><p class="eyebrow">Estrutura em preparação</p><h2 class="section-title mt-3">Homenagens</h2><p class="section-copy mt-5">Nomes, fotografias e textos serão incluídos somente após revisão e autorização das famílias.</p></div>
-      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        ${memorialSlots
+      <ul class="reveal grid grid-cols-1 gap-x-12 border-t border-slate-900/[0.08] sm:grid-cols-2 xl:grid-cols-3" role="list">
+        ${memorialNames
           .map(
-            (slot) => `
-              <article class="reveal overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white shadow-sm">
-                <div class="grid aspect-[4/3] place-items-center bg-gradient-to-br from-stone-100 to-orange-50 text-slate-400"><span class="text-xs font-extrabold uppercase tracking-[0.14em]">Fotografia a adicionar</span></div>
-                <div class="p-6"><p class="text-xs font-extrabold uppercase tracking-[0.16em] text-orange-700">Espaço reservado</p><h3 class="mt-2 text-xl font-black text-slate-900">${slot.nome || 'Nome a adicionar'}</h3><p class="mt-3 text-sm leading-6 text-slate-500">${slot.homenagem || 'Pequena homenagem será adicionada após revisão e autorização da família.'}</p></div>
-              </article>`,
+            (name) => `
+              <li class="min-w-0 whitespace-normal break-words border-b border-slate-900/[0.08] py-8 text-lg font-medium leading-8 tracking-[-0.01em] text-slate-800 sm:py-9 sm:text-xl lg:py-10">
+                ${name}
+              </li>`,
           )
           .join('')}
-      </div>
-      <a href="./index.html" class="mt-12 inline-flex rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-extrabold">Voltar à página inicial</a>
+      </ul>
+      <a href="./index.html" class="mt-12 inline-flex min-h-12 items-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-extrabold text-slate-900 transition hover:border-orange-300 hover:text-orange-700 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600">Voltar à página inicial</a>
     </div>
   </section>`;
 

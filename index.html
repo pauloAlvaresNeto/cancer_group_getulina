@@ -54,8 +54,9 @@
           </span>
         </a>
 
-        <ul class="hidden items-center gap-5 text-sm font-semibold text-slate-700 lg:flex xl:gap-7">
+        <ul class="hidden items-center gap-5 text-sm font-semibold text-slate-700 xl:flex xl:gap-7">
           <li><a class="nav-link" href="#historia">História</a></li>
+          <li><a class="nav-link" href="#depoimento">Depoimento</a></li>
           <li><a class="nav-link" href="#acoes">Ações</a></li>
           <li><a class="nav-link" href="#bazar">Bazar</a></li>
           <li><a class="nav-link" href="#eventos">Eventos</a></li>
@@ -91,7 +92,7 @@
           <button
             id="menu-button"
             type="button"
-            class="grid size-11 place-items-center rounded-full border border-slate-200 bg-white text-slate-900 shadow-sm transition hover:border-orange-300 hover:text-orange-700 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600 lg:hidden"
+            class="grid size-11 place-items-center rounded-full border border-slate-200 bg-white text-slate-900 shadow-sm transition hover:border-orange-300 hover:text-orange-700 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600 xl:hidden"
             aria-label="Abrir menu"
             aria-expanded="false"
             aria-controls="mobile-menu"
@@ -103,9 +104,10 @@
         </div>
       </nav>
 
-      <div id="mobile-menu" class="hidden max-h-[calc(100vh-5rem)] overflow-y-auto border-t border-slate-100 bg-white px-5 pb-6 pt-3 shadow-xl lg:hidden">
+      <div id="mobile-menu" class="hidden max-h-[calc(100vh-5rem)] overflow-y-auto border-t border-slate-100 bg-white px-5 pb-6 pt-3 shadow-xl xl:hidden">
         <ul class="mx-auto grid max-w-7xl gap-1 text-base font-bold">
           <li><a class="mobile-nav-link" href="#historia">História</a></li>
+          <li><a class="mobile-nav-link" href="#depoimento">Depoimento</a></li>
           <li><a class="mobile-nav-link" href="#acoes">Nossas ações</a></li>
           <li><a class="mobile-nav-link" href="#bazar">Bazar beneficente</a></li>
           <li><a class="mobile-nav-link" href="#eventos">Eventos</a></li>
@@ -323,6 +325,109 @@
               <div><strong class="block text-2xl font-black text-slate-900 sm:text-3xl">25</strong><span class="text-xs text-slate-500 sm:text-sm">anos de história</span></div>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section
+        id="depoimento"
+        class="scroll-mt-20 bg-[#f7f4ef] py-20 sm:py-28"
+        aria-labelledby="depoimento-title"
+      >
+        <div class="mx-auto max-w-7xl px-5 sm:px-8">
+          <header class="reveal max-w-3xl">
+            <p class="eyebrow">Histórias que nos fortalecem</p>
+            <h2 id="depoimento-title" class="section-title mt-3">
+              Minha vida melhorou depois de tudo que passei
+            </h2>
+          </header>
+
+          <figure
+            class="reveal relative mt-10 max-w-5xl overflow-hidden rounded-[2rem] border border-stone-200 bg-white p-6 shadow-sm sm:mt-12 sm:p-10 lg:p-12"
+          >
+            <span
+              class="pointer-events-none absolute right-5 top-1 text-8xl font-black leading-none text-orange-100 sm:right-10 sm:text-9xl"
+              aria-hidden="true"
+            >“</span>
+
+            <div class="relative max-w-3xl">
+              <figcaption class="border-l-4 border-orange-500 pl-5">
+                <strong class="block text-xl font-black text-slate-900 sm:text-2xl">
+                  José Dias Pereira
+                </strong>
+                <span class="mt-1 block text-sm font-semibold leading-6 text-slate-500">
+                  Primeiro paciente atendido pelo grupo
+                </span>
+              </figcaption>
+
+              <blockquote class="mt-8 text-[1.0625rem] leading-8 text-slate-700 sm:text-lg sm:leading-9">
+                <p>
+                  Eu me lembro muito bem do dia em que recebi o diagnóstico de que estava com câncer.
+                  Era 2001 e já estava desconfiado de ter a doença, pois sentia dores do lado esquerdo
+                  do rosto e incômodos na garganta. Resolvi me consultar com um médico da minha cidade,
+                  Getulina, no interior de São Paulo, que me encaminhou para o Hospital Amaral Carvalho,
+                  em Jaú.
+                </p>
+                <p class="mt-6">
+                  Na instituição, me deram a notícia do tumor de laringe e de outras complicações vindas
+                  da doença. Quando o médico me disse que eu poderia não falar mais, perdi os sentidos e
+                  desmaiei. Como ficar sem falar? Esse momento foi o mais complicado. Mas depois me
+                  acalmei e soube lidar com serenidade com a situação.
+                </p>
+                <p class="mt-6">
+                  Segui o tratamento à risca. As sessões de radioterapia eram incômodas, mas, por sorte,
+                  precisei fazer menos do que as 35 previstas inicialmente. Só me alimentava por sonda.
+                  Mas não foi tão ruim quanto pode parecer. Eu confiava muito em Deus. Me apoiei na fé
+                  para lidar com o tratamento e não fiquei abalado. Às vezes, chorava muito, mas também
+                  tinha momentos de grande alegria.
+                </p>
+
+                <div id="depoimento-completo" class="mt-6 space-y-6" hidden>
+                  <p>
+                    Como Getulina fica a mais de três horas de Jaú, ia segunda-feira para o hospital e só
+                    voltava na sexta. Na cidade, ficava na Casa de Apoio, onde fui muito bem tratado. A
+                    ajuda que recebi de todos foi fundamental.
+                  </p>
+                  <p>
+                    Minha mulher me acompanhava nas sessões de radioterapia, esperava a sessão acabar e
+                    voltava para Getulina. Ela foi muito carinhosa comigo. Mas não só ela. Toda a minha
+                    família ficou ao meu lado e me ajudou, pois precisei me aposentar para seguir o
+                    tratamento.
+                  </p>
+                  <p>
+                    Também não posso esquecer da Liga Getulinense de Combate ao Câncer, que me apoiou
+                    incondicionalmente em tudo que precisei. E, claro, do doutor João Fanton, do Hospital
+                    Amaral Carvalho. Com a ajuda de todos, saí totalmente recuperado do tratamento.
+                  </p>
+                  <p>
+                    É óbvio que a doença é dura, mas sinto que a minha vida melhorou depois de passar por
+                    tudo o que passei. Parei de fumar e de beber por recomendação médica. Uma bela mudança
+                    de vida. Também aprendi a aproveitar os momentos ao lado da família com mais
+                    dedicação. Hoje, minha vida é feita só de alegrias.
+                  </p>
+                  <p>
+                    Eu digo para todos que passam por problemas parecidos que fiquem calmos, procurem o
+                    tratamento adequado e os resultados aparecerão. Quando o diagnóstico surge, dá uma
+                    sensação de que tudo está perdido. Nada disso. Tendo fé e fazendo o tratamento certo,
+                    tudo é possível.
+                  </p>
+                  <p>
+                    Hoje, graças a Deus, tenho uma vida saudável, curto meus filhos, netos e esposa e vejo
+                    a vida com leveza e otimismo.
+                  </p>
+                </div>
+              </blockquote>
+
+              <button
+                id="depoimento-toggle"
+                type="button"
+                class="mt-8 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-orange-600 px-6 py-3 text-sm font-extrabold text-white transition hover:bg-orange-700 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600"
+                aria-expanded="false"
+                aria-controls="depoimento-completo"
+              >
+                Ler depoimento completo
+              </button>
+            </div>
+          </figure>
         </div>
       </section>
 

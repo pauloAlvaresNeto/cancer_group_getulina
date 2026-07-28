@@ -68,8 +68,8 @@ altura nos campos `foto`, `fotoWidth` e `fotoHeight`.
 
 ### Memorial
 
-Edite o array `memorialSlots` em `src/data.js` somente depois de confirmar
-nomes, homenagens, fotografias e autorizações das famílias.
+Edite o array de nomes `memorialNames` em `src/data.js`. O Memorial apresenta
+somente os nomes, na ordem definida nesse array.
 
 ### Bazar
 

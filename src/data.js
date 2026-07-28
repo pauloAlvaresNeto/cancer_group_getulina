@@ -106,11 +106,27 @@ export const suplentes = [
   { nome: 'Santina Marineli Fernandes', cargo: 'Suplente', foto: null },
 ];
 
-// Memorial provisório: não publique nomes ou homenagens sem autorização.
-export const memorialSlots = [
-  { id: 1, nome: '', homenagem: '', imagem: null },
-  { id: 2, nome: '', homenagem: '', imagem: null },
-  { id: 3, nome: '', homenagem: '', imagem: null },
+export const memorialNames = [
+  'Aracê Campanha Rocchi Rodrigues',
+  'Acácio Pereira de Oliveira',
+  'Adavaldi de Souza',
+  'Antonia Dagmar Penachio Moraes',
+  'Antonia Ferreira Raiz',
+  'Aparecida dos Santos Canazaro',
+  'Aurécio B. Ruellas',
+  'Eurides Bana de Oliveira',
+  'Hermenegildo Antonio Becegatto',
+  'Iracema Alfieri',
+  'Laurite M. Caliani',
+  'Luiz Bernardes',
+  'Luiz Fernando Campos Marques',
+  'Lizette Cecílio Janeiro',
+  'Maria Aparecida Teixeira',
+  'Maria de Lurdes Moreira Bernardes',
+  'Nercides Menegatti',
+  'Paula Jandira Guidetti Antunes',
+  'Petronilha Lopes Caliani',
+  'Sebastião Aleixo Zabeu',
 ];
 
 // Notícias provisórias. Substitua estes exemplos pelo conteúdo oficial.
