@@ -121,10 +121,12 @@ export const memorialNames = [
   'Luiz Bernardes',
 ];
 
-// Notícias provisórias. Substitua estes exemplos pelo conteúdo oficial.
+// Notícias provisórias. Use type: 'short' quando todo o conteúdo couber no card
+// e type: 'full' somente quando houver conteúdo adicional para a página interna.
 export const noticias = [
   {
     id: 1,
+    type: 'short',
     slug: 'Baile-dos-Namorados',
     titulo: 'Baile dos Namorados',
     data: '13/06/26',
@@ -139,7 +141,8 @@ export const noticias = [
     destaque: true,
   },
   {
-   slug: 'feira-do-pastel',
+    type: 'short',
+    slug: 'feira-do-pastel',
     titulo: 'Feira do Pastel',
     data: '11/04/2026',
     categoria: 'Já Realizado',

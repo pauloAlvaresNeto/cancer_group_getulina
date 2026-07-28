@@ -35,7 +35,19 @@ const icons = {
 const svg = (name, className = 'size-6') =>
   `<svg class="${className}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[name]}</svg>`;
 
+const hasNewsDetail = (noticia) => noticia.type === 'full' && Boolean(noticia.slug);
+
 const renderNewsCard = (noticia, { compact = false } = {}) => {
+  const showDetail = hasNewsDetail(noticia);
+  const cardText = (
+    showDetail ? [noticia.resumo] : [noticia.resumo, ...(noticia.conteudo || [])]
+  )
+    .filter(Boolean)
+    .map(
+      (paragraph, index) =>
+        `<p class="${index === 0 ? 'mt-3' : 'mt-2'} text-sm leading-6 text-slate-600">${paragraph}</p>`,
+    )
+    .join('');
   const visual = noticia.imagem
     ? `<img src="${noticia.imagem}" alt="" width="${noticia.imageWidth}" height="${noticia.imageHeight}" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />`
     : `<div class="grid h-full w-full place-items-center bg-gradient-to-br from-orange-50 to-stone-100 text-orange-300">
@@ -55,11 +67,15 @@ const renderNewsCard = (noticia, { compact = false } = {}) => {
           <time class="text-slate-500">${noticia.data}</time>
         </div>
         <h3 class="mt-3 text-xl font-black leading-tight tracking-tight text-slate-900">${noticia.titulo}</h3>
-        <p class="mt-3 text-sm leading-6 text-slate-600">${noticia.resumo}</p>
-        <a href="./interna.html?pagina=noticia&slug=${encodeURIComponent(noticia.slug)}" class="mt-6 inline-flex items-center gap-2 text-sm font-extrabold text-orange-700 hover:text-orange-800 focus-visible:rounded focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600">
-          Ler mais
-          <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
-        </a>
+        ${cardText}
+        ${
+          showDetail
+            ? `<a href="./interna.html?pagina=noticia&slug=${encodeURIComponent(noticia.slug)}" class="mt-6 inline-flex min-h-11 items-center gap-2 rounded text-sm font-extrabold text-orange-700 hover:text-orange-800 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600">
+                Ler mais
+                <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+              </a>`
+            : ''
+        }
       </div>
     </article>`;
 };
@@ -332,13 +348,20 @@ document.querySelectorAll('.mobile-nav-link').forEach((link) => {
 const testimonialButton = document.querySelector('#depoimento-toggle');
 const testimonialContent = document.querySelector('#depoimento-completo');
 const testimonialPreview = document.querySelector('#depoimento-previa');
+const testimonialEllipsis = document.querySelector('#depoimento-reticencias');
+const testimonialHighlight = document.querySelector('#depoimento-liga');
+const testimonialPreviewTarget = document.querySelector('#depoimento-destaque-previa');
+const testimonialContentTarget = document.querySelector('#depoimento-destaque-completo');
 
 testimonialButton?.addEventListener('click', () => {
   const expanded = testimonialButton.getAttribute('aria-expanded') === 'true';
+  const willExpand = !expanded;
   testimonialButton.setAttribute('aria-expanded', String(!expanded));
   testimonialButton.textContent = expanded ? 'Ler depoimento completo' : 'Recolher depoimento';
   testimonialContent.hidden = expanded;
-  testimonialPreview.hidden = !expanded;
+  testimonialPreview.hidden = willExpand;
+  testimonialEllipsis.hidden = willExpand;
+  (willExpand ? testimonialContentTarget : testimonialPreviewTarget).append(testimonialHighlight);
 });
 
 const moreButton = document.querySelector('#more-button');
@@ -694,13 +717,18 @@ const internalPanel = {
   copy: 'max-w-2xl text-base leading-8 sm:text-lg',
 };
 
+const renderHomeBackButton = () => `
+  <div class="mt-10 text-center sm:mt-12">
+    <a href="./index.html" class="inline-flex min-h-12 items-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-extrabold text-slate-900 transition hover:border-orange-300 hover:text-orange-700 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600">Voltar à página inicial</a>
+  </div>`;
+
 const renderMembers = () => `
   <header class="bg-[#f7f4ef] ${internalPanel.header}">
     <div class="${internalPanel.container}">
-      <div class="${internalPanel.content}">
+      <div class="${internalPanel.content} mx-auto text-center">
         <p class="eyebrow">Quem faz acontecer</p>
         <h1 class="${internalPanel.title} mt-4 text-slate-900">Membros e voluntários</h1>
-        <p class="${internalPanel.copy} mt-6 text-slate-600">Conta atualmente com 40 voluntários.</p>
+        <p class="${internalPanel.copy} mx-auto mt-6 text-slate-600">Conta atualmente com 40 voluntários.</p>
       </div>
     </div>
   </header>
@@ -732,19 +760,20 @@ const renderMembers = () => `
         <div><p class="text-xs font-extrabold uppercase tracking-[0.18em] text-orange-100">Uma grande equipe</p><h2 class="mt-3 text-3xl font-black sm:text-4xl">40 voluntários unidos pelo cuidado.</h2></div>
         <a href="./index.html#contato" class="rounded-full bg-white px-6 py-3 text-sm font-extrabold text-orange-700">Quero ser voluntário</a>
       </div>
+      ${renderHomeBackButton()}
     </div>
   </section>`;
 
 const renderMemorial = () => `
   <header class="bg-slate-950 text-white ${internalPanel.header}">
     <div class="${internalPanel.container}">
-      <div class="${internalPanel.content}">
-        <span class="grid size-9 place-items-center text-orange-400/75" aria-hidden="true">
+      <div class="${internalPanel.content} mx-auto text-center">
+        <span class="mx-auto grid size-9 place-items-center text-orange-400/75" aria-hidden="true">
           ${svg('sprig', 'size-8')}
         </span>
         <p class="mt-5 text-[0.6875rem] font-extrabold uppercase tracking-[0.3em] text-orange-400">Memorial</p>
         <h1 class="${internalPanel.title} mt-4 text-white">Para sempre em nossa história</h1>
-        <p class="${internalPanel.copy} mt-6 text-white/75">Algumas pessoas deixam marcas que o tempo não apaga.</p>
+        <p class="${internalPanel.copy} mx-auto mt-6 text-white/75">Algumas pessoas deixam marcas que o tempo não apaga.</p>
       </div>
     </div>
   </header>
@@ -773,11 +802,7 @@ const renderMemorial = () => `
           .join('')}
       </ul>
 
-      <div class="mt-12 text-center">
-        <a href="./index.html" class="inline-flex min-h-12 items-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-extrabold text-slate-900 transition hover:border-orange-300 hover:text-orange-700 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600">Voltar à página inicial</a>
-      </div>
-
-      <div class="reveal mx-auto mt-20 max-w-3xl border-t border-slate-900/[0.08] pt-12 text-center sm:mt-24 sm:pt-14">
+      <div class="reveal mx-auto mt-12 max-w-3xl border-t border-slate-900/[0.08] pt-10 text-center sm:mt-16 sm:pt-12">
         <span class="mx-auto grid size-8 place-items-center text-orange-600/65" aria-hidden="true">
           ${svg('sprig', 'size-7')}
         </span>
@@ -788,6 +813,8 @@ const renderMemorial = () => `
           Quem dedica parte da própria vida ao cuidado do próximo jamais será esquecido.
         </p>
       </div>
+
+      ${renderHomeBackButton()}
     </div>
   </section>`;
 
@@ -811,29 +838,36 @@ const renderGallery = () => `
 const renderNewsList = () => `
   <header class="bg-[#f7f4ef] ${internalPanel.header}">
     <div class="${internalPanel.container}">
-      <div class="${internalPanel.content}">
+      <div class="${internalPanel.content} mx-auto text-center">
         <p class="eyebrow">Fique por dentro</p>
         <h1 class="${internalPanel.title} mt-4 text-slate-900">Notícias</h1>
-        <p class="${internalPanel.copy} mt-6 text-slate-600">Eventos, campanhas, reuniões, avisos e registros das atividades do grupo.</p>
+        <p class="${internalPanel.copy} mx-auto mt-6 text-slate-600">Eventos, campanhas, reuniões, avisos e registros das atividades do grupo.</p>
       </div>
     </div>
   </header>
   <section class="bg-white py-20 sm:py-28">
     <div class="mx-auto max-w-7xl px-5 sm:px-8">
       <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">${noticias.map((item) => renderNewsCard(item)).join('')}</div>
+      ${renderHomeBackButton()}
     </div>
   </section>`;
 
 const renderArticle = (slug) => {
-  const noticia = noticias.find((item) => item.slug === slug);
+  const noticia = noticias.find((item) => hasNewsDetail(item) && item.slug === slug);
   if (!noticia) {
     return `<div class="mx-auto max-w-2xl px-5 py-24 text-center"><p class="eyebrow">Notícia não encontrada</p><h1 class="section-title mt-3">Este conteúdo não está disponível.</h1><a href="./interna.html?pagina=noticias" class="mt-8 inline-flex rounded-full bg-orange-600 px-6 py-3 text-sm font-extrabold text-white">Voltar às notícias</a></div>`;
   }
   const recent = noticias
-    .filter((item) => item.slug !== noticia.slug)
+    .filter((item) => hasNewsDetail(item) && item.slug !== noticia.slug)
     .slice(0, 2)
     .map((item) => `<a href="./interna.html?pagina=noticia&slug=${encodeURIComponent(item.slug)}" class="rounded-2xl border border-slate-200 bg-white p-5"><span class="text-xs font-bold text-orange-700">${item.categoria}</span><strong class="mt-2 block text-lg text-slate-900">${item.titulo}</strong></a>`)
     .join('');
+  const recentSection = recent
+    ? `<div class="mt-14 border-t border-slate-200 pt-10">
+        <h2 class="text-2xl font-black text-slate-900">Outras notícias recentes</h2>
+        <div class="mt-6 grid gap-4 sm:grid-cols-2">${recent}</div>
+      </div>`
+    : '';
 
   return `
     <article>
@@ -855,7 +889,10 @@ const renderArticle = (slug) => {
               </figure>`
             : `<div class="grid aspect-[16/9] place-items-center rounded-[2rem] bg-gradient-to-br from-orange-50 to-stone-100 text-xs font-extrabold uppercase tracking-widest text-orange-300">Imagem da notícia a adicionar</div>`
         }
-        <div class="mx-auto mt-12 max-w-3xl"><div class="space-y-6 text-base leading-8 text-slate-700">${noticia.conteudo.map((paragraph) => `<p>${paragraph}</p>`).join('')}</div><div class="mt-14 border-t border-slate-200 pt-10"><h2 class="text-2xl font-black text-slate-900">Outras notícias recentes</h2><div class="mt-6 grid gap-4 sm:grid-cols-2">${recent}</div></div></div>
+        <div class="mx-auto mt-12 max-w-3xl">
+          <div class="space-y-6 text-base leading-8 text-slate-700">${noticia.conteudo.map((paragraph) => `<p>${paragraph}</p>`).join('')}</div>
+          ${recentSection}
+        </div>
       </div>
     </article>`;
 };
