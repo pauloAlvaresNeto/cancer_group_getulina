@@ -32,7 +32,7 @@ repositório é informado automaticamente ao Vite.
 - `src/countdown.js`: cálculo isolado do contador dos 25 anos;
 - `src/styles.css`: Tailwind CSS e estilos compartilhados;
 - `img/`: fotografias em WebP, logotipo em PNG e QR Code oficial;
-- `historico.pdf`: história completa;
+- `public/`: favicons e arquivos públicos copiados sem transformação, incluindo `historico.pdf`;
 - `dist/`: saída automática do build, não deve ser editada.
 
 ## Publicação no GitHub Pages
@@ -51,6 +51,10 @@ Os elementos dinâmicos do `index.html` são apenas estruturas vazias. Não
 duplique neles os textos dos arquivos de dados: o `src/app.js` preenche esses
 elementos durante o carregamento da página. Dessa forma, cada informação possui
 uma única fonte oficial.
+
+Os dados institucionais compartilhados entre a página inicial e as páginas
+internas (nome, missão, telefone, e-mail, CNPJ e localização) ficam
+centralizados em `institutionConfig`, no arquivo `src/data.js`.
 
 ### Evento de 25 anos
 
@@ -106,20 +110,23 @@ A página inicial mostra as seis primeiras imagens marcadas com
 As publicações ficam no array `noticias` de `src/data.js`. Para criar uma notícia:
 
 1. duplique um objeto existente no array `noticias`;
-2. escolha um `id` e um `slug` únicos;
-3. atualize título, data, categoria, resumo e conteúdo;
-4. salve a fotografia em WebP na pasta `img/`;
-5. informe caminho, largura e altura nos campos `imagem`, `imageWidth` e
+2. use `type: 'short'` quando todo o conteúdo couber no card ou `type: 'full'`
+   quando houver conteúdo adicional relevante;
+3. escolha um `slug` único;
+4. atualize título, data, categoria, resumo e conteúdo;
+5. salve a fotografia em WebP na pasta `img/`;
+6. informe caminho, largura e altura nos campos `imagem`, `imageWidth` e
    `imageHeight`;
-6. use `destaque: true` para exibi-la também na página inicial.
+7. use `destaque: true` para exibi-la também na página inicial.
 
-A página individual usa
+Somente notícias `full` exibem “Ler mais” e usam a página individual
 `interna.html?pagina=noticia&slug=slug-da-noticia`.
 
 ### História em PDF
 
-O botão “Ler história completa” utiliza o arquivo `historico.pdf`. O endereço do
-arquivo é configurado em `src/app.js` para que o Vite o inclua no build.
+O botão “Ler história completa” utiliza `public/historico.pdf`. Todo arquivo
+nessa pasta é copiado pelo Vite para a raiz de `dist/`, preservando o link
+relativo usado no HTML e o caminho-base do GitHub Pages.
 
 ### Formulário
 

@@ -1,3 +1,14 @@
+export const institutionConfig = {
+  name: 'Grupo Getulinense de Combate ao Câncer',
+  mission:
+    'Dar ao paciente diagnosticado com câncer condições de sobrevida maior e melhor, caminhando em direção à cura.',
+  phoneLabel: '(14) 3552-2966',
+  phoneHref: 'tel:+551435522966',
+  email: 'ggccancer@hotmail.com',
+  cnpj: '06.311.935/0001-75',
+  location: 'Getulina, SP',
+};
+
 // Evento de 25 anos: altere somente este objeto quando os dados forem confirmados.
 // Informe time no formato 'HH:mm'. Enquanto estiver null, o contador usa
 // provisoriamente 00:00:00 no fuso de São Paulo (UTC-03:00).
@@ -8,7 +19,6 @@ export const anniversaryEvent = {
     'Convidamos a comunidade para celebrar as bodas de prata do grupo, em um jantar de comemoração. Venha participar deste momento especial conosco!',
   date: '2027-01-22',
   time: null,
-  timezone: 'America/Sao_Paulo',
   utcOffset: '-03:00',
   venue: 'SAG - Sociedade Amigos de Getulina',
   singer: 'Banda Freeson',
@@ -134,7 +144,6 @@ export const memorialNames = [
 // e type: 'full' somente quando houver conteúdo adicional para a página interna.
 export const noticias = [
   {
-    id: 1,
     type: 'short',
     slug: 'Baile-dos-Namorados',
     titulo: 'Baile dos Namorados',
@@ -165,30 +174,16 @@ export const noticias = [
     imageHeight: 692,
     destaque: true,
   },
-  // {
-  //   id: 3,
-  //   slug: 'acao-beneficente',
-  //   titulo: 'Ação beneficente',
-  //   data: 'Data a confirmar',
-  //   categoria: 'Ação',
-  //   resumo: 'Espaço reservado para apresentar campanhas, resultados e atividades realizadas junto à comunidade.',
-  //   conteudo: [
-  //     'Este conteúdo é provisório. Conte aqui como a ação foi realizada, quem participou e qual foi o resultado alcançado.',
-  //     'Inclua somente informações confirmadas pelo grupo e fotografias cuja publicação tenha sido autorizada.',
-  //   ],
-  //   imagem: null,
-  //   destaque: true,
-  // },
 ];
 
 export const contactConfig = {
-  recipient: 'ggccancer@hotmail.com',
+  recipient: institutionConfig.email,
   // Adicione aqui um endpoint HTTPS quando o grupo contratar um serviço de formulário.
   endpoint: '',
 };
 
 export const pixConfig = {
-  key: '06.311.935/0001-75',
+  key: institutionConfig.cnpj,
   // Salve uma nova imagem em img/ e atualize somente este caminho.
   qrCodeImage: new URL('../img/pix_qrCode.jpeg', import.meta.url).href,
   qrCodeWidth: 697,

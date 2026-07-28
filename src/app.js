@@ -1,4 +1,3 @@
-import './styles.css';
 import {
   actions,
   anniversaryEvent,
@@ -6,6 +5,7 @@ import {
   conselhoFiscal,
   contactConfig,
   diretoria,
+  institutionConfig,
   memorialNames,
   noticias,
   pixConfig,
@@ -168,6 +168,31 @@ const setEventText = (selector, value) => {
   if (element) element.textContent = value;
 };
 
+const setInstitutionContent = () => {
+  document.querySelectorAll('[data-institution-mission]').forEach((element) => {
+    element.textContent = institutionConfig.mission;
+  });
+  document.querySelectorAll('[data-institution-phone]').forEach((link) => {
+    link.href = institutionConfig.phoneHref;
+  });
+  document.querySelectorAll('[data-institution-phone-label]').forEach((element) => {
+    element.textContent = institutionConfig.phoneLabel;
+  });
+  document.querySelectorAll('[data-institution-email]').forEach((link) => {
+    link.href = `mailto:${institutionConfig.email}`;
+  });
+  document.querySelectorAll('[data-institution-email-label]').forEach((element) => {
+    element.textContent = institutionConfig.email;
+  });
+  document.querySelectorAll('[data-institution-cnpj]').forEach((element) => {
+    element.textContent = institutionConfig.cnpj;
+  });
+  document.querySelectorAll('[data-institution-location]').forEach((element) => {
+    element.textContent = institutionConfig.location;
+  });
+};
+
+setInstitutionContent();
 setEventText('#event-badge', anniversaryEvent.badge);
 setEventText('#anniversary-title', anniversaryEvent.title);
 setEventText('#event-introduction', anniversaryEvent.introduction);
@@ -630,7 +655,7 @@ const initInternalLayout = (active) => {
               <img src="${logoUrl}" alt="" width="1024" height="1024" loading="lazy" decoding="async" class="size-14 object-contain" />
               <span><strong class="block text-lg font-black">GGCC Getulina</strong><span class="text-xs font-bold uppercase tracking-[0.14em] text-orange-400">Combate ao Câncer</span></span>
             </a>
-            <p class="mt-5 text-sm leading-6 text-white/55">Dar ao paciente diagnosticado com câncer condições de sobrevida maior e melhor, caminhando em direção à cura.</p>
+            <p class="mt-5 text-sm leading-6 text-white/55">${institutionConfig.mission}</p>
           </div>
           <div>
             <h2 class="text-sm font-extrabold">Conteúdo</h2>
@@ -643,15 +668,15 @@ const initInternalLayout = (active) => {
           <div>
             <h2 class="text-sm font-extrabold">Contato</h2>
             <ul class="mt-4 grid gap-3 text-sm text-white/55">
-              <li><a class="footer-link" href="tel:+551435522966">(14) 3552-2966</a></li>
-              <li><a class="footer-link break-all" href="mailto:ggccancer@hotmail.com">ggccancer@hotmail.com</a></li>
+              <li><a class="footer-link" href="${institutionConfig.phoneHref}">${institutionConfig.phoneLabel}</a></li>
+              <li><a class="footer-link break-all" href="mailto:${institutionConfig.email}">${institutionConfig.email}</a></li>
               <li><a class="footer-link" href="./index.html#contato">Enviar mensagem</a></li>
             </ul>
           </div>
         </div>
         <div class="flex flex-col justify-between gap-3 pt-7 text-xs text-white/40 sm:flex-row">
-          <p>© ${new Date().getFullYear()} Grupo Getulinense de Combate ao Câncer.</p>
-          <p>CNPJ 06.311.935/0001-75 · Getulina, SP</p>
+          <p>© ${new Date().getFullYear()} ${institutionConfig.name}.</p>
+          <p>CNPJ ${institutionConfig.cnpj} · ${institutionConfig.location}</p>
         </div>
       </div>
     </footer>`;
