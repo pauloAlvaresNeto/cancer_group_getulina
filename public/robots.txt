@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pauloalvaresneto.github.io/cancer_group_getulina/sitemap.xml

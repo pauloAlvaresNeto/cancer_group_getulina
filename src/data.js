@@ -6,7 +6,22 @@ export const institutionConfig = {
   phoneHref: 'tel:+551435522966',
   email: 'ggccancer@hotmail.com',
   cnpj: '06.311.935/0001-75',
-  location: 'Getulina, SP',
+  address: {
+    streetAddress: 'Rua Barão do Rio Branco, 551',
+    postalCode: '16450-015',
+    addressLocality: 'Getulina',
+    addressRegion: 'SP',
+    addressCountry: 'BR',
+    mapUrl:
+      'https://www.google.com/maps/search/?api=1&query=Rua+Bar%C3%A3o+do+Rio+Branco+551+Getulina+SP',
+  },
+};
+
+export const siteConfig = {
+  url: 'https://pauloalvaresneto.github.io/cancer_group_getulina/',
+  shareImage: 'https://pauloalvaresneto.github.io/cancer_group_getulina/og-image.webp',
+  shareImageWidth: 1334,
+  shareImageHeight: 580,
 };
 
 // Evento de 25 anos: altere somente este objeto quando os dados forem confirmados.

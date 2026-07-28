@@ -9,13 +9,97 @@ import {
   memorialNames,
   noticias,
   pixConfig,
+  siteConfig,
   suplentes,
 } from './data.js';
 import { getCountdownState } from './countdown.js';
 import { events } from './eventos.js';
 import { gallery } from './galeria.js';
 
-const logoUrl = new URL('../img/logo.png', import.meta.url).href;
+const logoUrl = new URL('../img/logo-256.png', import.meta.url).href;
+const institutionLocation = `${institutionConfig.address.addressLocality}, ${institutionConfig.address.addressRegion}`;
+const institutionCityRegion = `${institutionConfig.address.addressLocality}/${institutionConfig.address.addressRegion}`;
+const shareImageAlt = 'Voluntários do Grupo Getulinense de Combate ao Câncer reunidos';
+
+const upsertMeta = (attribute, key, content) => {
+  let element = document.head.querySelector(`meta[${attribute}="${key}"]`);
+  if (!element) {
+    element = document.createElement('meta');
+    element.setAttribute(attribute, key);
+    document.head.append(element);
+  }
+  element.content = content;
+};
+
+const setPageMetadata = ({
+  title,
+  description,
+  path,
+  type = 'website',
+  robots = 'index, follow',
+}) => {
+  const canonicalUrl = new URL(path, siteConfig.url).href;
+
+  document.title = title;
+  upsertMeta('name', 'description', description);
+  upsertMeta('name', 'robots', robots);
+  upsertMeta('property', 'og:type', type);
+  upsertMeta('property', 'og:locale', 'pt_BR');
+  upsertMeta('property', 'og:site_name', institutionConfig.name);
+  upsertMeta('property', 'og:title', title);
+  upsertMeta('property', 'og:description', description);
+  upsertMeta('property', 'og:url', canonicalUrl);
+  upsertMeta('property', 'og:image', siteConfig.shareImage);
+  upsertMeta('property', 'og:image:width', String(siteConfig.shareImageWidth));
+  upsertMeta('property', 'og:image:height', String(siteConfig.shareImageHeight));
+  upsertMeta('property', 'og:image:alt', shareImageAlt);
+  upsertMeta('name', 'twitter:card', 'summary_large_image');
+  upsertMeta('name', 'twitter:title', title);
+  upsertMeta('name', 'twitter:description', description);
+  upsertMeta('name', 'twitter:image', siteConfig.shareImage);
+  upsertMeta('name', 'twitter:image:alt', shareImageAlt);
+
+  let canonical = document.head.querySelector('link[rel="canonical"]');
+  if (!canonical) {
+    canonical = document.createElement('link');
+    canonical.rel = 'canonical';
+    document.head.append(canonical);
+  }
+  canonical.href = canonicalUrl;
+};
+
+const setOrganizationStructuredData = () => {
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'NGO',
+    name: institutionConfig.name,
+    description: document.querySelector('meta[name="description"]')?.content,
+    url: siteConfig.url,
+    logo: new URL('apple-touch-icon.png', siteConfig.url).href,
+    image: siteConfig.shareImage,
+    telephone: institutionConfig.phoneHref.replace(/^tel:/, ''),
+    email: institutionConfig.email,
+    taxID: institutionConfig.cnpj,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: institutionConfig.address.streetAddress,
+      postalCode: institutionConfig.address.postalCode,
+      addressLocality: institutionConfig.address.addressLocality,
+      addressRegion: institutionConfig.address.addressRegion,
+      addressCountry: institutionConfig.address.addressCountry,
+    },
+    sameAs: [bazarConfig.facebookUrl],
+  };
+
+  let script = document.querySelector('#organization-structured-data');
+  if (!script) {
+    script = document.createElement('script');
+    script.id = 'organization-structured-data';
+    script.type = 'application/ld+json';
+    document.head.append(script);
+  }
+  script.textContent = JSON.stringify(structuredData);
+};
 
 const icons = {
   wheelchair: '<circle cx="8.5" cy="4.5" r="2"/><path d="M10 9H7l-1 5h7l2 5"/><path d="M7 11a5 5 0 1 0 6 6"/><path d="M15 11h3l2 4"/>',
@@ -37,8 +121,9 @@ const svg = (name, className = 'size-6') =>
 
 const hasNewsDetail = (noticia) => noticia.type === 'full' && Boolean(noticia.slug);
 
-const renderNewsCard = (noticia, { compact = false } = {}) => {
+const renderNewsCard = (noticia, { compact = false, headingLevel = 3 } = {}) => {
   const showDetail = hasNewsDetail(noticia);
+  const headingTag = headingLevel === 2 ? 'h2' : 'h3';
   const cardText = (
     showDetail ? [noticia.resumo] : [noticia.resumo, ...(noticia.conteudo || [])]
   )
@@ -58,7 +143,7 @@ const renderNewsCard = (noticia, { compact = false } = {}) => {
       </div>`;
 
   return `
-    <article class="group reveal overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:border-orange-200 hover:shadow-xl hover:shadow-slate-900/5">
+    <article class="content-card group reveal overflow-hidden">
       <div class="${compact ? 'aspect-[16/9]' : 'aspect-[4/3]'} overflow-hidden">${visual}</div>
       <div class="p-6">
         <div class="flex flex-wrap items-center gap-2 text-xs font-bold">
@@ -66,7 +151,7 @@ const renderNewsCard = (noticia, { compact = false } = {}) => {
           <span class="size-1 rounded-full bg-slate-300" aria-hidden="true"></span>
           <time class="text-slate-500">${noticia.data}</time>
         </div>
-        <h3 class="mt-3 text-xl font-black leading-tight tracking-tight text-slate-900">${noticia.titulo}</h3>
+        <${headingTag} class="mt-3 text-xl font-black leading-tight tracking-tight text-slate-900">${noticia.titulo}</${headingTag}>
         ${cardText}
         ${
           showDetail
@@ -188,11 +273,24 @@ const setInstitutionContent = () => {
     element.textContent = institutionConfig.cnpj;
   });
   document.querySelectorAll('[data-institution-location]').forEach((element) => {
-    element.textContent = institutionConfig.location;
+    element.textContent = institutionLocation;
+  });
+  document.querySelectorAll('[data-institution-street]').forEach((element) => {
+    element.textContent = institutionConfig.address.streetAddress;
+  });
+  document.querySelectorAll('[data-institution-postal-code]').forEach((element) => {
+    element.textContent = institutionConfig.address.postalCode;
+  });
+  document.querySelectorAll('[data-institution-city-region]').forEach((element) => {
+    element.textContent = institutionCityRegion;
+  });
+  document.querySelectorAll('[data-institution-map]').forEach((link) => {
+    link.href = institutionConfig.address.mapUrl;
   });
 };
 
 setInstitutionContent();
+setOrganizationStructuredData();
 setEventText('#event-badge', anniversaryEvent.badge);
 setEventText('#anniversary-title', anniversaryEvent.title);
 setEventText('#event-introduction', anniversaryEvent.introduction);
@@ -286,9 +384,9 @@ document.querySelector('#bazar-gallery').innerHTML = bazarConfig.images
 document.querySelector('#actions-grid').innerHTML = actions
   .map(
     ({ title, text, icon }, index) => `
-      <article class="reveal group rounded-[1.5rem] border border-slate-200/80 bg-white p-6 transition hover:-translate-y-1 hover:border-orange-200 hover:shadow-xl hover:shadow-slate-900/5 sm:p-7">
+      <article class="content-card reveal group p-6 sm:p-7">
         <div class="flex items-start justify-between gap-5">
-          <span class="grid size-12 place-items-center rounded-2xl bg-orange-50 text-orange-700 transition group-hover:bg-orange-600 group-hover:text-white">${svg(icon)}</span>
+          <span class="content-card-icon size-12 rounded-2xl">${svg(icon)}</span>
           <span class="text-xs font-black text-slate-300">0${index + 1}</span>
         </div>
         <h3 class="mt-8 text-xl font-black leading-tight tracking-tight text-slate-900">${title}</h3>
@@ -300,7 +398,7 @@ document.querySelector('#actions-grid').innerHTML = actions
 document.querySelector('#events-grid').innerHTML = events
   .map(
     ({ titulo, descricao, imagem, alt, width, height, icone, categoria }, index) => `
-      <article class="reveal group flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white transition hover:-translate-y-1 hover:border-orange-200 hover:shadow-xl hover:shadow-slate-900/5 lg:col-span-2 ${
+      <article class="content-card reveal group flex h-full flex-col overflow-hidden lg:col-span-2 ${
         index === 3 ? 'lg:col-start-2' : ''
       } ${
         index === 4
@@ -321,7 +419,7 @@ document.querySelector('#events-grid').innerHTML = events
         </div>
         <div class="flex flex-1 flex-col p-6">
           <div class="flex items-center gap-3 text-xs font-extrabold uppercase tracking-[0.12em] text-orange-700">
-            <span class="grid size-9 shrink-0 place-items-center rounded-xl bg-orange-50">${svg(icone, 'size-5')}</span>
+            <span class="content-card-icon size-9 rounded-xl">${svg(icone, 'size-5')}</span>
             <span>${categoria}</span>
           </div>
           <h3 class="mt-5 text-xl font-black leading-tight tracking-tight text-slate-900">${titulo}</h3>
@@ -439,8 +537,7 @@ const pixCopyStatus = document.querySelector('#pix-copy-status');
 
 pixKey.textContent = pixConfig.key;
 if (pixConfig.qrCodeImage) {
-  pixQrPlaceholder.innerHTML = `<img src="${pixConfig.qrCodeImage}" alt="QR Code oficial do Pix do GGCC" width="${pixConfig.qrCodeWidth}" height="${pixConfig.qrCodeHeight}" loading="lazy" decoding="async" class="h-full w-full rounded-xl object-contain" />`;
-  pixQrPlaceholder.classList.remove('border-dashed');
+  pixQrPlaceholder.innerHTML = `<img src="${pixConfig.qrCodeImage}" alt="QR Code oficial do Pix do GGCC" width="${pixConfig.qrCodeWidth}" height="${pixConfig.qrCodeHeight}" loading="lazy" decoding="async" class="h-full w-full object-contain" />`;
 }
 
 const fallbackCopyText = (value) => {
@@ -599,7 +696,7 @@ const initInternalLayout = (active) => {
     <header class="fixed inset-x-0 top-0 z-50 border-b border-slate-200 bg-white/95 shadow-sm backdrop-blur-xl">
       <nav class="mx-auto flex h-20 max-w-7xl items-center justify-between gap-6 px-5 sm:px-8" aria-label="Navegação principal">
         <a href="./index.html#inicio" class="group flex min-w-0 items-center gap-3" aria-label="GGCC, voltar ao início">
-          <img src="${logoUrl}" alt="" width="1024" height="1024" decoding="async" class="size-12 shrink-0 object-contain sm:size-14" />
+          <img src="${logoUrl}" alt="" width="256" height="256" decoding="async" class="size-12 shrink-0 object-contain sm:size-14" />
           <span class="min-w-0 leading-tight">
             <strong class="block truncate text-sm font-extrabold text-slate-900 sm:text-base">Grupo Getulinense</strong>
             <span class="block truncate text-[10px] font-bold uppercase tracking-[0.18em] text-orange-600 sm:text-xs">Combate ao Câncer</span>
@@ -652,7 +749,7 @@ const initInternalLayout = (active) => {
         <div class="grid gap-10 border-b border-white/10 pb-10 md:grid-cols-[1.4fr_1fr_1fr]">
           <div class="max-w-sm">
             <a href="./index.html#inicio" class="flex items-center gap-3">
-              <img src="${logoUrl}" alt="" width="1024" height="1024" loading="lazy" decoding="async" class="size-14 object-contain" />
+              <img src="${logoUrl}" alt="" width="256" height="256" loading="lazy" decoding="async" class="size-14 object-contain" />
               <span><strong class="block text-lg font-black">GGCC Getulina</strong><span class="text-xs font-bold uppercase tracking-[0.14em] text-orange-400">Combate ao Câncer</span></span>
             </a>
             <p class="mt-5 text-sm leading-6 text-white/55">${institutionConfig.mission}</p>
@@ -676,7 +773,7 @@ const initInternalLayout = (active) => {
         </div>
         <div class="flex flex-col justify-between gap-3 pt-7 text-xs text-white/40 sm:flex-row">
           <p>© ${new Date().getFullYear()} ${institutionConfig.name}.</p>
-          <p>CNPJ ${institutionConfig.cnpj} · ${institutionConfig.location}</p>
+          <p>CNPJ ${institutionConfig.cnpj} · ${institutionLocation}</p>
         </div>
       </div>
     </footer>`;
@@ -872,7 +969,7 @@ const renderNewsList = () => `
   </header>
   <section class="bg-white py-20 sm:py-28">
     <div class="mx-auto max-w-7xl px-5 sm:px-8">
-      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">${noticias.map((item) => renderNewsCard(item)).join('')}</div>
+      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">${noticias.map((item) => renderNewsCard(item, { headingLevel: 2 })).join('')}</div>
       ${renderHomeBackButton()}
     </div>
   </section>`;
@@ -926,14 +1023,58 @@ if (document.body.dataset.page === 'internal') {
   const params = new URLSearchParams(window.location.search);
   const page = params.get('pagina') || 'noticias';
   const views = {
-    membros: { title: 'Membros — GGCC', html: renderMembers },
-    memorial: { title: 'Memorial — GGCC', html: renderMemorial },
-    galeria: { title: 'Galeria — GGCC', html: renderGallery },
-    noticias: { title: 'Notícias — GGCC', html: renderNewsList },
-    noticia: { title: 'Notícia — GGCC', html: () => renderArticle(params.get('slug')) },
+    membros: {
+      title: 'Membros e voluntários — GGCC Getulina',
+      description:
+        'Conheça a diretoria, o conselho fiscal, os suplentes e os voluntários do Grupo Getulinense de Combate ao Câncer.',
+      path: 'interna.html?pagina=membros',
+      html: renderMembers,
+    },
+    memorial: {
+      title: 'Memorial — GGCC Getulina',
+      description:
+        'Uma homenagem às pessoas que dedicaram parte de suas vidas ao Grupo Getulinense de Combate ao Câncer.',
+      path: 'interna.html?pagina=memorial',
+      html: renderMemorial,
+    },
+    galeria: {
+      title: 'Galeria — GGCC Getulina',
+      description:
+        'Veja registros das ações, encontros e momentos compartilhados pelo Grupo Getulinense de Combate ao Câncer.',
+      path: 'interna.html?pagina=galeria',
+      html: renderGallery,
+    },
+    noticias: {
+      title: 'Notícias — GGCC Getulina',
+      description:
+        'Acompanhe eventos, campanhas, reuniões, avisos e atividades do Grupo Getulinense de Combate ao Câncer.',
+      path: 'interna.html?pagina=noticias',
+      html: renderNewsList,
+    },
   };
-  const view = views[page] || views.noticias;
-  document.title = view.title;
+  let view = views[page] || views.noticias;
+
+  if (page === 'noticia') {
+    const slug = params.get('slug');
+    const noticia = noticias.find((item) => hasNewsDetail(item) && item.slug === slug);
+    view = noticia
+      ? {
+          title: `${noticia.titulo} — GGCC Getulina`,
+          description: noticia.resumo,
+          path: `interna.html?pagina=noticia&slug=${encodeURIComponent(noticia.slug)}`,
+          type: 'article',
+          html: () => renderArticle(slug),
+        }
+      : {
+          title: 'Notícia não encontrada — GGCC Getulina',
+          description: 'A notícia solicitada não está disponível.',
+          path: 'interna.html?pagina=noticias',
+          robots: 'noindex, follow',
+          html: () => renderArticle(slug),
+        };
+  }
+
+  setPageMetadata(view);
   initInternalLayout(page === 'noticia' ? 'noticias' : page);
   document.querySelector('#internal-content').innerHTML = view.html();
   initReveal();

@@ -31,8 +31,8 @@ repositório é informado automaticamente ao Vite.
 - `src/galeria.js`: fotografias da galeria e seleção exibida na home;
 - `src/countdown.js`: cálculo isolado do contador dos 25 anos;
 - `src/styles.css`: Tailwind CSS e estilos compartilhados;
-- `img/`: fotografias em WebP, logotipo em PNG e QR Code oficial;
-- `public/`: favicons e arquivos públicos copiados sem transformação, incluindo `historico.pdf`;
+- `img/`: fotografias em WebP, logotipo original e sua versão otimizada para a interface em PNG, além do QR Code oficial;
+- `public/`: favicons, `robots.txt`, `sitemap.xml`, imagem social e arquivos públicos copiados sem transformação, incluindo `historico.pdf`;
 - `dist/`: saída automática do build, não deve ser editada.
 
 ## Publicação no GitHub Pages

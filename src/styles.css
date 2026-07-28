@@ -55,6 +55,14 @@
     @apply max-w-2xl text-base leading-7 text-slate-600 sm:text-lg;
   }
 
+  .content-card {
+    @apply rounded-[1.5rem] border border-slate-200/80 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-orange-200 hover:shadow-xl hover:shadow-slate-900/5 active:translate-y-0;
+  }
+
+  .content-card-icon {
+    @apply grid shrink-0 place-items-center bg-orange-50 text-orange-700 transition-colors duration-300 group-hover:bg-orange-600 group-hover:text-white group-active:bg-orange-600 group-active:text-white;
+  }
+
   .contact-card {
     @apply flex min-h-28 items-center gap-4 rounded-2xl border border-white/20 bg-white/10 p-5 text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/15 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-white;
   }
@@ -95,6 +103,14 @@
     opacity: 1;
     transform: translateY(0);
   }
+
+  .content-card.reveal {
+    transition:
+      opacity 700ms ease,
+      transform 700ms ease,
+      border-color 300ms ease,
+      box-shadow 300ms ease;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -109,6 +125,11 @@
 
   .reveal {
     opacity: 1;
+    transform: none;
+  }
+
+  .content-card:hover,
+  .content-card:active {
     transform: none;
   }
 }
