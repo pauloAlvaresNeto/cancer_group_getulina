@@ -537,7 +537,8 @@ const pixCopyStatus = document.querySelector('#pix-copy-status');
 
 pixKey.textContent = pixConfig.key;
 if (pixConfig.qrCodeImage) {
-  pixQrPlaceholder.innerHTML = `<img src="${pixConfig.qrCodeImage}" alt="QR Code oficial do Pix do GGCC" width="${pixConfig.qrCodeWidth}" height="${pixConfig.qrCodeHeight}" loading="lazy" decoding="async" class="h-full w-full object-contain" />`;
+  const pixQrCodeUrl = `${import.meta.env.BASE_URL}${pixConfig.qrCodeImage}`;
+  pixQrPlaceholder.innerHTML = `<img src="${pixQrCodeUrl}" alt="QR Code Pix para doar ao GGCC" width="${pixConfig.qrCodeWidth}" height="${pixConfig.qrCodeHeight}" loading="lazy" decoding="async" class="h-auto w-full" />`;
 }
 
 const fallbackCopyText = (value) => {
@@ -583,7 +584,7 @@ copyButton.addEventListener('click', async () => {
       <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
         <path d="m5 12 4 4L19 6" />
       </svg>
-      <span>Chave copiada!</span>`;
+      <span>Chave Pix copiada</span>`;
     pixCopyStatus.textContent = 'Chave Pix copiada com sucesso.';
   } catch {
     copyButton.innerHTML = '<span>Não foi possível copiar</span>';

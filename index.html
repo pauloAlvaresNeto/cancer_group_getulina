@@ -479,13 +479,7 @@
         </div>
       </section>
 
-      <div id="depoimento-separador" class="bg-[#f7f4ef] px-5" aria-hidden="true">
-        <div class="mx-auto flex max-w-xs items-center gap-4 sm:max-w-sm">
-          <span class="h-px flex-1 bg-slate-900/10"></span>
-          <span class="text-sm text-orange-500">✦</span>
-          <span class="h-px flex-1 bg-slate-900/10"></span>
-        </div>
-      </div>
+      <div id="depoimento-separador" class="section-divider section-divider--warm" aria-hidden="true"></div>
 
       <section id="acoes" class="scroll-mt-20 bg-[#f7f4ef] py-20 sm:py-28" aria-labelledby="acoes-title">
         <div class="mx-auto max-w-7xl px-5 sm:px-8">
@@ -611,6 +605,63 @@
         </div>
       </section>
 
+      <div class="section-divider" aria-hidden="true"></div>
+
+      <section class="bg-white py-20 sm:py-28" aria-labelledby="explore-title">
+        <div class="mx-auto max-w-7xl px-5 sm:px-8">
+          <div class="reveal text-center">
+            <p class="eyebrow">Passado e presente</p>
+            <h2 id="explore-title" class="section-title mx-auto mt-3">Uma história construída por muitas pessoas</h2>
+            <p class="section-copy mx-auto mt-5">
+              Conheça as pessoas que fizeram parte da trajetória do Grupo Getulinense de Combate ao Câncer e aquelas que continuam dedicando seu tempo para manter essa missão viva.
+            </p>
+          </div>
+
+          <div class="mt-10 grid gap-5 sm:mt-12 md:grid-cols-2">
+            <article class="content-card group reveal flex h-full flex-col p-6 sm:p-7">
+              <span class="content-card-icon size-12 rounded-2xl">
+                <svg class="size-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                  <path d="M6 19c5-3 9-8 12-15" />
+                  <path d="M10 15c-3 .2-5-1.2-6-3.8 3-.3 5.3.9 6 3.8ZM13.5 10.5c.2-3 1.9-5.2 4.7-6.1.1 3-1.5 5.2-4.7 6.1Z" />
+                </svg>
+              </span>
+              <h3 class="mt-6 text-2xl font-black text-slate-900">Memorial</h3>
+              <p class="mt-3 flex-1 text-base leading-7 text-slate-600">
+                Uma homenagem às pessoas que ajudaram a construir a história do Grupo Getulinense de Combate ao Câncer e deixaram um legado de dedicação e solidariedade.
+              </p>
+              <a
+                href="./interna.html?pagina=memorial"
+                class="mt-7 inline-flex min-h-12 items-center justify-center gap-2 self-start rounded-full bg-orange-600 px-6 py-3 text-sm font-extrabold text-white transition hover:bg-orange-700 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600"
+              >
+                Ver Memorial
+                <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg>
+              </a>
+            </article>
+
+            <article class="content-card group reveal flex h-full flex-col p-6 sm:p-7">
+              <span class="content-card-icon size-12 rounded-2xl">
+                <svg class="size-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                  <circle cx="9" cy="8" r="3" />
+                  <circle cx="17" cy="9" r="2.5" />
+                  <path d="M3.5 20v-1.5A4.5 4.5 0 0 1 8 14h2a4.5 4.5 0 0 1 4.5 4.5V20M14 14.5h2.5A3.5 3.5 0 0 1 20 18v2" />
+                </svg>
+              </span>
+              <h3 class="mt-6 text-2xl font-black text-slate-900">Membros</h3>
+              <p class="mt-3 flex-1 text-base leading-7 text-slate-600">
+                Voluntários e integrantes que continuam escrevendo essa história por meio do cuidado, da dedicação e da solidariedade.
+              </p>
+              <a
+                href="./interna.html?pagina=membros"
+                class="mt-7 inline-flex min-h-12 items-center justify-center gap-2 self-start rounded-full bg-orange-600 px-6 py-3 text-sm font-extrabold text-white transition hover:bg-orange-700 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600"
+              >
+                Conhecer a equipe
+                <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg>
+              </a>
+            </article>
+          </div>
+        </div>
+      </section>
+
       <section id="ajudar" class="scroll-mt-20 bg-[#f7f4ef] py-20 sm:py-28" aria-labelledby="ajudar-title">
         <div class="mx-auto max-w-7xl px-5 sm:px-8">
           <div class="mb-12 max-w-3xl reveal">
@@ -632,26 +683,22 @@
               </span>
               <h3 class="mt-6 text-2xl font-black">Doação financeira</h3>
               <p class="mt-3 text-sm leading-6 text-white/85">Contribua via Pix usando o CNPJ do grupo.</p>
-              <ul class="mt-5 grid gap-3 text-sm leading-5 text-white/90">
-                <li class="flex items-start gap-3"><span class="mt-1 size-2 shrink-0 rounded-full bg-orange-200"></span>Doação rápida via Pix</li>
-                <li class="flex items-start gap-3"><span class="mt-1 size-2 shrink-0 rounded-full bg-orange-200"></span>Recursos destinados ao atendimento</li>
-                <li class="flex items-start gap-3"><span class="mt-1 size-2 shrink-0 rounded-full bg-orange-200"></span>Copie a chave ou leia o QR Code</li>
-              </ul>
-              <div class="mt-6 rounded-2xl bg-white/10 p-4">
+              <div class="mt-5 rounded-2xl bg-white/10 p-4">
                 <span class="text-xs font-bold uppercase tracking-[0.15em] text-orange-100">CNPJ — CHAVE PIX</span>
                 <!-- Preenchido por pixConfig.key em src/data.js. -->
                 <strong id="pix-key" class="mt-1 block break-all text-lg"></strong>
               </div>
               <div
                 id="pix-qr-placeholder"
-                class="mx-auto mt-5 grid aspect-square w-full max-w-[260px] place-items-center rounded-2xl bg-white p-2 text-center shadow-sm shadow-orange-950/10"
-                role="img"
-                aria-label="Espaço reservado para o QR Code oficial do Pix"
+                class="mx-auto mt-5 grid aspect-square w-full max-w-[220px] place-items-center overflow-hidden rounded-xl bg-white p-1 text-center"
               >
                 <span class="text-xs font-extrabold uppercase leading-5 tracking-[0.12em] text-orange-700/70">
                   QR Code oficial<br />a adicionar
                 </span>
               </div>
+              <p class="mx-auto mt-3 max-w-[260px] text-center text-xs leading-5 text-white/80">
+                Escaneie para doar pelo aplicativo do seu banco.
+              </p>
               <button
                 id="copy-pix"
                 type="button"
@@ -665,8 +712,8 @@
               <p id="pix-copy-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
             </article>
 
-            <div class="grid content-start gap-5">
-              <article class="content-card group reveal flex flex-col p-6 sm:p-7">
+            <div class="grid gap-5 lg:grid-rows-2">
+              <article class="content-card group reveal flex flex-col p-6 sm:p-7 lg:h-full">
                 <span class="content-card-icon size-12 rounded-2xl">
                   <svg class="size-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <path d="m16 3-4 4-4-4-5 3 3 5v10h12V11l3-5-5-3Z" />
@@ -681,13 +728,13 @@
                   <li class="flex items-start gap-3"><span class="mt-1 size-2 shrink-0 rounded-full bg-orange-500"></span>Móveis</li>
                   <li class="flex items-start gap-3"><span class="mt-1 size-2 shrink-0 rounded-full bg-orange-500"></span>Eletrodomésticos em bom estado</li>
                 </ul>
-                <a href="#contato" data-contact-subject="Agendar entrega de doação" class="mt-6 inline-flex items-center gap-2 self-start rounded font-extrabold text-orange-700 hover:text-orange-800 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600">
+                <a href="#contato" data-contact-subject="Agendar entrega de doação" class="mt-auto inline-flex items-center gap-2 self-start rounded pt-6 font-extrabold text-orange-700 hover:text-orange-800 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600">
                   Agendar entrega
                   <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg>
                 </a>
               </article>
 
-              <article class="content-card group reveal flex flex-col p-6 sm:p-7">
+              <article class="content-card group reveal flex flex-col p-6 sm:p-7 lg:h-full">
                 <span class="content-card-icon size-12 rounded-2xl">
                   <svg class="size-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="m16 11 2 2 4-4" />
@@ -700,7 +747,7 @@
                   <li class="flex items-start gap-3"><span class="mt-1 size-2 shrink-0 rounded-full bg-orange-500"></span>Auxílio nas ações do grupo</li>
                   <li class="flex items-start gap-3"><span class="mt-1 size-2 shrink-0 rounded-full bg-orange-500"></span>Disponibilidade de tempo e cuidado</li>
                 </ul>
-                <a href="#contato" data-contact-subject="Quero ser voluntário" class="mt-6 inline-flex items-center gap-2 self-start rounded font-extrabold text-orange-700 hover:text-orange-800 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600">
+                <a href="#contato" data-contact-subject="Quero ser voluntário" class="mt-auto inline-flex items-center gap-2 self-start rounded pt-6 font-extrabold text-orange-700 hover:text-orange-800 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600">
                   Quero participar
                   <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg>
                 </a>
@@ -822,57 +869,6 @@
         </div>
       </section>
 
-      <section class="bg-white py-20 sm:py-28" aria-labelledby="explore-title">
-        <div class="mx-auto max-w-7xl px-5 sm:px-8">
-          <div class="reveal text-center">
-            <p class="eyebrow">Passado e presente</p>
-            <h2 id="explore-title" class="section-title mx-auto mt-3">Quem faz parte desta história</h2>
-          </div>
-
-          <div class="mt-10 grid gap-5 sm:mt-12 md:grid-cols-2">
-            <article class="content-card group reveal flex h-full flex-col p-6 sm:p-7">
-              <span class="content-card-icon size-12 rounded-2xl">
-                <svg class="size-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                  <path d="M6 19c5-3 9-8 12-15" />
-                  <path d="M10 15c-3 .2-5-1.2-6-3.8 3-.3 5.3.9 6 3.8ZM13.5 10.5c.2-3 1.9-5.2 4.7-6.1.1 3-1.5 5.2-4.7 6.1Z" />
-                </svg>
-              </span>
-              <h3 class="mt-6 text-2xl font-black text-slate-900">Memorial</h3>
-              <p class="mt-3 flex-1 text-base leading-7 text-slate-600">
-                Uma homenagem às pessoas que fizeram parte da história do Grupo Getulinense de Combate ao Câncer e deixaram um legado de dedicação e solidariedade.
-              </p>
-              <a
-                href="./interna.html?pagina=memorial"
-                class="mt-7 inline-flex min-h-12 items-center justify-center gap-2 self-start rounded-full bg-orange-600 px-6 py-3 text-sm font-extrabold text-white transition hover:bg-orange-700 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600"
-              >
-                Ver Memorial
-                <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg>
-              </a>
-            </article>
-
-            <article class="content-card group reveal flex h-full flex-col p-6 sm:p-7">
-              <span class="content-card-icon size-12 rounded-2xl">
-                <svg class="size-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                  <circle cx="9" cy="8" r="3" />
-                  <circle cx="17" cy="9" r="2.5" />
-                  <path d="M3.5 20v-1.5A4.5 4.5 0 0 1 8 14h2a4.5 4.5 0 0 1 4.5 4.5V20M14 14.5h2.5A3.5 3.5 0 0 1 20 18v2" />
-                </svg>
-              </span>
-              <h3 class="mt-6 text-2xl font-black text-slate-900">Membros</h3>
-              <p class="mt-3 flex-1 text-base leading-7 text-slate-600">
-                Voluntários e integrantes que dedicam seu tempo para manter viva a missão do Grupo Getulinense de Combate ao Câncer.
-              </p>
-              <a
-                href="./interna.html?pagina=membros"
-                class="mt-7 inline-flex min-h-12 items-center justify-center gap-2 self-start rounded-full bg-orange-600 px-6 py-3 text-sm font-extrabold text-white transition hover:bg-orange-700 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600"
-              >
-                Conhecer a equipe
-                <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg>
-              </a>
-            </article>
-          </div>
-        </div>
-      </section>
     </main>
 
     <footer class="bg-slate-950 py-12 text-white">

@@ -199,8 +199,7 @@ export const contactConfig = {
 
 export const pixConfig = {
   key: institutionConfig.cnpj,
-  // Salve uma nova imagem em img/ e atualize somente este caminho.
-  qrCodeImage: new URL('../img/pix_qrCode.jpeg', import.meta.url).href,
-  qrCodeWidth: 697,
-  qrCodeHeight: 720,
+  qrCodeImage: 'pix-qrcode.svg',
+  qrCodeWidth: 512,
+  qrCodeHeight: 512,
 };
