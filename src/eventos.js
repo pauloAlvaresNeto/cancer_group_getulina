@@ -2,17 +2,17 @@
 export const events = [
   {
     titulo: 'Bazar de artesanato',
-    descricao: 'Venda beneficente de artesanatos, roupas e acessórios doados pela comunidade.',
+    descricao: 'Venda beneficente de peças de artesanato, roupas e acessórios doados pela comunidade.',
     imagem: new URL('../img/evento_artesanato.webp', import.meta.url).href,
     width: 1200,
     height: 1600,
-    alt: 'Banca do bazar de artesanato do GGCC',
+    alt: 'Voluntárias do GGCC em uma banca de artesanato ao ar livre',
     icone: 'sparkles',
     categoria: 'Evento beneficente',
   },
   {
     titulo: 'Jantar italiano',
-    descricao: 'Tradicional jantar beneficente com pratos típicos para arrecadação de recursos.',
+    descricao: 'Tradicional jantar beneficente com pratos típicos para arrecadar recursos.',
     imagem: new URL('../img/evento_italiano.webp', import.meta.url).href,
     width: 720,
     height: 1280,
@@ -22,17 +22,17 @@ export const events = [
   },
   {
     titulo: 'Leilão de gado',
-    descricao: 'Evento anual realizado junto ao leilão da Paróquia, com animais doados pela comunidade.',
+    descricao: 'Evento anual integrado ao leilão da Paróquia, com animais doados pela comunidade.',
     imagem: '',
     width: null,
     height: null,
-    alt: 'Fotografia do Leilão de gado',
+    alt: 'Fotografia do leilão de gado',
     icone: 'gavel',
     categoria: 'Arrecadação',
   },
   {
     titulo: 'Chá beneficente',
-    descricao: 'Encontro com venda de ingressos, prêmio especial e alimentos preparados para o evento.',
+    descricao: 'Encontro que ocorre a realização do bingo com prêmio especial e alimentos preparados para a ocasião.',
     imagem: new URL('../img/evento_cha.webp', import.meta.url).href,
     width: 590,
     height: 443,
@@ -43,7 +43,7 @@ export const events = [
   {
     titulo: 'Barraca do Pastel',
     descricao:
-      'Ação beneficente realizada algumas vezes ao longo do ano, com venda de pastéis para arrecadação de recursos para o grupo.',
+      'Ação beneficente promovida em diferentes períodos do ano, com venda de pastéis para arrecadar recursos para o grupo.',
     imagem: new URL('../img/evento_pastel.webp', import.meta.url).href,
     width: 1600,
     height: 1200,

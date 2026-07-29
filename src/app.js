@@ -138,7 +138,7 @@ const renderNewsCard = (noticia, { compact = false, headingLevel = 3 } = {}) => 
     : `<div class="grid h-full w-full place-items-center bg-gradient-to-br from-orange-50 to-stone-100 text-orange-300">
         <span class="flex flex-col items-center gap-2 text-xs font-bold uppercase tracking-[0.12em]">
           <svg class="size-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m5 18 5-5 3 3 2-2 4 4"/></svg>
-          Imagem a adicionar
+          Imagem ainda não disponível
         </span>
       </div>`;
 
@@ -156,7 +156,7 @@ const renderNewsCard = (noticia, { compact = false, headingLevel = 3 } = {}) => 
         ${
           showDetail
             ? `<a href="./interna.html?pagina=noticia&slug=${encodeURIComponent(noticia.slug)}" class="mt-6 inline-flex min-h-11 items-center gap-2 rounded text-sm font-extrabold text-orange-700 hover:text-orange-800 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600">
-                Ler mais
+                Ler notícia completa
                 <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
               </a>`
             : ''
@@ -179,7 +179,7 @@ const renderGalleryCard = ({ src, alt = '', width, height }) => {
       data-alt="${safeAlt}"
       data-width="${width}"
       data-height="${height}"
-      aria-label="Ampliar foto: ${safeAlt}"
+      aria-label="Ampliar fotografia: ${safeAlt}"
     >
       <img src="${src}" alt="${safeAlt}" width="${width}" height="${height}" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
     </button>`;
@@ -191,7 +191,7 @@ const lightboxMarkup = () => `
     class="m-auto max-h-[92vh] w-[min(92vw,1100px)] overflow-hidden rounded-[2rem] bg-slate-950 p-0 text-white shadow-2xl backdrop:bg-slate-950/85 backdrop:backdrop-blur-sm"
     aria-label="Visualização ampliada da galeria"
   >
-    <button id="lightbox-close" type="button" class="absolute right-4 top-4 z-20 grid size-11 place-items-center rounded-full bg-black/55 text-2xl text-white backdrop-blur transition hover:bg-white hover:text-slate-950 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-white" aria-label="Fechar imagem">×</button>
+    <button id="lightbox-close" type="button" class="absolute right-4 top-4 z-20 grid size-11 place-items-center rounded-full bg-black/55 text-2xl text-white backdrop-blur transition hover:bg-white hover:text-slate-950 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-white" aria-label="Fechar fotografia ampliada">×</button>
     <div class="relative">
       <img id="lightbox-image" src="" alt="" decoding="async" class="max-h-[78vh] w-full object-contain" />
       <button id="lightbox-previous" type="button" class="absolute left-4 top-1/2 grid size-11 -translate-y-1/2 place-items-center rounded-full bg-black/55 text-2xl text-white backdrop-blur transition hover:bg-white hover:text-slate-950 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-white" aria-label="Fotografia anterior">‹</button>
@@ -353,9 +353,9 @@ const updateEventCountdown = () => {
   }
 
   window.clearInterval(countdownInterval);
-  if (result.state === 'today') setCountdownStatus('O grande dia chegou!');
+  if (result.state === 'today') setCountdownStatus('O evento é hoje.');
   else if (result.state === 'past') setCountdownStatus('Evento realizado.');
-  else setCountdownStatus('Confira a configuração da data do evento.');
+  else setCountdownStatus('A data do evento ainda não está disponível.');
   return result.state;
 };
 
@@ -375,7 +375,7 @@ document.querySelector('#bazar-gallery').innerHTML = bazarConfig.images
         : `<div class="grid aspect-[4/3] place-items-center rounded-[1.5rem] border border-dashed border-white/25 bg-white/5 p-6 text-center text-white/45">
             <span class="flex flex-col items-center gap-3 text-xs font-extrabold uppercase tracking-[0.14em]">
               <svg class="size-8 text-orange-400/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m5 18 5-5 3 3 2-2 4 4"/></svg>
-              Fotografia ${index + 1} a adicionar
+              Fotografia ${index + 1} ainda não disponível
             </span>
           </div>`,
   )
@@ -412,7 +412,7 @@ document.querySelector('#events-grid').innerHTML = events
               : `<div class="grid h-full w-full place-items-center p-6 text-center text-orange-700/55">
                   <span class="flex flex-col items-center gap-3 text-xs font-extrabold uppercase tracking-[0.14em]">
                     ${svg(icone, 'size-9')}
-                    Fotografia a adicionar
+                    Fotografia ainda não disponível
                   </span>
                 </div>`
           }
@@ -480,7 +480,7 @@ testimonialButton?.addEventListener('click', () => {
   const expanded = testimonialButton.getAttribute('aria-expanded') === 'true';
   const willExpand = !expanded;
   testimonialButton.setAttribute('aria-expanded', String(!expanded));
-  testimonialButton.textContent = expanded ? 'Ler depoimento completo' : 'Recolher depoimento';
+  testimonialButton.textContent = expanded ? 'Ler depoimento completo' : 'Ocultar depoimento completo';
   testimonialContent.hidden = expanded;
   testimonialPreview.hidden = willExpand;
   testimonialEllipsis.hidden = willExpand;
@@ -538,7 +538,7 @@ const pixCopyStatus = document.querySelector('#pix-copy-status');
 pixKey.textContent = pixConfig.key;
 if (pixConfig.qrCodeImage) {
   const pixQrCodeUrl = `${import.meta.env.BASE_URL}${pixConfig.qrCodeImage}`;
-  pixQrPlaceholder.innerHTML = `<img src="${pixQrCodeUrl}" alt="QR Code Pix para doar ao GGCC" width="${pixConfig.qrCodeWidth}" height="${pixConfig.qrCodeHeight}" loading="lazy" decoding="async" class="h-auto w-full" />`;
+  pixQrPlaceholder.innerHTML = `<img src="${pixQrCodeUrl}" alt="QR Code Pix para fazer uma doação ao GGCC" width="${pixConfig.qrCodeWidth}" height="${pixConfig.qrCodeHeight}" loading="lazy" decoding="async" class="h-auto w-full" />`;
 }
 
 const fallbackCopyText = (value) => {
@@ -651,7 +651,7 @@ contactForm.addEventListener('submit', async (event) => {
     }
   } catch {
     showContactFeedback(
-      `Não foi possível preparar o envio. Escreva diretamente para ${contactConfig.recipient}.`,
+      `Não foi possível concluir o envio. Escreva diretamente para ${contactConfig.recipient}.`,
       'error',
     );
   } finally {
@@ -817,7 +817,7 @@ const memberVisual = (member, compact = false) =>
     ? `<img src="${member.foto}" alt="Fotografia de ${member.nome}" width="${member.fotoWidth}" height="${member.fotoHeight}" loading="lazy" decoding="async" class="h-full w-full object-cover" />`
     : `<div class="flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-orange-50 to-stone-100 text-orange-700">
         <span class="grid ${compact ? 'size-14' : 'size-20'} place-items-center rounded-full bg-white text-xl font-black shadow-sm">${getInitials(member.nome)}</span>
-        ${compact ? '' : '<span class="mt-3 text-[10px] font-extrabold uppercase tracking-[0.14em] text-slate-400">Fotografia a adicionar</span>'}
+        ${compact ? '' : '<span class="mt-3 text-[10px] font-extrabold uppercase tracking-[0.14em] text-slate-400">Fotografia ainda não disponível</span>'}
       </div>`;
 
 const renderSmallMembers = (members) =>
@@ -851,13 +851,13 @@ const renderMembers = () => `
       <div class="${internalPanel.content} mx-auto text-center">
         <p class="eyebrow">Quem faz acontecer</p>
         <h1 class="${internalPanel.title} mt-4 text-slate-900">Membros e voluntários</h1>
-        <p class="${internalPanel.copy} mx-auto mt-6 text-slate-600">Conta atualmente com 40 voluntários.</p>
+        <p class="${internalPanel.copy} mx-auto mt-6 text-slate-600">O GGCC conta atualmente com 40 voluntários.</p>
       </div>
     </div>
   </header>
   <section class="bg-white py-20 sm:py-28">
     <div class="mx-auto max-w-7xl px-5 sm:px-8">
-      <div class="mb-12 max-w-3xl"><p class="eyebrow">Gestão</p><h2 class="section-title mt-3">Composição da Diretoria</h2><p class="section-copy mt-5">Os espaços para fotografias estão preparados para receber os retratos oficiais posteriormente.</p></div>
+      <div class="mb-12 max-w-3xl"><p class="eyebrow">Gestão</p><h2 class="section-title mt-3">Composição da diretoria</h2><p class="section-copy mt-5">As fotografias oficiais serão incluídas assim que estiverem disponíveis.</p></div>
       <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         ${diretoria
           .map(
@@ -880,7 +880,7 @@ const renderMembers = () => `
   <section class="bg-white py-20">
     <div class="mx-auto max-w-7xl px-5 sm:px-8">
       <div class="reveal flex flex-col items-start justify-between gap-8 rounded-[2rem] bg-orange-600 p-8 text-white sm:p-12 lg:flex-row lg:items-center">
-        <div><p class="text-xs font-extrabold uppercase tracking-[0.18em] text-orange-100">Uma grande equipe</p><h2 class="mt-3 text-3xl font-black sm:text-4xl">40 voluntários unidos pelo cuidado.</h2></div>
+        <div><p class="text-xs font-extrabold uppercase tracking-[0.18em] text-orange-100">Voluntariado</p><h2 class="mt-3 text-3xl font-black sm:text-4xl">Uma equipe unida pelo cuidado.</h2></div>
         <a href="./index.html#contato" class="rounded-full bg-white px-6 py-3 text-sm font-extrabold text-orange-700">Quero ser voluntário</a>
       </div>
       ${renderHomeBackButton()}
@@ -904,10 +904,10 @@ const renderMemorial = () => `
     <div class="mx-auto max-w-7xl px-5 sm:px-8">
       <div class="reveal mx-auto max-w-3xl text-center">
         <p class="text-lg leading-8 text-slate-700 sm:text-xl sm:leading-9">
-          Este memorial é uma forma singela de agradecer àqueles que dedicaram parte de suas vidas ao Grupo Getulinense de Combate ao Câncer.
+          Este memorial é uma forma singela de agradecer a todas as pessoas que dedicaram parte de suas vidas ao Grupo Getulinense de Combate ao Câncer.
         </p>
         <p class="mt-5 text-lg leading-8 text-slate-700 sm:text-xl sm:leading-9">
-          Seu legado permanece vivo em cada gesto de cuidado, solidariedade e esperança.
+          O legado dessas pessoas permanece vivo em cada gesto de cuidado, solidariedade e esperança.
         </p>
       </div>
 
@@ -930,10 +930,10 @@ const renderMemorial = () => `
           ${svg('sprig', 'size-7')}
         </span>
         <p class="mt-6 text-base leading-8 text-slate-600 sm:text-lg">
-          O cuidado, a dedicação e a solidariedade de cada um continuam presentes na história do Grupo Getulinense de Combate ao Câncer.
+          O cuidado, a dedicação e a solidariedade de cada pessoa continuam presentes na história do Grupo Getulinense de Combate ao Câncer.
         </p>
         <p class="mt-6 text-xl font-semibold leading-8 tracking-[-0.015em] text-slate-900 sm:text-2xl sm:leading-9">
-          Quem dedica parte da própria vida ao cuidado do próximo jamais será esquecido.
+          Quem dedica parte da própria vida ao cuidado do próximo permanece para sempre em nossa memória.
         </p>
       </div>
 
@@ -964,7 +964,7 @@ const renderNewsList = () => `
       <div class="${internalPanel.content} mx-auto text-center">
         <p class="eyebrow">Fique por dentro</p>
         <h1 class="${internalPanel.title} mt-4 text-slate-900">Notícias</h1>
-        <p class="${internalPanel.copy} mx-auto mt-6 text-slate-600">Eventos, campanhas, reuniões, avisos e registros das atividades do grupo.</p>
+        <p class="${internalPanel.copy} mx-auto mt-6 text-slate-600">Eventos, campanhas, reuniões, avisos e registros das atividades do GGCC.</p>
       </div>
     </div>
   </header>
@@ -1010,7 +1010,7 @@ const renderArticle = (slug) => {
             ? `<figure class="overflow-hidden rounded-[2rem] bg-stone-100">
                 <img src="${noticia.imagem}" alt="${noticia.titulo}" width="${noticia.imageWidth}" height="${noticia.imageHeight}" loading="lazy" decoding="async" class="aspect-[16/9] h-full w-full object-cover" />
               </figure>`
-            : `<div class="grid aspect-[16/9] place-items-center rounded-[2rem] bg-gradient-to-br from-orange-50 to-stone-100 text-xs font-extrabold uppercase tracking-widest text-orange-300">Imagem da notícia a adicionar</div>`
+            : `<div class="grid aspect-[16/9] place-items-center rounded-[2rem] bg-gradient-to-br from-orange-50 to-stone-100 text-xs font-extrabold uppercase tracking-widest text-orange-300">Imagem da notícia ainda não disponível</div>`
         }
         <div class="mx-auto mt-12 max-w-3xl">
           <div class="space-y-6 text-base leading-8 text-slate-700">${noticia.conteudo.map((paragraph) => `<p>${paragraph}</p>`).join('')}</div>
@@ -1027,7 +1027,7 @@ if (document.body.dataset.page === 'internal') {
     membros: {
       title: 'Membros e voluntários — GGCC Getulina',
       description:
-        'Conheça a diretoria, o conselho fiscal, os suplentes e os voluntários do Grupo Getulinense de Combate ao Câncer.',
+        'Informações sobre a diretoria, o conselho fiscal, os suplentes e os voluntários do Grupo Getulinense de Combate ao Câncer.',
       path: 'interna.html?pagina=membros',
       html: renderMembers,
     },
@@ -1041,14 +1041,14 @@ if (document.body.dataset.page === 'internal') {
     galeria: {
       title: 'Galeria — GGCC Getulina',
       description:
-        'Veja registros das ações, encontros e momentos compartilhados pelo Grupo Getulinense de Combate ao Câncer.',
+        'Registros das ações, dos encontros e dos momentos compartilhados pelo Grupo Getulinense de Combate ao Câncer.',
       path: 'interna.html?pagina=galeria',
       html: renderGallery,
     },
     noticias: {
       title: 'Notícias — GGCC Getulina',
       description:
-        'Acompanhe eventos, campanhas, reuniões, avisos e atividades do Grupo Getulinense de Combate ao Câncer.',
+        'Eventos, campanhas, reuniões, avisos e atividades do Grupo Getulinense de Combate ao Câncer.',
       path: 'interna.html?pagina=noticias',
       html: renderNewsList,
     },

@@ -28,20 +28,20 @@ export const siteConfig = {
 // Informe time no formato 'HH:mm'. Enquanto estiver null, o contador usa
 // provisoriamente 00:00:00 no fuso de São Paulo (UTC-03:00).
 export const anniversaryEvent = {
-  badge: 'Evento Especial',
-  title: 'Celebração dos 25 Anos do GGCC',
+  badge: 'Evento especial',
+  title: 'Celebração dos 25 anos do GGCC',
   introduction:
-    'Convidamos a comunidade para celebrar as bodas de prata do grupo, em um jantar de comemoração. Venha participar deste momento especial conosco!',
+    'Convidamos a comunidade para celebrar as bodas de prata do grupo em um jantar especial. Venha compartilhar este momento conosco.',
   date: '2027-01-22',
   time: null,
   utcOffset: '-03:00',
-  venue: 'SAG - Sociedade Amigos de Getulina',
+  venue: 'SAG — Sociedade Amigos de Getulina',
   singer: 'Banda Freeson',
   image: new URL('../img/foto_25anos.webp', import.meta.url).href,
   imageWidth: 1280,
   imageHeight: 960,
   ticketUrl: '#contato',
-  ticketMessage: 'Os convites são limitados. Garanta sua participação antecipadamente.',
+  ticketMessage: 'Os convites são limitados. Solicite o seu com antecedência.',
 };
 
 export const actions = [
@@ -52,12 +52,12 @@ export const actions = [
   },
   {
     title: 'Alimentos e medicamentos',
-    text: 'Cestas básicas mensais, alimentos frescos quinzenais e medicamentos não atendidos pela rede básica.',
+    text: 'Cestas básicas mensais, alimentos frescos quinzenais e medicamentos não fornecidos pela rede básica de saúde.',
     icon: 'basket',
   },
   {
     title: 'Exames e necessidades especiais',
-    text: 'Cobertura para exames emergenciais, próteses, bolsas de colostomia, sondas, oxigênio e fraldas.',
+    text: 'Custeio de exames emergenciais, próteses, bolsas de colostomia, sondas, oxigênio e fraldas.',
     icon: 'stethoscope',
   },
   {
@@ -83,25 +83,25 @@ export const bazarConfig = {
   images: [
     {
       src: new URL('../img/bazar_1.webp', import.meta.url).href,
-      alt: 'Banca de artesanato do GGCC em evento comunitário',
+      alt: 'Roupas coloridas organizadas em cabides no bazar beneficente do GGCC',
       width: 2048,
       height: 2048,
     },
     {
       src: new URL('../img/bazar_2.webp', import.meta.url).href,
-      alt: 'Banca de artesanato do GGCC em evento comunitário',
+      alt: 'Casacos, camisas e vestidos expostos em cabides no bazar beneficente do GGCC',
       width: 2048,
       height: 2048,
     },
     {
       src: new URL('../img/bazar_3.webp', import.meta.url).href,
-      alt: 'Banca de artesanato do GGCC em evento comunitário',
+      alt: 'Camisas masculinas organizadas em uma arara no bazar beneficente do GGCC',
       width: 2048,
       height: 2048,
     },
     {
       src: new URL('../img/bazar_4.webp', import.meta.url).href,
-      alt: 'Banca de artesanato do GGCC em evento comunitário',
+      alt: 'Peças femininas coloridas expostas em araras no bazar beneficente do GGCC',
       width: 1536,
       height: 2048,
     },
@@ -162,11 +162,11 @@ export const noticias = [
     type: 'short',
     slug: 'Baile-dos-Namorados',
     titulo: 'Baile dos Namorados',
-    data: '13/06/26',
-    categoria: 'Já Realizado',
-    resumo: 'A partir das 22H na SAG, venha celebrar o AMOR e a ALEGRIA no Baile dos namorados do GGCC',
+    data: '13/06/2026',
+    categoria: 'Evento realizado',
+    resumo: 'A partir das 22h, na SAG, o Baile dos Namorados do GGCC celebra o amor e a alegria.',
     conteudo: [
-      'Prepare-se para uma noite especial com muita música dança e diversão com a banda MAMÃO COM AÇÚCAR. Garanta já o seu lugar!',
+      'A programação reúne música, dança e diversão ao som da banda MAMÃO COM AÇÚCAR.',
     ],
     imagem: new URL('../img/news_baileNamorados.webp', import.meta.url).href,
     imageWidth: 875,
@@ -178,10 +178,10 @@ export const noticias = [
     slug: 'feira-do-pastel',
     titulo: 'Feira do Pastel',
     data: '11/04/2026',
-    categoria: 'Já Realizado',
-    resumo: 'A partir das 19h na praça 9 de julho, o GGCC realiza mais uma feira beneficente com venda de pastéis e bebidas.',
+    categoria: 'Evento realizado',
+    resumo: 'A partir das 19h, na Praça 9 de Julho, o GGCC realiza mais uma feira beneficente, com venda de pastéis e bebidas.',
     conteudo: [
-      'Entre em contato com o grupo para adquirir a sua ficha ou então compre na hora do evento. Toda Ajuda é bem-vinda e será revertida para as ações do GGCC junto à comunidade.',
+      'As fichas podem ser adquiridas antecipadamente com o grupo ou no local do evento. Toda ajuda é bem-vinda e será destinada às ações do GGCC na comunidade.',
       
     ],
     imagem: new URL('../img/news_pastel.webp', import.meta.url).href,
