@@ -38,7 +38,7 @@ const setPageMetadata = ({
   type = 'website',
   robots = 'index, follow',
 }) => {
-  const canonicalUrl = new URL(path, siteConfig.url).href;
+  const canonicalUrl = path ? new URL(path, siteConfig.url).href : null;
 
   document.title = title;
   upsertMeta('name', 'description', description);
@@ -48,7 +48,11 @@ const setPageMetadata = ({
   upsertMeta('property', 'og:site_name', institutionConfig.name);
   upsertMeta('property', 'og:title', title);
   upsertMeta('property', 'og:description', description);
-  upsertMeta('property', 'og:url', canonicalUrl);
+  if (canonicalUrl) {
+    upsertMeta('property', 'og:url', canonicalUrl);
+  } else {
+    document.head.querySelector('meta[property="og:url"]')?.remove();
+  }
   upsertMeta('property', 'og:image', siteConfig.shareImage);
   upsertMeta('property', 'og:image:width', String(siteConfig.shareImageWidth));
   upsertMeta('property', 'og:image:height', String(siteConfig.shareImageHeight));
@@ -59,46 +63,17 @@ const setPageMetadata = ({
   upsertMeta('name', 'twitter:image', siteConfig.shareImage);
   upsertMeta('name', 'twitter:image:alt', shareImageAlt);
 
-  let canonical = document.head.querySelector('link[rel="canonical"]');
-  if (!canonical) {
-    canonical = document.createElement('link');
-    canonical.rel = 'canonical';
-    document.head.append(canonical);
+  const canonical = document.head.querySelector('link[rel="canonical"]');
+  if (!canonicalUrl) {
+    canonical?.remove();
+  } else if (canonical) {
+    canonical.href = canonicalUrl;
+  } else {
+    const newCanonical = document.createElement('link');
+    newCanonical.rel = 'canonical';
+    newCanonical.href = canonicalUrl;
+    document.head.append(newCanonical);
   }
-  canonical.href = canonicalUrl;
-};
-
-const setOrganizationStructuredData = () => {
-  const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'NGO',
-    name: institutionConfig.name,
-    description: document.querySelector('meta[name="description"]')?.content,
-    url: siteConfig.url,
-    logo: new URL('apple-touch-icon.png', siteConfig.url).href,
-    image: siteConfig.shareImage,
-    telephone: institutionConfig.phoneHref.replace(/^tel:/, ''),
-    email: institutionConfig.email,
-    taxID: institutionConfig.cnpj,
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: institutionConfig.address.streetAddress,
-      postalCode: institutionConfig.address.postalCode,
-      addressLocality: institutionConfig.address.addressLocality,
-      addressRegion: institutionConfig.address.addressRegion,
-      addressCountry: institutionConfig.address.addressCountry,
-    },
-    sameAs: [bazarConfig.facebookUrl],
-  };
-
-  let script = document.querySelector('#organization-structured-data');
-  if (!script) {
-    script = document.createElement('script');
-    script.id = 'organization-structured-data';
-    script.type = 'application/ld+json';
-    document.head.append(script);
-  }
-  script.textContent = JSON.stringify(structuredData);
 };
 
 const icons = {
@@ -290,7 +265,6 @@ const setInstitutionContent = () => {
 };
 
 setInstitutionContent();
-setOrganizationStructuredData();
 setEventText('#event-badge', anniversaryEvent.badge);
 setEventText('#anniversary-title', anniversaryEvent.title);
 setEventText('#event-introduction', anniversaryEvent.introduction);
@@ -1053,7 +1027,7 @@ if (document.body.dataset.page === 'internal') {
       html: renderNewsList,
     },
   };
-  let view = views[page] || views.noticias;
+  let view = views[page];
 
   if (page === 'noticia') {
     const slug = params.get('slug');
@@ -1069,14 +1043,20 @@ if (document.body.dataset.page === 'internal') {
       : {
           title: 'Notícia não encontrada — GGCC Getulina',
           description: 'A notícia solicitada não está disponível.',
-          path: 'interna.html?pagina=noticias',
           robots: 'noindex, follow',
           html: () => renderArticle(slug),
         };
+  } else if (!view) {
+    view = {
+      title: 'Conteúdo não encontrado — GGCC Getulina',
+      description: 'O conteúdo solicitado não está disponível.',
+      robots: 'noindex, follow',
+      html: renderNewsList,
+    };
   }
 
   setPageMetadata(view);
-  initInternalLayout(page === 'noticia' ? 'noticias' : page);
+  initInternalLayout(page === 'noticia' || !views[page] ? 'noticias' : page);
   document.querySelector('#internal-content').innerHTML = view.html();
   initReveal();
   initGalleryLightbox();

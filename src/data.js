@@ -18,8 +18,8 @@ export const institutionConfig = {
 };
 
 export const siteConfig = {
-  url: 'https://pauloalvaresneto.github.io/cancer_group_getulina/',
-  shareImage: 'https://pauloalvaresneto.github.io/cancer_group_getulina/og-image.webp',
+  url: 'https://ggcc.org.br/',
+  shareImage: 'https://ggcc.org.br/og-image.webp',
   shareImageWidth: 1334,
   shareImageHeight: 580,
 };
