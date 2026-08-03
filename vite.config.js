@@ -2,9 +2,8 @@ import { defineConfig } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  // No GitHub Pages, o workflow informa /nome-do-repositorio/.
-  // Localmente, o Vite continua funcionando normalmente na raiz.
-  base: process.env.BASE_PATH || '/',
+  // O domínio próprio é publicado na raiz (https://ggcc.org.br/).
+  base: '/',
   plugins: [tailwindcss()],
   build: {
     rollupOptions: {
