@@ -1,3 +1,5 @@
+import { siteSeoConfig } from './seo-config.js';
+
 export const institutionConfig = {
   name: 'Grupo Getulinense de Combate ao Câncer',
   mission:
@@ -18,10 +20,10 @@ export const institutionConfig = {
 };
 
 export const siteConfig = {
-  url: 'https://ggcc.org.br/',
-  shareImage: 'https://ggcc.org.br/og-image.webp',
-  shareImageWidth: 1334,
-  shareImageHeight: 580,
+  url: siteSeoConfig.url,
+  shareImage: siteSeoConfig.shareImage,
+  shareImageWidth: siteSeoConfig.shareImageWidth,
+  shareImageHeight: siteSeoConfig.shareImageHeight,
 };
 
 // Evento de 25 anos: altere somente este objeto quando os dados forem confirmados.

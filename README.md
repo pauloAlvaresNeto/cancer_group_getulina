@@ -102,8 +102,8 @@ Todas as fotografias em WebP ficam em `src/galeria.js`. Cada item possui `src`,
 não exibe legendas visíveis.
 
 A página inicial mostra as seis primeiras imagens marcadas com
-`featured: true`. A página completa usa
-`interna.html?pagina=galeria` e exibe todos os itens do arquivo.
+`featured: true`. A página completa usa `/galeria/` e exibe todos os itens do
+arquivo.
 
 ### Notícias
 
@@ -120,7 +120,7 @@ As publicações ficam no array `noticias` de `src/data.js`. Para criar uma not�
 7. use `destaque: true` para exibi-la também na página inicial.
 
 Somente notícias `full` exibem “Ler mais” e usam a página individual
-`interna.html?pagina=noticia&slug=slug-da-noticia`.
+`/noticias/?slug=slug-da-noticia`.
 
 ### História em PDF
 

@@ -15,11 +15,12 @@ import {
 import { getCountdownState } from './countdown.js';
 import { events } from './eventos.js';
 import { gallery } from './galeria.js';
+import { internalPageSeo, siteSeoConfig } from './seo-config.js';
 
 const logoUrl = new URL('../img/logo-256.png', import.meta.url).href;
 const institutionLocation = `${institutionConfig.address.addressLocality}, ${institutionConfig.address.addressRegion}`;
 const institutionCityRegion = `${institutionConfig.address.addressLocality}/${institutionConfig.address.addressRegion}`;
-const shareImageAlt = 'Voluntários do Grupo Getulinense de Combate ao Câncer reunidos';
+const shareImageAlt = siteSeoConfig.shareImageAlt;
 
 const upsertMeta = (attribute, key, content) => {
   let element = document.head.querySelector(`meta[${attribute}="${key}"]`);
@@ -130,7 +131,7 @@ const renderNewsCard = (noticia, { compact = false, headingLevel = 3 } = {}) => 
         ${cardText}
         ${
           showDetail
-            ? `<a href="./interna.html?pagina=noticia&slug=${encodeURIComponent(noticia.slug)}" class="mt-6 inline-flex min-h-11 items-center gap-2 rounded text-sm font-extrabold text-orange-700 hover:text-orange-800 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600">
+            ? `<a href="/noticias/?slug=${encodeURIComponent(noticia.slug)}" class="mt-6 inline-flex min-h-11 items-center gap-2 rounded text-sm font-extrabold text-orange-700 hover:text-orange-800 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600">
                 Ler notícia completa
                 <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
               </a>`
@@ -665,12 +666,12 @@ const initReveal = () => {
 
 const initInternalLayout = (active) => {
   const pageLink = (page, label) =>
-    `<a class="nav-link ${active === page ? 'text-orange-700' : ''}" href="./interna.html?pagina=${page}">${label}</a>`;
+    `<a class="nav-link ${active === page ? 'text-orange-700' : ''}" href="/${page}/">${label}</a>`;
 
   document.querySelector('#shared-header').innerHTML = `
     <header class="fixed inset-x-0 top-0 z-50 border-b border-slate-200 bg-white/95 shadow-sm backdrop-blur-xl">
       <nav class="mx-auto flex h-20 max-w-7xl items-center justify-between gap-6 px-5 sm:px-8" aria-label="Navegação principal">
-        <a href="./index.html#inicio" class="group flex min-w-0 items-center gap-3" aria-label="GGCC, voltar ao início">
+        <a href="/#inicio" class="group flex min-w-0 items-center gap-3" aria-label="GGCC, voltar ao início">
           <img src="${logoUrl}" alt="" width="256" height="256" decoding="async" class="size-12 shrink-0 object-contain sm:size-14" />
           <span class="min-w-0 leading-tight">
             <strong class="block truncate text-sm font-extrabold text-slate-900 sm:text-base">Grupo Getulinense</strong>
@@ -678,26 +679,26 @@ const initInternalLayout = (active) => {
           </span>
         </a>
         <ul class="hidden items-center gap-6 text-sm font-semibold text-slate-700 xl:flex">
-          <li><a class="nav-link" href="./index.html#historia">História</a></li>
-          <li><a class="nav-link" href="./index.html#depoimento">Depoimento</a></li>
-          <li><a class="nav-link" href="./index.html#acoes">Ações</a></li>
-          <li><a class="nav-link" href="./index.html#bazar">Bazar</a></li>
-          <li><a class="nav-link" href="./index.html#eventos">Eventos</a></li>
+          <li><a class="nav-link" href="/#historia">História</a></li>
+          <li><a class="nav-link" href="/#depoimento">Depoimento</a></li>
+          <li><a class="nav-link" href="/#acoes">Ações</a></li>
+          <li><a class="nav-link" href="/#bazar">Bazar</a></li>
+          <li><a class="nav-link" href="/#eventos">Eventos</a></li>
           <li>${pageLink('noticias', 'Notícias')}</li>
-          <li><a class="nav-link" href="./index.html#contato">Contato</a></li>
+          <li><a class="nav-link" href="/#contato">Contato</a></li>
           <li class="relative">
             <button id="more-button" type="button" class="nav-link inline-flex items-center gap-1" aria-expanded="false" aria-controls="more-menu">
               Mais
               <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
             </button>
             <ul id="more-menu" class="absolute right-0 top-full hidden w-48 rounded-2xl border border-slate-200 bg-white p-2 text-sm shadow-xl">
-              <li><a class="dropdown-link" href="./interna.html?pagina=membros">Membros</a></li>
-              <li><a class="dropdown-link" href="./interna.html?pagina=memorial">Memorial</a></li>
+              <li><a class="dropdown-link" href="/membros/">Membros</a></li>
+              <li><a class="dropdown-link" href="/memorial/">Memorial</a></li>
             </ul>
           </li>
         </ul>
         <div class="flex items-center gap-2">
-          <a href="./index.html#ajudar" class="hidden rounded-full bg-orange-600 px-5 py-3 text-sm font-extrabold text-white sm:inline-flex">Quero ajudar</a>
+          <a href="/#ajudar" class="hidden rounded-full bg-orange-600 px-5 py-3 text-sm font-extrabold text-white sm:inline-flex">Quero ajudar</a>
           <button id="menu-button" type="button" class="grid size-11 place-items-center rounded-full border border-slate-200 bg-white text-slate-900 xl:hidden" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-menu">
             <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path id="menu-icon-path" d="M4 7h16M4 12h16M4 17h16"/></svg>
           </button>
@@ -705,15 +706,15 @@ const initInternalLayout = (active) => {
       </nav>
       <div id="mobile-menu" class="hidden max-h-[calc(100vh-5rem)] overflow-y-auto border-t border-slate-100 bg-white px-5 pb-6 pt-3 shadow-xl xl:hidden">
         <ul class="mx-auto grid max-w-7xl gap-1 text-base font-bold">
-          <li><a class="mobile-nav-link" href="./index.html#historia">História</a></li>
-          <li><a class="mobile-nav-link" href="./index.html#depoimento">Depoimento</a></li>
-          <li><a class="mobile-nav-link" href="./index.html#acoes">Nossas ações</a></li>
-          <li><a class="mobile-nav-link" href="./index.html#bazar">Bazar beneficente</a></li>
-          <li><a class="mobile-nav-link" href="./index.html#eventos">Eventos</a></li>
-          <li><a class="mobile-nav-link" href="./interna.html?pagina=noticias">Notícias</a></li>
-          <li><a class="mobile-nav-link" href="./index.html#contato">Contato</a></li>
-          <li><a class="mobile-nav-link" href="./interna.html?pagina=membros">Membros</a></li>
-          <li><a class="mobile-nav-link" href="./interna.html?pagina=memorial">Memorial</a></li>
+          <li><a class="mobile-nav-link" href="/#historia">História</a></li>
+          <li><a class="mobile-nav-link" href="/#depoimento">Depoimento</a></li>
+          <li><a class="mobile-nav-link" href="/#acoes">Nossas ações</a></li>
+          <li><a class="mobile-nav-link" href="/#bazar">Bazar beneficente</a></li>
+          <li><a class="mobile-nav-link" href="/#eventos">Eventos</a></li>
+          <li><a class="mobile-nav-link" href="/noticias/">Notícias</a></li>
+          <li><a class="mobile-nav-link" href="/#contato">Contato</a></li>
+          <li><a class="mobile-nav-link" href="/membros/">Membros</a></li>
+          <li><a class="mobile-nav-link" href="/memorial/">Memorial</a></li>
         </ul>
       </div>
     </header>`;
@@ -723,7 +724,7 @@ const initInternalLayout = (active) => {
       <div class="mx-auto max-w-7xl px-5 sm:px-8">
         <div class="grid gap-10 border-b border-white/10 pb-10 md:grid-cols-[1.4fr_1fr_1fr]">
           <div class="max-w-sm">
-            <a href="./index.html#inicio" class="flex items-center gap-3">
+            <a href="/#inicio" class="flex items-center gap-3">
               <img src="${logoUrl}" alt="" width="256" height="256" loading="lazy" decoding="async" class="size-14 object-contain" />
               <span><strong class="block text-lg font-black">GGCC Getulina</strong><span class="text-xs font-bold uppercase tracking-[0.14em] text-orange-400">Combate ao Câncer</span></span>
             </a>
@@ -732,9 +733,9 @@ const initInternalLayout = (active) => {
           <div>
             <h2 class="text-sm font-extrabold">Conteúdo</h2>
             <ul class="mt-4 grid gap-3 text-sm text-white/55">
-              <li><a class="footer-link" href="./interna.html?pagina=noticias">Notícias</a></li>
-              <li><a class="footer-link" href="./interna.html?pagina=membros">Membros</a></li>
-              <li><a class="footer-link" href="./interna.html?pagina=memorial">Memorial</a></li>
+              <li><a class="footer-link" href="/noticias/">Notícias</a></li>
+              <li><a class="footer-link" href="/membros/">Membros</a></li>
+              <li><a class="footer-link" href="/memorial/">Memorial</a></li>
             </ul>
           </div>
           <div>
@@ -742,7 +743,7 @@ const initInternalLayout = (active) => {
             <ul class="mt-4 grid gap-3 text-sm text-white/55">
               <li><a class="footer-link" href="${institutionConfig.phoneHref}">${institutionConfig.phoneLabel}</a></li>
               <li><a class="footer-link break-all" href="mailto:${institutionConfig.email}">${institutionConfig.email}</a></li>
-              <li><a class="footer-link" href="./index.html#contato">Enviar mensagem</a></li>
+              <li><a class="footer-link" href="/#contato">Enviar mensagem</a></li>
             </ul>
           </div>
         </div>
@@ -816,7 +817,7 @@ const internalPanel = {
 
 const renderHomeBackButton = () => `
   <div class="mt-10 text-center sm:mt-12">
-    <a href="./index.html" class="inline-flex min-h-12 items-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-extrabold text-slate-900 transition hover:border-orange-300 hover:text-orange-700 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600">Voltar à página inicial</a>
+    <a href="/" class="inline-flex min-h-12 items-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-extrabold text-slate-900 transition hover:border-orange-300 hover:text-orange-700 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600">Voltar à página inicial</a>
   </div>`;
 
 const renderMembers = () => `
@@ -855,7 +856,7 @@ const renderMembers = () => `
     <div class="mx-auto max-w-7xl px-5 sm:px-8">
       <div class="reveal flex flex-col items-start justify-between gap-8 rounded-[2rem] bg-orange-600 p-8 text-white sm:p-12 lg:flex-row lg:items-center">
         <div><p class="text-xs font-extrabold uppercase tracking-[0.18em] text-orange-100">Voluntariado</p><h2 class="mt-3 text-3xl font-black sm:text-4xl">Uma equipe unida pelo cuidado.</h2></div>
-        <a href="./index.html#contato" class="rounded-full bg-white px-6 py-3 text-sm font-extrabold text-orange-700">Quero ser voluntário</a>
+        <a href="/#contato" class="rounded-full bg-white px-6 py-3 text-sm font-extrabold text-orange-700">Quero ser voluntário</a>
       </div>
       ${renderHomeBackButton()}
     </div>
@@ -928,7 +929,7 @@ const renderGallery = () => `
       <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         ${gallery.map((item) => renderGalleryCard(item)).join('')}
       </div>
-      <a href="./index.html#galeria" class="mt-12 inline-flex rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-extrabold text-slate-900 transition hover:border-orange-300 hover:text-orange-700 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600">Voltar à página inicial</a>
+      <a href="/#galeria" class="mt-12 inline-flex rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-extrabold text-slate-900 transition hover:border-orange-300 hover:text-orange-700 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600">Voltar à página inicial</a>
     </div>
   </section>`;
 
@@ -952,12 +953,12 @@ const renderNewsList = () => `
 const renderArticle = (slug) => {
   const noticia = noticias.find((item) => hasNewsDetail(item) && item.slug === slug);
   if (!noticia) {
-    return `<div class="mx-auto max-w-2xl px-5 py-24 text-center"><p class="eyebrow">Notícia não encontrada</p><h1 class="section-title mt-3">Este conteúdo não está disponível.</h1><a href="./interna.html?pagina=noticias" class="mt-8 inline-flex rounded-full bg-orange-600 px-6 py-3 text-sm font-extrabold text-white">Voltar às notícias</a></div>`;
+    return `<div class="mx-auto max-w-2xl px-5 py-24 text-center"><p class="eyebrow">Notícia não encontrada</p><h1 class="section-title mt-3">Este conteúdo não está disponível.</h1><a href="/noticias/" class="mt-8 inline-flex rounded-full bg-orange-600 px-6 py-3 text-sm font-extrabold text-white">Voltar às notícias</a></div>`;
   }
   const recent = noticias
     .filter((item) => hasNewsDetail(item) && item.slug !== noticia.slug)
     .slice(0, 2)
-    .map((item) => `<a href="./interna.html?pagina=noticia&slug=${encodeURIComponent(item.slug)}" class="rounded-2xl border border-slate-200 bg-white p-5"><span class="text-xs font-bold text-orange-700">${item.categoria}</span><strong class="mt-2 block text-lg text-slate-900">${item.titulo}</strong></a>`)
+    .map((item) => `<a href="/noticias/?slug=${encodeURIComponent(item.slug)}" class="rounded-2xl border border-slate-200 bg-white p-5"><span class="text-xs font-bold text-orange-700">${item.categoria}</span><strong class="mt-2 block text-lg text-slate-900">${item.titulo}</strong></a>`)
     .join('');
   const recentSection = recent
     ? `<div class="mt-14 border-t border-slate-200 pt-10">
@@ -971,7 +972,7 @@ const renderArticle = (slug) => {
       <header class="bg-[#f7f4ef] ${internalPanel.header}">
         <div class="${internalPanel.container}">
           <div class="${internalPanel.content}">
-            <a href="./interna.html?pagina=noticias" class="text-sm font-extrabold text-orange-700">← Voltar às notícias</a>
+            <a href="/noticias/" class="text-sm font-extrabold text-orange-700">← Voltar às notícias</a>
             <div class="mt-8 flex gap-3 text-xs font-bold"><span class="rounded-full bg-orange-100 px-3 py-1.5 text-orange-800">${noticia.categoria}</span><time class="py-1.5 text-slate-500">${noticia.data}</time></div>
             <h1 class="${internalPanel.title} mt-5 text-slate-900">${noticia.titulo}</h1>
             <p class="${internalPanel.copy} mt-6 text-slate-600">${noticia.resumo}</p>
@@ -996,47 +997,35 @@ const renderArticle = (slug) => {
 
 if (document.body.dataset.page === 'internal') {
   const params = new URLSearchParams(window.location.search);
-  const page = params.get('pagina') || 'noticias';
+  const page = document.body.dataset.internalPage;
   const views = {
     membros: {
-      title: 'Membros e voluntários — GGCC Getulina',
-      description:
-        'Informações sobre a diretoria, o conselho fiscal, os suplentes e os voluntários do Grupo Getulinense de Combate ao Câncer.',
-      path: 'interna.html?pagina=membros',
+      ...internalPageSeo.membros,
       html: renderMembers,
     },
     memorial: {
-      title: 'Memorial — GGCC Getulina',
-      description:
-        'Uma homenagem às pessoas que dedicaram parte de suas vidas ao Grupo Getulinense de Combate ao Câncer.',
-      path: 'interna.html?pagina=memorial',
+      ...internalPageSeo.memorial,
       html: renderMemorial,
     },
     galeria: {
-      title: 'Galeria — GGCC Getulina',
-      description:
-        'Registros das ações, dos encontros e dos momentos compartilhados pelo Grupo Getulinense de Combate ao Câncer.',
-      path: 'interna.html?pagina=galeria',
+      ...internalPageSeo.galeria,
       html: renderGallery,
     },
     noticias: {
-      title: 'Notícias — GGCC Getulina',
-      description:
-        'Eventos, campanhas, reuniões, avisos e atividades do Grupo Getulinense de Combate ao Câncer.',
-      path: 'interna.html?pagina=noticias',
+      ...internalPageSeo.noticias,
       html: renderNewsList,
     },
   };
   let view = views[page];
 
-  if (page === 'noticia') {
+  if (page === 'noticias' && params.has('slug')) {
     const slug = params.get('slug');
     const noticia = noticias.find((item) => hasNewsDetail(item) && item.slug === slug);
     view = noticia
       ? {
           title: `${noticia.titulo} — GGCC Getulina`,
           description: noticia.resumo,
-          path: `interna.html?pagina=noticia&slug=${encodeURIComponent(noticia.slug)}`,
+          path: `/noticias/?slug=${encodeURIComponent(noticia.slug)}`,
           type: 'article',
           html: () => renderArticle(slug),
         }
@@ -1056,7 +1045,7 @@ if (document.body.dataset.page === 'internal') {
   }
 
   setPageMetadata(view);
-  initInternalLayout(page === 'noticia' || !views[page] ? 'noticias' : page);
+  initInternalLayout(views[page] ? page : 'noticias');
   document.querySelector('#internal-content').innerHTML = view.html();
   initReveal();
   initGalleryLightbox();
