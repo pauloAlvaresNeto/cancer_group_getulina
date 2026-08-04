@@ -4,3 +4,5 @@ dist/
 *-review.png
 .env
 .env.*
+!.env.example
+!.env.production

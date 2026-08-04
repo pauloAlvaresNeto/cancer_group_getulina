@@ -2,9 +2,10 @@
  * Google Analytics 4
  *
  * Configuração:
- * 1. Crie um arquivo `.env` na raiz do projeto.
+ * 1. Use `.env` para configuração local ou `.env.production` para o deploy.
  * 2. Adicione `VITE_GA_MEASUREMENT_ID=SEU_ID` (por exemplo, `G-XXXXXXXXXX`).
- * 3. Execute `npm run build`. Variáveis `VITE_*` são incorporadas pelo Vite no build.
+ * 3. Execute `npm run build`. O Vite lê `.env.production` e incorpora variáveis
+ *    `VITE_*` ao bundle de produção, inclusive no build do GitHub Pages.
  *
  * Teste: gere o build e execute `npm run preview`. No navegador, confirme a requisição
  * `gtag/js` na aba Network e o acesso no relatório em tempo real do GA4. Durante
