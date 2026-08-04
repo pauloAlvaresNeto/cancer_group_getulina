@@ -16,6 +16,9 @@ import { getCountdownState } from './countdown.js';
 import { events } from './eventos.js';
 import { gallery } from './galeria.js';
 import { internalPageSeo, siteSeoConfig } from './seo-config.js';
+import { initAnalytics } from './analytics.js';
+
+initAnalytics();
 
 const logoUrl = new URL('../img/logo-256.png', import.meta.url).href;
 const institutionLocation = `${institutionConfig.address.addressLocality}, ${institutionConfig.address.addressRegion}`;
