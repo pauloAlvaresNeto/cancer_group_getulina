@@ -169,7 +169,7 @@ export const noticias = [
     resumo: 'O GGCC realiza seu Chá Beneficente no dia 13 de setembro, às 14h, na SAG, com ingressos a R$ 30,00.',
     conteudo: [
       'O Grupo convida toda a comunidade para um momento para pausar, respirar e ver o quanto sua colaboração transforma vidas. ',
-      'O chá contará com várias rodadas de bingo com diversos prêmios especiais.',
+      'O chá contará com várias rodadas de bingos, com um prêmio especial de uma TV enquanto os convidados degustarão de vários tipos de bolo , salgados e chás .',
     ],
     imagem: new URL('../img/cha-beneficente-2026.webp', import.meta.url).href,
     imageWidth: 1200,
