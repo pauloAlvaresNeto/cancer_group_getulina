@@ -162,6 +162,22 @@ export const memorialNames = [
 export const noticias = [
   {
     type: 'short',
+    titulo: 'Chá Beneficente',
+    data: '13/09/2026',
+    categoria: 'Próximo evento',
+    isNew: true,
+    resumo: 'O GGCC realiza seu Chá Beneficente no dia 13 de setembro, às 14h, na SAG, com ingressos a R$ 30,00.',
+    conteudo: [
+      'O Grupo convida toda a comunidade para um momento para pausar, respirar e ver o quanto sua colaboração transforma vidas. ',
+      'O chá contará com várias rodadas de bingo com diversos prêmios especiais.',
+    ],
+    imagem: new URL('../img/cha-beneficente-2026.webp', import.meta.url).href,
+    imageWidth: 1200,
+    imageHeight: 1600,
+    destaque: true,
+  },
+  {
+    type: 'short',
     slug: 'Baile-dos-Namorados',
     titulo: 'Baile dos Namorados',
     data: '13/06/2026',

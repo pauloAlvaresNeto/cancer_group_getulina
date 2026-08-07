@@ -10,8 +10,8 @@ export const siteSeoConfig = Object.freeze({
 
 export const internalPageSeo = Object.freeze({
   noticias: Object.freeze({
-    title: 'Notícias — GGCC Getulina',
-    description: 'Eventos, campanhas, reuniões, avisos e atividades do Grupo Getulinense de Combate ao Câncer.',
+    title: 'Novidades — GGCC Getulina',
+    description: 'Acompanhe eventos, campanhas, avisos e ações do Grupo Getulinense de Combate ao Câncer.',
     path: '/noticias/',
   }),
   membros: Object.freeze({

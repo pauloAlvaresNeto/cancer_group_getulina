@@ -24,6 +24,15 @@ const logoUrl = new URL('../img/logo-256.png', import.meta.url).href;
 const institutionLocation = `${institutionConfig.address.addressLocality}, ${institutionConfig.address.addressRegion}`;
 const institutionCityRegion = `${institutionConfig.address.addressLocality}/${institutionConfig.address.addressRegion}`;
 const shareImageAlt = siteSeoConfig.shareImageAlt;
+const hasNewContent = noticias.some((noticia) => noticia.isNew === true);
+const newsIndicatorMarkup =
+  '<span class="hidden size-1.5 shrink-0 rounded-full bg-orange-500" data-news-indicator aria-hidden="true"></span>';
+
+const updateNewsIndicators = (root = document) => {
+  root.querySelectorAll('[data-news-indicator]').forEach((indicator) => {
+    indicator.classList.toggle('hidden', !hasNewContent);
+  });
+};
 
 const upsertMeta = (attribute, key, content) => {
   let element = document.head.querySelector(`meta[${attribute}="${key}"]`);
@@ -126,16 +135,17 @@ const renderNewsCard = (noticia, { compact = false, headingLevel = 3 } = {}) => 
       <div class="${compact ? 'aspect-[16/9]' : 'aspect-[4/3]'} overflow-hidden">${visual}</div>
       <div class="p-6">
         <div class="flex flex-wrap items-center gap-2 text-xs font-bold">
-          <span class="text-orange-700">${noticia.categoria || 'Notícia'}</span>
+          <span class="text-orange-700">${noticia.categoria || 'Novidade'}</span>
           <span class="size-1 rounded-full bg-slate-300" aria-hidden="true"></span>
           <time class="text-slate-500">${noticia.data}</time>
+          ${noticia.isNew ? '<span class="rounded bg-orange-100 px-2 py-1 text-[0.65rem] font-extrabold uppercase leading-none text-orange-800">Novo</span>' : ''}
         </div>
         <${headingTag} class="mt-3 text-xl font-black leading-tight tracking-tight text-slate-900">${noticia.titulo}</${headingTag}>
         ${cardText}
         ${
           showDetail
             ? `<a href="/noticias/?slug=${encodeURIComponent(noticia.slug)}" class="mt-6 inline-flex min-h-11 items-center gap-2 rounded text-sm font-extrabold text-orange-700 hover:text-orange-800 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600">
-                Ler notícia completa
+                Ler novidade completa
                 <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
               </a>`
             : ''
@@ -413,6 +423,8 @@ document.querySelector('#home-news-grid').innerHTML = noticias
   .map((noticia) => renderNewsCard(noticia, { compact: true }))
   .join('');
 
+updateNewsIndicators();
+
 document.querySelector('#gallery-grid').innerHTML = gallery
   .filter(({ featured }) => featured)
   .slice(0, 6)
@@ -687,7 +699,7 @@ const initInternalLayout = (active) => {
           <li><a class="nav-link" href="/#acoes">Ações</a></li>
           <li><a class="nav-link" href="/#bazar">Bazar</a></li>
           <li><a class="nav-link" href="/#eventos">Eventos</a></li>
-          <li>${pageLink('noticias', 'Notícias')}</li>
+          <li>${pageLink('noticias', `Novidades ${newsIndicatorMarkup}`)}</li>
           <li><a class="nav-link" href="/#contato">Contato</a></li>
           <li class="relative">
             <button id="more-button" type="button" class="nav-link inline-flex items-center gap-1" aria-expanded="false" aria-controls="more-menu">
@@ -714,7 +726,7 @@ const initInternalLayout = (active) => {
           <li><a class="mobile-nav-link" href="/#acoes">Nossas ações</a></li>
           <li><a class="mobile-nav-link" href="/#bazar">Bazar beneficente</a></li>
           <li><a class="mobile-nav-link" href="/#eventos">Eventos</a></li>
-          <li><a class="mobile-nav-link" href="/noticias/">Notícias</a></li>
+          <li><a class="mobile-nav-link" href="/noticias/"><span class="inline-flex items-center gap-2">Novidades ${newsIndicatorMarkup}</span></a></li>
           <li><a class="mobile-nav-link" href="/#contato">Contato</a></li>
           <li><a class="mobile-nav-link" href="/membros/">Membros</a></li>
           <li><a class="mobile-nav-link" href="/memorial/">Memorial</a></li>
@@ -736,7 +748,7 @@ const initInternalLayout = (active) => {
           <div>
             <h2 class="text-sm font-extrabold">Conteúdo</h2>
             <ul class="mt-4 grid gap-3 text-sm text-white/55">
-              <li><a class="footer-link" href="/noticias/">Notícias</a></li>
+              <li><a class="footer-link" href="/noticias/">Novidades</a></li>
               <li><a class="footer-link" href="/membros/">Membros</a></li>
               <li><a class="footer-link" href="/memorial/">Memorial</a></li>
             </ul>
@@ -941,8 +953,8 @@ const renderNewsList = () => `
     <div class="${internalPanel.container}">
       <div class="${internalPanel.content} mx-auto text-center">
         <p class="eyebrow">Fique por dentro</p>
-        <h1 class="${internalPanel.title} mt-4 text-slate-900">Notícias</h1>
-        <p class="${internalPanel.copy} mx-auto mt-6 text-slate-600">Eventos, campanhas, reuniões, avisos e registros das atividades do GGCC.</p>
+        <h1 class="${internalPanel.title} mt-4 text-slate-900">Novidades</h1>
+        <p class="${internalPanel.copy} mx-auto mt-6 text-slate-600">Acompanhe eventos, campanhas, avisos e ações do GGCC.</p>
       </div>
     </div>
   </header>
@@ -956,7 +968,7 @@ const renderNewsList = () => `
 const renderArticle = (slug) => {
   const noticia = noticias.find((item) => hasNewsDetail(item) && item.slug === slug);
   if (!noticia) {
-    return `<div class="mx-auto max-w-2xl px-5 py-24 text-center"><p class="eyebrow">Notícia não encontrada</p><h1 class="section-title mt-3">Este conteúdo não está disponível.</h1><a href="/noticias/" class="mt-8 inline-flex rounded-full bg-orange-600 px-6 py-3 text-sm font-extrabold text-white">Voltar às notícias</a></div>`;
+    return `<div class="mx-auto max-w-2xl px-5 py-24 text-center"><p class="eyebrow">Novidade não encontrada</p><h1 class="section-title mt-3">Este conteúdo não está disponível.</h1><a href="/noticias/" class="mt-8 inline-flex rounded-full bg-orange-600 px-6 py-3 text-sm font-extrabold text-white">Voltar às novidades</a></div>`;
   }
   const recent = noticias
     .filter((item) => hasNewsDetail(item) && item.slug !== noticia.slug)
@@ -965,7 +977,7 @@ const renderArticle = (slug) => {
     .join('');
   const recentSection = recent
     ? `<div class="mt-14 border-t border-slate-200 pt-10">
-        <h2 class="text-2xl font-black text-slate-900">Outras notícias recentes</h2>
+        <h2 class="text-2xl font-black text-slate-900">Outras novidades recentes</h2>
         <div class="mt-6 grid gap-4 sm:grid-cols-2">${recent}</div>
       </div>`
     : '';
@@ -975,7 +987,7 @@ const renderArticle = (slug) => {
       <header class="bg-[#f7f4ef] ${internalPanel.header}">
         <div class="${internalPanel.container}">
           <div class="${internalPanel.content}">
-            <a href="/noticias/" class="text-sm font-extrabold text-orange-700">← Voltar às notícias</a>
+            <a href="/noticias/" class="text-sm font-extrabold text-orange-700">← Voltar às novidades</a>
             <div class="mt-8 flex gap-3 text-xs font-bold"><span class="rounded-full bg-orange-100 px-3 py-1.5 text-orange-800">${noticia.categoria}</span><time class="py-1.5 text-slate-500">${noticia.data}</time></div>
             <h1 class="${internalPanel.title} mt-5 text-slate-900">${noticia.titulo}</h1>
             <p class="${internalPanel.copy} mt-6 text-slate-600">${noticia.resumo}</p>
@@ -988,7 +1000,7 @@ const renderArticle = (slug) => {
             ? `<figure class="overflow-hidden rounded-[2rem] bg-stone-100">
                 <img src="${noticia.imagem}" alt="${noticia.titulo}" width="${noticia.imageWidth}" height="${noticia.imageHeight}" loading="lazy" decoding="async" class="aspect-[16/9] h-full w-full object-cover" />
               </figure>`
-            : `<div class="grid aspect-[16/9] place-items-center rounded-[2rem] bg-gradient-to-br from-orange-50 to-stone-100 text-xs font-extrabold uppercase tracking-widest text-orange-300">Imagem da notícia ainda não disponível</div>`
+            : `<div class="grid aspect-[16/9] place-items-center rounded-[2rem] bg-gradient-to-br from-orange-50 to-stone-100 text-xs font-extrabold uppercase tracking-widest text-orange-300">Imagem da novidade ainda não disponível</div>`
         }
         <div class="mx-auto mt-12 max-w-3xl">
           <div class="space-y-6 text-base leading-8 text-slate-700">${noticia.conteudo.map((paragraph) => `<p>${paragraph}</p>`).join('')}</div>
@@ -1033,8 +1045,8 @@ if (document.body.dataset.page === 'internal') {
           html: () => renderArticle(slug),
         }
       : {
-          title: 'Notícia não encontrada — GGCC Getulina',
-          description: 'A notícia solicitada não está disponível.',
+          title: 'Novidade não encontrada — GGCC Getulina',
+          description: 'A novidade solicitada não está disponível.',
           robots: 'noindex, follow',
           html: () => renderArticle(slug),
         };
@@ -1049,6 +1061,7 @@ if (document.body.dataset.page === 'internal') {
 
   setPageMetadata(view);
   initInternalLayout(views[page] ? page : 'noticias');
+  updateNewsIndicators();
   document.querySelector('#internal-content').innerHTML = view.html();
   initReveal();
   initGalleryLightbox();
