@@ -24,7 +24,49 @@ const logoUrl = new URL('../img/logo-256.png', import.meta.url).href;
 const institutionLocation = `${institutionConfig.address.addressLocality}, ${institutionConfig.address.addressRegion}`;
 const institutionCityRegion = `${institutionConfig.address.addressLocality}/${institutionConfig.address.addressRegion}`;
 const shareImageAlt = siteSeoConfig.shareImageAlt;
-const hasNewContent = noticias.some((noticia) => noticia.isNew === true);
+const NEW_PUBLICATION_BADGE_DAYS = 30;
+const DAY_IN_MILLISECONDS = 24 * 60 * 60 * 1000;
+
+const parseNewsDate = (value) => {
+  const match = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(value || '');
+  if (!match) return null;
+
+  const [, day, month, year] = match.map(Number);
+  const timestamp = Date.UTC(year, month - 1, day);
+  const parsed = new Date(timestamp);
+
+  return parsed.getUTCFullYear() === year &&
+    parsed.getUTCMonth() === month - 1 &&
+    parsed.getUTCDate() === day
+    ? timestamp
+    : null;
+};
+
+const orderedNews = noticias
+  .map((noticia, originalIndex) => ({ noticia, originalIndex }))
+  .sort((left, right) => {
+    const featuredOrder = Number(Boolean(right.noticia.featured)) - Number(Boolean(left.noticia.featured));
+    if (featuredOrder) return featuredOrder;
+
+    const leftPublishedAt = parseNewsDate(left.noticia.publishedAt) ?? Number.NEGATIVE_INFINITY;
+    const rightPublishedAt = parseNewsDate(right.noticia.publishedAt) ?? Number.NEGATIVE_INFINITY;
+    const publishedOrder = rightPublishedAt - leftPublishedAt;
+
+    return publishedOrder || left.originalIndex - right.originalIndex;
+  })
+  .map(({ noticia }) => noticia);
+
+const isNewPublication = (noticia, today = new Date()) => {
+  const publishedAt = parseNewsDate(noticia.publishedAt);
+  if (publishedAt === null) return false;
+
+  const todayTimestamp = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
+  const ageInDays = Math.floor((todayTimestamp - publishedAt) / DAY_IN_MILLISECONDS);
+
+  return ageInDays >= 0 && ageInDays < NEW_PUBLICATION_BADGE_DAYS;
+};
+
+const hasNewContent = orderedNews.some((noticia) => isNewPublication(noticia));
 const newsIndicatorMarkup =
   '<span class="hidden size-1.5 shrink-0 rounded-full bg-orange-500" data-news-indicator aria-hidden="true"></span>';
 
@@ -50,8 +92,16 @@ const setPageMetadata = ({
   path,
   type = 'website',
   robots = 'index, follow',
+  image = siteConfig.shareImage,
+  imageWidth = siteConfig.shareImageWidth,
+  imageHeight = siteConfig.shareImageHeight,
+  imageAlt = shareImageAlt,
 }) => {
   const canonicalUrl = path ? new URL(path, siteConfig.url).href : null;
+  const socialImage = new URL(image || siteConfig.shareImage, siteConfig.url).href;
+  const socialImageWidth = imageWidth || siteConfig.shareImageWidth;
+  const socialImageHeight = imageHeight || siteConfig.shareImageHeight;
+  const socialImageAlt = imageAlt || shareImageAlt;
 
   document.title = title;
   upsertMeta('name', 'description', description);
@@ -66,15 +116,15 @@ const setPageMetadata = ({
   } else {
     document.head.querySelector('meta[property="og:url"]')?.remove();
   }
-  upsertMeta('property', 'og:image', siteConfig.shareImage);
-  upsertMeta('property', 'og:image:width', String(siteConfig.shareImageWidth));
-  upsertMeta('property', 'og:image:height', String(siteConfig.shareImageHeight));
-  upsertMeta('property', 'og:image:alt', shareImageAlt);
+  upsertMeta('property', 'og:image', socialImage);
+  upsertMeta('property', 'og:image:width', String(socialImageWidth));
+  upsertMeta('property', 'og:image:height', String(socialImageHeight));
+  upsertMeta('property', 'og:image:alt', socialImageAlt);
   upsertMeta('name', 'twitter:card', 'summary_large_image');
   upsertMeta('name', 'twitter:title', title);
   upsertMeta('name', 'twitter:description', description);
-  upsertMeta('name', 'twitter:image', siteConfig.shareImage);
-  upsertMeta('name', 'twitter:image:alt', shareImageAlt);
+  upsertMeta('name', 'twitter:image', socialImage);
+  upsertMeta('name', 'twitter:image:alt', socialImageAlt);
 
   const canonical = document.head.querySelector('link[rel="canonical"]');
   if (!canonicalUrl) {
@@ -109,8 +159,19 @@ const svg = (name, className = 'size-6') =>
 
 const hasNewsDetail = (noticia) => noticia.type === 'full' && Boolean(noticia.slug);
 
+const renderNewsDate = (noticia, className = 'text-slate-500') => {
+  const displayDate = noticia.eventDate || noticia.publishedAt;
+  const timestamp = parseNewsDate(displayDate);
+  const dateTime = timestamp === null ? '' : ` datetime="${new Date(timestamp).toISOString().slice(0, 10)}"`;
+
+  return displayDate
+    ? `<time${dateTime} class="${className}">${displayDate}</time>`
+    : `<span class="${className}">Data a confirmar</span>`;
+};
+
 const renderNewsCard = (noticia, { compact = false, headingLevel = 3 } = {}) => {
   const showDetail = hasNewsDetail(noticia);
+  const detailUrl = showDetail ? `/noticias/?slug=${encodeURIComponent(noticia.slug)}` : null;
   const headingTag = headingLevel === 2 ? 'h2' : 'h3';
   const cardText = (
     showDetail ? [noticia.resumo] : [noticia.resumo, ...(noticia.conteudo || [])]
@@ -122,35 +183,52 @@ const renderNewsCard = (noticia, { compact = false, headingLevel = 3 } = {}) => 
     )
     .join('');
   const visual = noticia.imagem
-    ? `<img src="${noticia.imagem}" alt="" width="${noticia.imageWidth}" height="${noticia.imageHeight}" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />`
+    ? `<img src="${noticia.imagem}" alt="${noticia.imagemAlt || ''}" width="${noticia.imageWidth}" height="${noticia.imageHeight}" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />`
     : `<div class="grid h-full w-full place-items-center bg-gradient-to-br from-orange-50 to-stone-100 text-orange-300">
         <span class="flex flex-col items-center gap-2 text-xs font-bold uppercase tracking-[0.12em]">
           <svg class="size-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m5 18 5-5 3 3 2-2 4 4"/></svg>
           Imagem ainda não disponível
         </span>
       </div>`;
+  const playIndicator = noticia.video
+    ? `<span class="pointer-events-none absolute inset-0 grid place-items-center" aria-hidden="true">
+        <span class="grid size-12 place-items-center rounded-full border border-white/50 bg-slate-950/70 text-white shadow-lg backdrop-blur-sm transition duration-300 group-hover:scale-105 group-hover:bg-orange-600/90">
+          <svg class="size-5" viewBox="0 0 24 24" fill="currentColor"><path d="M9.25 7.35v9.3L16.75 12l-7.5-4.65Z"/></svg>
+        </span>
+      </span>`
+    : '';
+  const visualMarkup = `<div class="relative ${compact ? 'aspect-[16/9]' : 'aspect-[4/3]'} overflow-hidden">${visual}${playIndicator}</div>`;
+  const cardVisual = showDetail
+    ? `<a
+        href="${detailUrl}"
+        aria-label="${noticia.video ? 'Abrir novidade e assistir ao vídeo' : 'Abrir novidade'}: ${noticia.titulo}"
+        class="block rounded-t-[1.5rem] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-orange-600"
+      >${visualMarkup}</a>`
+    : visualMarkup;
+  const cardBody = `
+    ${cardVisual}
+    <div class="p-6">
+      <div class="flex flex-wrap items-center gap-2 text-xs font-bold">
+        <span class="text-orange-700">${noticia.categoria || 'Novidade'}</span>
+        <span class="size-1 rounded-full bg-slate-300" aria-hidden="true"></span>
+        ${renderNewsDate(noticia)}
+        ${isNewPublication(noticia) ? '<span class="rounded bg-orange-100 px-2 py-1 text-[0.65rem] font-extrabold uppercase leading-none text-orange-800">Novo</span>' : ''}
+      </div>
+      <${headingTag} class="mt-3 text-xl font-black leading-tight tracking-tight text-slate-900">${noticia.titulo}</${headingTag}>
+      ${cardText}
+      ${
+        showDetail
+          ? `<a href="${detailUrl}" class="mt-6 inline-flex min-h-11 items-center gap-2 rounded text-sm font-extrabold text-orange-700 hover:text-orange-800 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600">
+              Ler novidade completa
+              <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+            </a>`
+          : ''
+      }
+    </div>`;
 
   return `
     <article class="content-card group reveal overflow-hidden">
-      <div class="${compact ? 'aspect-[16/9]' : 'aspect-[4/3]'} overflow-hidden">${visual}</div>
-      <div class="p-6">
-        <div class="flex flex-wrap items-center gap-2 text-xs font-bold">
-          <span class="text-orange-700">${noticia.categoria || 'Novidade'}</span>
-          <span class="size-1 rounded-full bg-slate-300" aria-hidden="true"></span>
-          <time class="text-slate-500">${noticia.data}</time>
-          ${noticia.isNew ? '<span class="rounded bg-orange-100 px-2 py-1 text-[0.65rem] font-extrabold uppercase leading-none text-orange-800">Novo</span>' : ''}
-        </div>
-        <${headingTag} class="mt-3 text-xl font-black leading-tight tracking-tight text-slate-900">${noticia.titulo}</${headingTag}>
-        ${cardText}
-        ${
-          showDetail
-            ? `<a href="/noticias/?slug=${encodeURIComponent(noticia.slug)}" class="mt-6 inline-flex min-h-11 items-center gap-2 rounded text-sm font-extrabold text-orange-700 hover:text-orange-800 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600">
-                Ler novidade completa
-                <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
-              </a>`
-            : ''
-        }
-      </div>
+      ${cardBody}
     </article>`;
 };
 
@@ -417,8 +495,7 @@ document.querySelector('#events-grid').innerHTML = events
   )
   .join('');
 
-document.querySelector('#home-news-grid').innerHTML = noticias
-  .filter((noticia) => noticia.destaque)
+document.querySelector('#home-news-grid').innerHTML = orderedNews
   .slice(0, 3)
   .map((noticia) => renderNewsCard(noticia, { compact: true }))
   .join('');
@@ -830,6 +907,14 @@ const internalPanel = {
   copy: 'max-w-2xl text-base leading-8 sm:text-lg',
 };
 
+const articlePanel = {
+  header: 'py-10 sm:py-12 lg:py-14',
+  container: 'mx-auto max-w-4xl px-5 sm:px-8',
+  content: 'max-w-3xl',
+  title:
+    'max-w-3xl text-3xl font-black leading-[1.1] tracking-[-0.035em] text-slate-900 sm:text-4xl lg:text-5xl',
+};
+
 const renderHomeBackButton = () => `
   <div class="mt-10 text-center sm:mt-12">
     <a href="/" class="inline-flex min-h-12 items-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-extrabold text-slate-900 transition hover:border-orange-300 hover:text-orange-700 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600">Voltar à página inicial</a>
@@ -960,7 +1045,7 @@ const renderNewsList = () => `
   </header>
   <section class="bg-white py-20 sm:py-28">
     <div class="mx-auto max-w-7xl px-5 sm:px-8">
-      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">${noticias.map((item) => renderNewsCard(item, { headingLevel: 2 })).join('')}</div>
+      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">${orderedNews.map((item) => renderNewsCard(item, { headingLevel: 2 })).join('')}</div>
       ${renderHomeBackButton()}
     </div>
   </section>`;
@@ -970,7 +1055,7 @@ const renderArticle = (slug) => {
   if (!noticia) {
     return `<div class="mx-auto max-w-2xl px-5 py-24 text-center"><p class="eyebrow">Novidade não encontrada</p><h1 class="section-title mt-3">Este conteúdo não está disponível.</h1><a href="/noticias/" class="mt-8 inline-flex rounded-full bg-orange-600 px-6 py-3 text-sm font-extrabold text-white">Voltar às novidades</a></div>`;
   }
-  const recent = noticias
+  const recent = orderedNews
     .filter((item) => hasNewsDetail(item) && item.slug !== noticia.slug)
     .slice(0, 2)
     .map((item) => `<a href="/noticias/?slug=${encodeURIComponent(item.slug)}" class="rounded-2xl border border-slate-200 bg-white p-5"><span class="text-xs font-bold text-orange-700">${item.categoria}</span><strong class="mt-2 block text-lg text-slate-900">${item.titulo}</strong></a>`)
@@ -981,28 +1066,38 @@ const renderArticle = (slug) => {
         <div class="mt-6 grid gap-4 sm:grid-cols-2">${recent}</div>
       </div>`
     : '';
+  const leadMedia = noticia.video
+    ? `<div class="mx-auto aspect-video w-full max-w-[560px] overflow-hidden rounded-[1.5rem] bg-slate-950 shadow-sm">
+        <iframe
+          src="${noticia.video.src}"
+          title="${noticia.video.title}"
+          class="block h-full w-full border-0"
+          scrolling="no"
+          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+          allowfullscreen
+          loading="lazy"
+        ></iframe>
+      </div>`
+    : noticia.imagem
+      ? `<figure class="overflow-hidden rounded-[2rem] bg-stone-100">
+          <img src="${noticia.imagem}" alt="${noticia.imagemAlt || noticia.titulo}" width="${noticia.imageWidth}" height="${noticia.imageHeight}" loading="lazy" decoding="async" class="aspect-[16/9] h-full w-full object-cover" />
+        </figure>`
+      : `<div class="grid aspect-[16/9] place-items-center rounded-[2rem] bg-gradient-to-br from-orange-50 to-stone-100 text-xs font-extrabold uppercase tracking-widest text-orange-300">Imagem da novidade ainda não disponível</div>`;
 
   return `
     <article>
-      <header class="bg-[#f7f4ef] ${internalPanel.header}">
-        <div class="${internalPanel.container}">
-          <div class="${internalPanel.content}">
+      <header class="bg-[#f7f4ef] ${articlePanel.header}">
+        <div class="${articlePanel.container}">
+          <div class="${articlePanel.content}">
             <a href="/noticias/" class="text-sm font-extrabold text-orange-700">← Voltar às novidades</a>
-            <div class="mt-8 flex gap-3 text-xs font-bold"><span class="rounded-full bg-orange-100 px-3 py-1.5 text-orange-800">${noticia.categoria}</span><time class="py-1.5 text-slate-500">${noticia.data}</time></div>
-            <h1 class="${internalPanel.title} mt-5 text-slate-900">${noticia.titulo}</h1>
-            <p class="${internalPanel.copy} mt-6 text-slate-600">${noticia.resumo}</p>
+            <div class="mt-5 flex gap-3 text-xs font-bold"><span class="rounded-full bg-orange-100 px-3 py-1.5 text-orange-800">${noticia.categoria}</span>${renderNewsDate(noticia, 'py-1.5 text-slate-500')}</div>
+            <h1 class="${articlePanel.title} mt-4">${noticia.titulo}</h1>
           </div>
         </div>
       </header>
-      <div class="mx-auto max-w-5xl px-5 py-16 sm:px-8">
-        ${
-          noticia.imagem
-            ? `<figure class="overflow-hidden rounded-[2rem] bg-stone-100">
-                <img src="${noticia.imagem}" alt="${noticia.titulo}" width="${noticia.imageWidth}" height="${noticia.imageHeight}" loading="lazy" decoding="async" class="aspect-[16/9] h-full w-full object-cover" />
-              </figure>`
-            : `<div class="grid aspect-[16/9] place-items-center rounded-[2rem] bg-gradient-to-br from-orange-50 to-stone-100 text-xs font-extrabold uppercase tracking-widest text-orange-300">Imagem da novidade ainda não disponível</div>`
-        }
-        <div class="mx-auto mt-12 max-w-3xl">
+      <div class="mx-auto max-w-4xl px-5 pb-12 pt-8 sm:px-8 sm:pb-16 sm:pt-10">
+        ${leadMedia}
+        <div class="mx-auto mt-8 max-w-3xl sm:mt-10">
           <div class="space-y-6 text-base leading-8 text-slate-700">${noticia.conteudo.map((paragraph) => `<p>${paragraph}</p>`).join('')}</div>
           ${recentSection}
         </div>
@@ -1039,9 +1134,13 @@ if (document.body.dataset.page === 'internal') {
     view = noticia
       ? {
           title: `${noticia.titulo} — GGCC Getulina`,
-          description: noticia.resumo,
+          description: noticia.seoDescription || noticia.resumo,
           path: `/noticias/?slug=${encodeURIComponent(noticia.slug)}`,
           type: 'article',
+          image: noticia.imagem,
+          imageWidth: noticia.imageWidth,
+          imageHeight: noticia.imageHeight,
+          imageAlt: noticia.imagemAlt || noticia.titulo,
           html: () => renderArticle(slug),
         }
       : {

@@ -113,11 +113,22 @@ As publicações ficam no array `noticias` de `src/data.js`. Para criar uma not�
 2. use `type: 'short'` quando todo o conteúdo couber no card ou `type: 'full'`
    quando houver conteúdo adicional relevante;
 3. escolha um `slug` único;
-4. atualize título, data, categoria, resumo e conteúdo;
+4. atualize título, `publishedAt`, `eventDate`, categoria, resumo e conteúdo;
 5. salve a fotografia em WebP na pasta `img/`;
 6. informe caminho, largura e altura nos campos `imagem`, `imageWidth` e
    `imageHeight`;
-7. use `destaque: true` para exibi-la também na página inicial.
+7. use opcionalmente `featured: true` para fixá-la antes das demais.
+
+`publishedAt` é a data de entrada da publicação no site e controla a ordenação e
+o badge “Novo”. `eventDate` é a data do acontecimento exibida ao visitante; se
+ela não existir, o card exibe `publishedAt`. Use o formato `DD/MM/AAAA`. Quando a
+data histórica de publicação não for conhecida, mantenha `publishedAt: null`:
+esses itens vêm depois dos que possuem data conhecida e preservam sua ordem
+original entre si. A Home e a listagem usam a mesma ordenação.
+
+Para uma novidade em vídeo, adicione o objeto `video` com `src` e `title`. O
+iframe será carregado somente na página individual, enquanto os cards continuarão
+usando apenas `imagem` e exibirão o indicador de reprodução.
 
 Somente notícias `full` exibem “Ler mais” e usam a página individual
 `/noticias/?slug=slug-da-noticia`.

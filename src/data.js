@@ -157,15 +157,41 @@ export const memorialNames = [
   
 ];
 
-// Notícias provisórias. Use type: 'short' quando todo o conteúdo couber no card
-// e type: 'full' somente quando houver conteúdo adicional para a página interna.
+// publishedAt controla a ordenação e o badge "Novo"; eventDate é a data exibida.
+// Quando a data histórica de publicação não for conhecida, mantenha publishedAt
+// como null: a ordenação preservará a posição original entre esses itens.
 export const noticias = [
+  {
+    type: 'full',
+    slug: 'doacao-de-camiseta',
+    titulo: 'Doação de camiseta fortalece as ações do GGCC',
+    publishedAt: '21/08/2026',
+    eventDate: '19/08/2026',
+    categoria: 'Ação realizada',
+    resumo: 'GGCC recebe camiseta do Corinthians autografada por jogadores do clube, que será leiloada em benefício das ações da instituição.',
+    conteudo: [
+      'O Grupo Getulinense de Combate ao Câncer recebeu dos vereadores Luiz Carlos e Motoradio a doação de uma camiseta do Corinthians autografada por jogadores do clube. A contribuição representa mais um gesto de solidariedade e apoio ao trabalho desenvolvido pelo grupo junto à comunidade.',
+
+  'A camiseta será leiloada em um próximo evento beneficente, e toda a iniciativa contribuirá para as ações realizadas pela instituição. Em breve, divulgaremos mais informações sobre o leilão e sobre como participar e colaborar.',
+
+  'Agradecemos aos vereadores Luiz Carlos e Motoradio pela doação e a todos que, de diferentes formas, fazem parte dessa corrente de solidariedade.',
+    ],
+    imagem: new URL('../img/doacao-camisetas.jpg', import.meta.url).href,
+    imagemAlt: 'Representantes entregam camiseta doada ao Grupo Getulinense de Combate ao Câncer',
+    imageWidth: 848,
+    imageHeight: 478,
+    video: {
+      src: 'https://www.facebook.com/plugins/video.php?height=315&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1596439092008531%2F&show_text=false&width=560&t=0',
+      title: 'Vídeo da doação de camisetas ao GGCC',
+    },
+    featured: false,
+  },
   {
     type: 'short',
     titulo: 'Chá Beneficente',
-    data: '13/09/2026',
+    publishedAt: null,
+    eventDate: '13/09/2026',
     categoria: 'Próximo evento',
-    isNew: true,
     resumo: 'O GGCC realiza seu Chá Beneficente no dia 13 de setembro, às 14h, na SAG, com ingressos a R$ 30,00.',
     conteudo: [
       'O Grupo convida toda a comunidade para um momento para pausar, respirar e ver o quanto sua colaboração transforma vidas. ',
@@ -174,13 +200,13 @@ export const noticias = [
     imagem: new URL('../img/cha-beneficente-2026.webp', import.meta.url).href,
     imageWidth: 1200,
     imageHeight: 1600,
-    destaque: true,
   },
   {
     type: 'short',
     slug: 'Baile-dos-Namorados',
     titulo: 'Baile dos Namorados',
-    data: '13/06/2026',
+    publishedAt: null,
+    eventDate: '13/06/2026',
     categoria: 'Evento realizado',
     resumo: 'A partir das 22h, na SAG, o Baile dos Namorados do GGCC celebra o amor e a alegria.',
     conteudo: [
@@ -189,13 +215,13 @@ export const noticias = [
     imagem: new URL('../img/news_baileNamorados.webp', import.meta.url).href,
     imageWidth: 875,
     imageHeight: 1280,
-    destaque: true,
   },
   {
     type: 'short',
     slug: 'feira-do-pastel',
     titulo: 'Feira do Pastel',
-    data: '11/04/2026',
+    publishedAt: null,
+    eventDate: '11/04/2026',
     categoria: 'Evento realizado',
     resumo: 'A partir das 19h, na Praça 9 de Julho, o GGCC realiza mais uma feira beneficente, com venda de pastéis e bebidas.',
     conteudo: [
@@ -205,7 +231,6 @@ export const noticias = [
     imagem: new URL('../img/news_pastel.webp', import.meta.url).href,
     imageWidth: 1280,
     imageHeight: 692,
-    destaque: true,
   },
 ];
 
