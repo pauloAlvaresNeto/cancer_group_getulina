@@ -1,52 +1,85 @@
 # Grupo Getulinense de Combate ao Câncer
 
-Landing page institucional construída com Vite, HTML5 semântico, JavaScript ES Modules e Tailwind CSS v4.
+Site institucional desenvolvido para o **Grupo Getulinense de Combate ao Câncer**, com foco em apresentar a instituição, facilitar o acesso às informações e centralizar conteúdos como membros, memorial, eventos, notícias, galeria e formas de contribuição.
 
-## Desenvolvimento
+[🌐 Acessar o site](https://ggcc.org.br/)
+
+## Sobre o projeto
+
+Este projeto foi desenvolvido para modernizar e organizar a presença digital da instituição, transformando diferentes tipos de conteúdo em uma experiência única, responsiva e de fácil manutenção.
+
+Além da página institucional, o site reúne informações importantes para o público e para a própria organização, como notícias, eventos, memorial, galeria, bazar, membros da diretoria, formas de ajudar e informações de contato.
+
+## Principais funcionalidades
+
+- Página institucional responsiva;
+- apresentação da missão e informações do grupo;
+- área de membros e diretoria;
+- memorial;
+- galeria de fotos;
+- publicação de notícias;
+- divulgação de eventos;
+- seção de bazar;
+- informações para doações e voluntariado;
+- QR Code do Pix;
+- formulário de contato;
+- publicação automatizada com GitHub Actions.
+
+## Tecnologias utilizadas
+
+- **Vite** — ambiente de desenvolvimento e build;
+- **HTML5** — estrutura semântica;
+- **JavaScript ES Modules** — lógica e organização dos conteúdos;
+- **Tailwind CSS v4** — estilização e responsividade;
+- **GitHub Actions** — automação do processo de publicação;
+- **GitHub Pages** — hospedagem do projeto.
+
+## Organização do projeto
+
+```text
+cancer_group_getulina/
+├── .github/workflows/  # Automação de deploy
+├── img/                # Imagens e arquivos visuais
+├── public/             # Arquivos públicos e documentos
+├── src/
+│   ├── app.js          # Comportamento principal do site
+│   ├── data.js         # Conteúdo institucional e configurações
+│   ├── eventos.js      # Dados de eventos
+│   ├── galeria.js      # Dados da galeria
+│   ├── countdown.js    # Contador de aniversário
+│   └── styles.css      # Estilos compartilhados
+├── index.html          # Página principal
+├── interna.html        # Páginas internas
+├── package.json
+└── README.md
+```
+
+## Executando localmente
+
+Clone o repositório e instale as dependências:
 
 ```bash
+git clone https://github.com/pauloAlvaresNeto/cancer_group_getulina.git
+cd cancer_group_getulina
 npm install
 npm run dev
 ```
 
-## Build de produção
+Para gerar a versão de produção:
 
 ```bash
 npm run build
 npm run preview
 ```
 
-O resultado temporário é gerado em `dist/`. Essa pasta não contém código-fonte:
-ela é recriada pelo build e fica oculta no explorador do VS Code para evitar
-confusão com as páginas originais. No GitHub Actions, o caminho-base do
-repositório é informado automaticamente ao Vite.
+## Publicação
 
-## Organização
+O projeto possui um workflow em `.github/workflows/deploy.yml` responsável por gerar e publicar automaticamente o site a cada atualização na branch `main`.
 
-- `index.html`: landing page;
-- `interna.html`: exibe Membros, Memorial, Galeria, Notícias e a notícia completa conforme a URL;
-- `src/app.js`: todo o comportamento do site;
-- `src/data.js`: conteúdo institucional, Bazar e configurações;
-- `src/eventos.js`: textos, imagens, categorias e ícones dos eventos;
-- `src/galeria.js`: fotografias da galeria e seleção exibida na home;
-- `src/countdown.js`: cálculo isolado do contador dos 25 anos;
-- `src/styles.css`: Tailwind CSS e estilos compartilhados;
-- `img/`: fotografias em WebP, logotipo original e sua versão otimizada para a interface em PNG, além do QR Code oficial;
-- `public/`: favicons, `robots.txt`, `sitemap.xml`, imagem social e arquivos públicos copiados sem transformação, incluindo `historico.pdf`;
-- `dist/`: saída automática do build, não deve ser editada.
+**Site:** https://ggcc.org.br/
 
-## Publicação no GitHub Pages
-
-O workflow em `.github/workflows/deploy.yml` gera e publica o site automaticamente a cada push para a branch `main`.
-
-No repositório do GitHub, selecione obrigatoriamente
-**Settings → Pages → Build and deployment → Source → GitHub Actions**.
-
-Não selecione **Deploy from a branch**: essa opção publica o HTML-fonte sem
-compilar o Vite e o Tailwind, deixando o layout sem estilos.
-
-## Atualização de conteúdo
-
+## Manutenção de conteúdo
+   
 Os elementos dinâmicos do `index.html` são apenas estruturas vazias. Não
 duplique neles os textos dos arquivos de dados: o `src/app.js` preenche esses
 elementos durante o carregamento da página. Dessa forma, cada informação possui
@@ -113,22 +146,11 @@ As publicações ficam no array `noticias` de `src/data.js`. Para criar uma not�
 2. use `type: 'short'` quando todo o conteúdo couber no card ou `type: 'full'`
    quando houver conteúdo adicional relevante;
 3. escolha um `slug` único;
-4. atualize título, `publishedAt`, `eventDate`, categoria, resumo e conteúdo;
+4. atualize título, data, categoria, resumo e conteúdo;
 5. salve a fotografia em WebP na pasta `img/`;
 6. informe caminho, largura e altura nos campos `imagem`, `imageWidth` e
    `imageHeight`;
-7. use opcionalmente `featured: true` para fixá-la antes das demais.
-
-`publishedAt` é a data de entrada da publicação no site e controla a ordenação e
-o badge “Novo”. `eventDate` é a data do acontecimento exibida ao visitante; se
-ela não existir, o card exibe `publishedAt`. Use o formato `DD/MM/AAAA`. Quando a
-data histórica de publicação não for conhecida, mantenha `publishedAt: null`:
-esses itens vêm depois dos que possuem data conhecida e preservam sua ordem
-original entre si. A Home e a listagem usam a mesma ordenação.
-
-Para uma novidade em vídeo, adicione o objeto `video` com `src` e `title`. O
-iframe será carregado somente na página individual, enquanto os cards continuarão
-usando apenas `imagem` e exibirão o indicador de reprodução.
+7. use `destaque: true` para exibi-la também na página inicial.
 
 Somente notícias `full` exibem “Ler mais” e usam a página individual
 `/noticias/?slug=slug-da-noticia`.
