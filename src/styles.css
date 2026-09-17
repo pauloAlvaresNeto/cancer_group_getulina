@@ -172,11 +172,17 @@
   }
 
   .ggcc-symbol--indicator {
-    width: 0.75rem;
+    width: 1rem;
   }
 
   .section-divider--warm {
     --section-divider-background: #f7f4ef;
+  }
+
+  @media (max-width: 39.999rem) {
+    .mobile-nav-link .ggcc-symbol--indicator {
+      width: 1.125rem;
+    }
   }
 
   .content-card {
