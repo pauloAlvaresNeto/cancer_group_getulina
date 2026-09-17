@@ -14,7 +14,7 @@ import {
 } from './data.js';
 import { getCountdownState } from './countdown.js';
 import { events } from './eventos.js';
-import { gallery } from './galeria.js';
+import { gallery, galleryAlbums } from './galeria.js';
 import { internalPageSeo, siteSeoConfig } from './seo-config.js';
 import { initAnalytics } from './analytics.js';
 
@@ -41,6 +41,14 @@ const parseNewsDate = (value) => {
     ? timestamp
     : null;
 };
+
+const getEventState = (event, now = Date.now()) =>
+  event?.date ? getCountdownState(event, now).state : 'unknown';
+
+const getGalleryAlbum = (albumId) => galleryAlbums.find(({ id }) => id === albumId);
+
+const renderObjectPositionStyle = (objectPosition) =>
+  objectPosition ? ` style="object-position: ${objectPosition}"` : '';
 
 const orderedNews = noticias
   .map((noticia, originalIndex) => ({ noticia, originalIndex }))
@@ -183,7 +191,7 @@ const renderNewsCard = (noticia, { compact = false, headingLevel = 3 } = {}) => 
     )
     .join('');
   const visual = noticia.imagem
-    ? `<img src="${noticia.imagem}" alt="${noticia.imagemAlt || ''}" width="${noticia.imageWidth}" height="${noticia.imageHeight}" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />`
+    ? `<img src="${noticia.imagem}" alt="${noticia.imagemAlt || ''}" width="${noticia.imageWidth}" height="${noticia.imageHeight}" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-500 group-hover:scale-105"${renderObjectPositionStyle(noticia.imagePosition)} />`
     : `<div class="grid h-full w-full place-items-center bg-gradient-to-br from-orange-50 to-stone-100 text-orange-300">
         <span class="flex flex-col items-center gap-2 text-xs font-bold uppercase tracking-[0.12em]">
           <svg class="size-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m5 18 5-5 3 3 2-2 4 4"/></svg>
@@ -232,7 +240,7 @@ const renderNewsCard = (noticia, { compact = false, headingLevel = 3 } = {}) => 
     </article>`;
 };
 
-const renderGalleryCard = ({ src, alt = '', width, height }) => {
+const renderGalleryCard = ({ src, alt = '', width, height, objectPosition }) => {
   const safeAlt =
     typeof alt === 'string' && alt.trim()
       ? alt.trim()
@@ -248,7 +256,7 @@ const renderGalleryCard = ({ src, alt = '', width, height }) => {
       data-height="${height}"
       aria-label="Ampliar fotografia: ${safeAlt}"
     >
-      <img src="${src}" alt="${safeAlt}" width="${width}" height="${height}" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
+      <img src="${src}" alt="${safeAlt}" width="${width}" height="${height}" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105"${renderObjectPositionStyle(objectPosition)} />
     </button>`;
 };
 
@@ -260,7 +268,7 @@ const renderArticleImageGallery = (images = []) => {
       <div class="grid grid-cols-2 gap-3 sm:gap-4">
         ${images
           .map(
-            ({ src, alt, width, height }) => `
+            ({ src, alt, width, height, objectPosition }) => `
               <button
                 type="button"
                 class="gallery-button reveal group relative aspect-[4/3] overflow-hidden rounded-[1.25rem] bg-stone-100 text-left shadow-sm focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600"
@@ -270,7 +278,7 @@ const renderArticleImageGallery = (images = []) => {
                 data-height="${height}"
                 aria-label="Ampliar fotografia: ${alt}"
               >
-                <img src="${src}" alt="${alt}" width="${width}" height="${height}" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
+                <img src="${src}" alt="${alt}" width="${width}" height="${height}" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105"${renderObjectPositionStyle(objectPosition)} />
               </button>`,
           )
           .join('')}
@@ -404,16 +412,28 @@ if (eventImage && anniversaryEvent.image) {
   eventImage.src = anniversaryEvent.image;
   eventImage.width = anniversaryEvent.imageWidth;
   eventImage.height = anniversaryEvent.imageHeight;
+  eventImage.style.objectPosition = anniversaryEvent.imagePosition || '';
 }
 
 const eventTicketLink = document.querySelector('#event-ticket-link');
-if (eventTicketLink) {
-  eventTicketLink.href = anniversaryEvent.ticketUrl || '#contato';
-  if (/^https?:\/\//.test(anniversaryEvent.ticketUrl)) {
-    eventTicketLink.target = '_blank';
-    eventTicketLink.rel = 'noopener noreferrer';
-  }
-}
+const eventTicketMessage = document.querySelector('#event-ticket-message');
+const eventLimitedLabel = document.querySelector('#event-limited-label');
+const eventCountdown = document.querySelector('#event-countdown');
+
+const setEventButton = ({ href, label, external = false }) => {
+  if (!eventTicketLink) return;
+  eventTicketLink.href = href;
+  eventTicketLink.target = external ? '_blank' : '';
+  eventTicketLink.rel = external ? 'noopener noreferrer' : '';
+  eventTicketLink.innerHTML = `${label}<svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg>`;
+  eventTicketLink.classList.remove('hidden');
+};
+
+setEventButton({
+  href: anniversaryEvent.ticketUrl || '#contato',
+  label: 'Solicitar convite',
+  external: /^https?:\/\//.test(anniversaryEvent.ticketUrl),
+});
 
 const countdown = {
   days: document.querySelector('#countdown-days'),
@@ -436,6 +456,15 @@ const updateEventCountdown = () => {
   });
 
   if (result.state === 'future') {
+    setEventText('#event-badge', anniversaryEvent.badge);
+    eventTicketMessage?.classList.remove('hidden');
+    eventLimitedLabel?.classList.remove('hidden');
+    eventCountdown?.classList.remove('hidden');
+    setEventButton({
+      href: anniversaryEvent.ticketUrl || '#contato',
+      label: 'Solicitar convite',
+      external: /^https?:\/\//.test(anniversaryEvent.ticketUrl),
+    });
     setCountdownStatus(
       anniversaryEvent.time
         ? `para o jantar dos 25 anos do Grupo · ${anniversaryEvent.time}.`
@@ -445,9 +474,21 @@ const updateEventCountdown = () => {
   }
 
   window.clearInterval(countdownInterval);
-  if (result.state === 'today') setCountdownStatus('O evento é hoje.');
-  else if (result.state === 'past') setCountdownStatus('Evento realizado.');
-  else setCountdownStatus('A data do evento ainda não está disponível.');
+  if (result.state === 'past') {
+    const album = getGalleryAlbum(anniversaryEvent.albumId);
+    setEventText('#event-badge', 'Evento realizado');
+    eventTicketMessage?.classList.add('hidden');
+    eventLimitedLabel?.classList.add('hidden');
+    eventCountdown?.classList.add('hidden');
+
+    if (album) {
+      setEventButton({ href: `/galeria/#${album.id}`, label: 'Ver fotos do evento' });
+    } else {
+      eventTicketLink?.classList.add('hidden');
+    }
+  } else {
+    setCountdownStatus('A data do evento ainda não está disponível.');
+  }
   return result.state;
 };
 
@@ -461,9 +502,9 @@ document.querySelectorAll('[data-facebook-link]').forEach((link) => {
 
 document.querySelector('#bazar-gallery').innerHTML = bazarConfig.images
   .map(
-    ({ src, alt, width, height }, index) =>
+    ({ src, alt, width, height, objectPosition }, index) =>
       src
-        ? `<img src="${src}" alt="${alt}" width="${width}" height="${height}" loading="lazy" decoding="async" class="block aspect-[4/3] w-full rounded-[1.5rem] object-cover" />`
+        ? `<img src="${src}" alt="${alt}" width="${width}" height="${height}" loading="lazy" decoding="async" class="block aspect-[4/3] w-full rounded-[1.5rem] object-cover"${renderObjectPositionStyle(objectPosition)} />`
         : `<div class="grid aspect-[4/3] place-items-center rounded-[1.5rem] border border-dashed border-white/25 bg-white/5 p-6 text-center text-white/45">
             <span class="flex flex-col items-center gap-3 text-xs font-extrabold uppercase tracking-[0.14em]">
               <svg class="size-8 text-orange-400/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m5 18 5-5 3 3 2-2 4 4"/></svg>
@@ -489,7 +530,12 @@ document.querySelector('#actions-grid').innerHTML = actions
 
 document.querySelector('#events-grid').innerHTML = events
   .map(
-    ({ titulo, descricao, imagem, alt, width, height, icone, categoria }, index) => `
+    ({ titulo, descricao, imagem, alt, width, height, icone, categoria, date, time, utcOffset, albumId, objectPosition }, index) => {
+      const state = getEventState({ date, time, utcOffset });
+      const isRealized = state === 'past';
+      const album = isRealized ? getGalleryAlbum(albumId) : null;
+
+      return `
       <article class="content-card reveal group flex h-full flex-col overflow-hidden lg:col-span-2 ${
         index === 3 ? 'lg:col-start-2' : ''
       } ${
@@ -500,7 +546,7 @@ document.querySelector('#events-grid').innerHTML = events
         <div class="h-28 shrink-0 overflow-hidden rounded-t-[1.5rem] bg-gradient-to-br from-stone-100 to-orange-50 sm:h-32 xl:h-36">
           ${
             imagem
-              ? `<img src="${imagem}" alt="${alt}" width="${width}" height="${height}" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" />`
+              ? `<img src="${imagem}" alt="${alt}" width="${width}" height="${height}" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105"${renderObjectPositionStyle(objectPosition)} />`
               : `<div class="grid h-full w-full place-items-center p-6 text-center text-orange-700/55">
                   <span class="flex flex-col items-center gap-3 text-xs font-extrabold uppercase tracking-[0.14em]">
                     ${svg(icone, 'size-9')}
@@ -510,14 +556,23 @@ document.querySelector('#events-grid').innerHTML = events
           }
         </div>
         <div class="flex flex-1 flex-col p-6">
-          <div class="flex items-center gap-3 text-xs font-extrabold uppercase tracking-[0.12em] text-orange-700">
+          <div class="flex items-center gap-3 text-xs font-extrabold uppercase tracking-[0.12em] ${isRealized ? 'text-slate-600' : 'text-orange-700'}">
             <span class="content-card-icon size-9 rounded-xl">${svg(icone, 'size-5')}</span>
-            <span>${categoria}</span>
+            <span>${isRealized ? 'Evento realizado' : categoria}</span>
           </div>
           <h3 class="mt-5 text-xl font-black leading-tight tracking-tight text-slate-900">${titulo}</h3>
           <p class="mt-3 text-sm leading-6 text-slate-600">${descricao}</p>
+          ${
+            album
+              ? `<a href="/galeria/#${album.id}" class="mt-5 inline-flex min-h-11 items-center gap-2 self-start rounded text-sm font-extrabold text-orange-700 hover:text-orange-800 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600">
+                  Ver fotos do evento
+                  <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg>
+                </a>`
+              : ''
+          }
         </div>
-      </article>`,
+      </article>`;
+    },
   )
   .join('');
 
@@ -907,7 +962,7 @@ const initInternalLayout = (active) => {
 
 const memberVisual = (member, compact = false) =>
   member.foto
-    ? `<img src="${member.foto}" alt="Fotografia de ${member.nome}" width="${member.fotoWidth}" height="${member.fotoHeight}" loading="lazy" decoding="async" class="h-full w-full object-cover" />`
+    ? `<img src="${member.foto}" alt="Fotografia de ${member.nome}" width="${member.fotoWidth}" height="${member.fotoHeight}" loading="lazy" decoding="async" class="h-full w-full object-cover"${renderObjectPositionStyle(member.objectPosition || '50% 25%')} />`
     : `<div class="flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-orange-50 to-stone-100 text-orange-700">
         <span class="grid ${compact ? 'size-14' : 'size-20'} place-items-center rounded-full bg-white text-xl font-black shadow-sm">${getInitials(member.nome)}</span>
         ${compact ? '' : '<span class="mt-3 text-[10px] font-extrabold uppercase tracking-[0.14em] text-slate-400">Fotografia ainda não disponível</span>'}
@@ -1042,7 +1097,69 @@ const renderMemorial = () => `
     </div>
   </section>`;
 
-const renderGallery = () => `
+const getGalleryAlbumsWithPhotos = () =>
+  galleryAlbums.filter(({ id }) => gallery.some((item) => item.album === id));
+
+const renderGalleryIndex = (albums) => `
+  <nav class="-mx-5 mb-12 overflow-x-auto px-5 pb-2 sm:mx-0 sm:px-0" aria-label="Índice de eventos da galeria" data-gallery-index>
+    <div class="flex w-max min-w-full gap-2 sm:w-auto sm:flex-wrap sm:justify-center">
+      ${[
+        { id: 'galeria-todos', title: 'Todos' },
+        ...albums.map(({ id, title }) => ({ id, title })),
+      ]
+        .map(
+          ({ id, title }, index) => `<a href="#${id}" data-gallery-index-link data-gallery-target="${id}" class="inline-flex min-h-11 items-center rounded-full border px-4 py-2 text-sm font-extrabold whitespace-nowrap transition focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600 ${
+            index === 0
+              ? 'border-orange-600 bg-orange-600 text-white shadow-sm shadow-orange-600/20'
+              : 'border-slate-300 bg-white text-slate-700 hover:border-orange-300 hover:text-orange-700'
+          }">${title}</a>`,
+        )
+        .join('')}
+    </div>
+  </nav>`;
+
+const initGalleryIndex = () => {
+  const index = document.querySelector('[data-gallery-index]');
+  if (!index) return;
+
+  const links = [...index.querySelectorAll('[data-gallery-index-link]')];
+  const setActive = (targetId) => {
+    links.forEach((link) => {
+      const isActive = link.dataset.galleryTarget === targetId;
+      link.classList.toggle('border-orange-600', isActive);
+      link.classList.toggle('bg-orange-600', isActive);
+      link.classList.toggle('text-white', isActive);
+      link.classList.toggle('shadow-sm', isActive);
+      link.classList.toggle('shadow-orange-600/20', isActive);
+      link.classList.toggle('border-slate-300', !isActive);
+      link.classList.toggle('bg-white', !isActive);
+      link.classList.toggle('text-slate-700', !isActive);
+    });
+  };
+
+  links.forEach((link) => {
+    link.addEventListener('click', () => setActive(link.dataset.galleryTarget));
+  });
+
+  const sections = links
+    .map((link) => document.getElementById(link.dataset.galleryTarget))
+    .filter(Boolean);
+  const updateActiveFromScroll = () => {
+    const current = sections.reduce(
+      (active, section) => (section.getBoundingClientRect().top <= 240 ? section : active),
+      sections[0],
+    );
+    if (current) setActive(current.id);
+  };
+
+  window.addEventListener('scroll', updateActiveFromScroll, { passive: true });
+  updateActiveFromScroll();
+};
+
+const renderGallery = () => {
+  const albums = getGalleryAlbumsWithPhotos();
+
+  return `
   <header class="bg-slate-950 py-20 text-white sm:py-28">
     <div class="mx-auto max-w-4xl px-5 text-center sm:px-8">
       <p class="text-xs font-extrabold uppercase tracking-[0.2em] text-orange-400">Nossa caminhada</p>
@@ -1052,24 +1169,31 @@ const renderGallery = () => `
   </header>
   <section class="bg-[#f7f4ef] py-20 sm:py-28">
     <div class="mx-auto max-w-7xl px-5 sm:px-8">
-      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      ${renderGalleryIndex(albums)}
+      <div id="galeria-todos" class="scroll-mt-24 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         ${gallery.filter(({ album }) => !album).map((item) => renderGalleryCard(item)).join('')}
       </div>
-      <section id="cha-beneficente" class="scroll-mt-24 mt-16 border-t border-slate-900/[0.09] pt-12 sm:mt-20 sm:pt-16" aria-labelledby="cha-beneficente-title">
-        <div class="mx-auto max-w-3xl text-center">
-          <p class="eyebrow">Registros do evento</p>
-          <h2 id="cha-beneficente-title" class="mt-3 text-3xl font-black tracking-[-0.03em] text-slate-900 sm:text-4xl">Chá Beneficente 2026</h2>
-          <p class="mt-4 text-base leading-7 text-slate-600 sm:text-lg">Momentos compartilhados pela comunidade em apoio ao GGCC.</p>
-        </div>
-        <div class="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          ${gallery.filter(({ album }) => album === 'cha-beneficente').map((item) => renderGalleryCard(item)).join('')}
-        </div>
-      </section>
+      ${albums
+        .map(
+          ({ id, title, description }) => `
+            <section id="${id}" class="scroll-mt-24 mt-16 border-t border-slate-900/[0.09] pt-12 sm:mt-20 sm:pt-16" aria-labelledby="${id}-title">
+              <div class="mx-auto max-w-3xl text-center">
+                <p class="eyebrow">Registros do evento</p>
+                <h2 id="${id}-title" class="mt-3 text-3xl font-black tracking-[-0.03em] text-slate-900 sm:text-4xl">${title}</h2>
+                ${description ? `<p class="mt-4 text-base leading-7 text-slate-600 sm:text-lg">${description}</p>` : ''}
+              </div>
+              <div class="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                ${gallery.filter(({ album }) => album === id).map((item) => renderGalleryCard(item)).join('')}
+              </div>
+            </section>`,
+        )
+        .join('')}
       <div>
         <a href="/#galeria" class="mt-12 inline-flex rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-extrabold text-slate-900 transition hover:border-orange-300 hover:text-orange-700 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600">Voltar à página inicial</a>
       </div>
     </div>
   </section>`;
+};
 
 const renderNewsList = () => `
   <header class="bg-[#f7f4ef] ${internalPanel.header}">
@@ -1118,7 +1242,7 @@ const renderArticle = (slug) => {
       </div>`
     : noticia.imagem
       ? `<figure class="overflow-hidden rounded-[2rem] bg-stone-100">
-          <img src="${noticia.imagem}" alt="${noticia.imagemAlt || noticia.titulo}" width="${noticia.imageWidth}" height="${noticia.imageHeight}" loading="${noticia.imageLoading || 'lazy'}"${noticia.imageFetchPriority ? ` fetchpriority="${noticia.imageFetchPriority}"` : ''} decoding="async" class="aspect-[16/9] h-full w-full object-cover" />
+          <img src="${noticia.imagem}" alt="${noticia.imagemAlt || noticia.titulo}" width="${noticia.imageWidth}" height="${noticia.imageHeight}" loading="${noticia.imageLoading || 'lazy'}"${noticia.imageFetchPriority ? ` fetchpriority="${noticia.imageFetchPriority}"` : ''} decoding="async" class="aspect-[16/9] h-full w-full object-cover"${renderObjectPositionStyle(noticia.imagePosition)} />
         </figure>`
       : `<div class="grid aspect-[16/9] place-items-center rounded-[2rem] bg-gradient-to-br from-orange-50 to-stone-100 text-xs font-extrabold uppercase tracking-widest text-orange-300">Imagem da novidade ainda não disponível</div>`;
 
@@ -1210,8 +1334,9 @@ if (document.body.dataset.page === 'internal') {
   updateNewsIndicators();
   document.querySelector('#internal-content').innerHTML = view.html();
   const fragmentTarget = window.location.hash ? document.getElementById(window.location.hash.slice(1)) : null;
-  fragmentTarget?.scrollIntoView();
+  fragmentTarget?.scrollIntoView({ block: 'start', behavior: 'instant' });
   initReveal();
+  initGalleryIndex();
   initGalleryLightbox();
 }
 

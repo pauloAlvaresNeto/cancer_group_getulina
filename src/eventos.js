@@ -39,6 +39,10 @@ export const events = [
     alt: 'Salão preparado para o chá beneficente',
     icone: 'cup',
     categoria: 'Encontro beneficente',
+    date: '2026-09-13',
+    time: '14:00',
+    utcOffset: '-03:00',
+    albumId: 'cha-beneficente',
   },
   {
     titulo: 'Barraca do Pastel',

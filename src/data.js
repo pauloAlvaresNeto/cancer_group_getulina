@@ -168,11 +168,12 @@ export const noticias = [
     publishedAt: null,
     eventDate: '13/09/2026',
     categoria: 'Evento realizado',
-    resumo: 'O Chá Beneficente do GGCC reuniu a comunidade em uma tarde de confraternização, solidariedade e apoio às ações da instituição.',
+    resumo: 'Mesas compartilhadas, conversas e gestos de apoio marcaram a tarde do Chá Beneficente do GGCC.',
     conteudo: [
-      'O Chá Beneficente do GGCC foi realizado em um momento especial de confraternização, solidariedade e apoio às ações desenvolvidas pela instituição.',
-      'O encontro reuniu convidados, colaboradores e pessoas que apoiam o trabalho do GGCC, proporcionando uma tarde de convivência e integração.',
-      'O GGCC agradece a todos que participaram, colaboraram e contribuíram para a realização do evento.',
+      'Mesas cheias, conversas e reencontros deram o tom do Chá Beneficente do GGCC. Em meio a uma tarde compartilhada, a comunidade se reuniu por um mesmo propósito: estar perto de uma instituição que transforma presença em cuidado.',
+      'Bolos, salgados, chás e as rodadas de bingo fizeram parte do encontro. Nas fotografias, ficam os detalhes de uma tarde construída com acolhimento, trabalho voluntário e muita gente disposta a participar.',
+      'Mais do que um compromisso na agenda, o Chá foi um jeito de aproximar pessoas do dia a dia do GGCC. É dessa convivência que nasce a rede que segue apoiando pacientes e famílias da comunidade.',
+      'Para quem esteve presente, ficam as lembranças de uma tarde especial. Para o GGCC, fica a certeza de que cada encontro ganha sentido porque há pessoas que escolhem fazer parte.',
     ],
     imagem: new URL('../img/noticias/cha-beneficente/cha-beneficente-capa.webp', import.meta.url).href,
     imagemAlt: 'Voluntários e convidados reunidos durante o Chá Beneficente do GGCC',
@@ -180,18 +181,21 @@ export const noticias = [
     imageHeight: 720,
     imageLoading: 'eager',
     imageFetchPriority: 'high',
+    imagePosition: '50% 42%',
     imagens: [
       {
         src: new URL('../img/noticias/cha-beneficente/cha-beneficente-noticia-02.webp', import.meta.url).href,
         alt: 'Convidados durante o Chá Beneficente do GGCC',
         width: 720,
         height: 1280,
+        objectPosition: '50% 0%',
       },
       {
         src: new URL('../img/noticias/cha-beneficente/cha-beneficente-noticia-03.webp', import.meta.url).href,
         alt: 'Momento de confraternização no Chá Beneficente do GGCC',
         width: 720,
         height: 1280,
+        objectPosition: '50% 35%',
       },
       {
         src: new URL('../img/noticias/cha-beneficente/cha-beneficente-noticia-04.webp', import.meta.url).href,
@@ -216,6 +220,7 @@ export const noticias = [
         alt: 'Registro de convivência no Chá Beneficente do GGCC',
         width: 720,
         height: 1280,
+        objectPosition: '50% 8%',
       },
       {
         src: new URL('../img/noticias/cha-beneficente/cha-beneficente-noticia-08.webp', import.meta.url).href,
@@ -225,6 +230,7 @@ export const noticias = [
       },
     ],
     galleryLink: {
+      albumId: 'cha-beneficente',
       href: '/galeria/#cha-beneficente',
       text: 'Confira todos os registros do Chá Beneficente em nossa galeria.',
       label: 'Ver todas as fotos',
@@ -270,6 +276,7 @@ export const noticias = [
     imagem: new URL('../img/noticias/cha-beneficente-2026.webp', import.meta.url).href,
     imageWidth: 1200,
     imageHeight: 1600,
+    imagePosition: '50% 18%',
   },
   {
     type: 'short',
@@ -285,6 +292,7 @@ export const noticias = [
     imagem: new URL('../img/noticias/news_baileNamorados.webp', import.meta.url).href,
     imageWidth: 875,
     imageHeight: 1280,
+    imagePosition: '50% 0%',
   },
   {
     type: 'short',

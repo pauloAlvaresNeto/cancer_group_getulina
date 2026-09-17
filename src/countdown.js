@@ -21,7 +21,7 @@ export const getCountdownState = (event, now = Date.now()) => {
   const remaining = target - now;
   if (remaining <= 0) {
     return {
-      state: now < target + DAY ? 'today' : 'past',
+      state: 'past',
       days: 0,
       hours: 0,
       minutes: 0,

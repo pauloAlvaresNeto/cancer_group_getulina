@@ -103,7 +103,9 @@ Edite somente o objeto `anniversaryEvent` no início de `src/data.js`. Nele fica
 data, horário, local, cantor, imagem, link dos convites e mensagem de
 disponibilidade. A data usa `AAAA-MM-DD`; o horário usa `HH:mm`. Enquanto
 `time` estiver como `null`, o contador considera provisoriamente `00:00:00` no
-fuso de São Paulo (`UTC-03:00`).
+fuso de São Paulo (`UTC-03:00`). Após a data/hora, o site troca automaticamente
+para o estado “Evento realizado”. Se houver fotos, informe também o `albumId`
+da galeria para apresentar o botão correspondente.
 
 ### Membros
 
@@ -127,7 +129,10 @@ campos `src`, `alt`, `width` e `height`. O endereço oficial usado pelo botão e
 
 Os cards ficam no array `events` de `src/eventos.js`. Cada item centraliza
 título, descrição, fotografia em WebP (armazenada em `img/eventos/`), dimensões, texto alternativo, categoria
-e ícone. O Leilão de Gado utiliza um placeholder até receber uma fotografia
+e ícone. Para eventos com data confirmada, informe `date`, `time` e `utcOffset`:
+após a data/hora, o card apresenta o estado “Evento realizado”. Use `albumId`
+quando houver um álbum relacionado para liberar o botão “Ver fotos do evento”.
+O campo opcional `objectPosition` ajusta o foco da foto no card. O Leilão de Gado utiliza um placeholder até receber uma fotografia
 oficial.
 
 ### Como ajudar
@@ -139,12 +144,13 @@ continuam centralizados em `pixConfig`, no final de `src/data.js`.
 ### Galeria
 
 Todas as fotografias em WebP ficam em `img/galeria/` e são listadas em `src/galeria.js`. Cada item possui `src`,
-`width`, `height`, `alt` para acessibilidade e a opção `featured`. A galeria
+`width`, `height`, `alt`, `objectPosition` opcional para o enquadramento e a opção `featured`. A galeria
 não exibe legendas visíveis.
 
 A página inicial mostra as seis primeiras imagens marcadas com
 `featured: true`. A página completa usa `/galeria/` e exibe todos os itens do
-arquivo.
+arquivo. Os álbuns e o índice de navegação ficam no array `galleryAlbums`; use
+o mesmo `id` no campo `album` de cada foto e no `albumId` de eventos relacionados.
 
 ### Notícias
 
@@ -157,7 +163,8 @@ As publicações ficam no array `noticias` de `src/data.js`. Para criar uma not�
 4. atualize título, data, categoria, resumo e conteúdo;
 5. salve a fotografia em WebP na pasta `img/noticias/`;
 6. informe caminho, largura e altura nos campos `imagem`, `imageWidth` e
-   `imageHeight`;
+   `imageHeight`; use `imagePosition` quando o card precisar preservar uma
+   região específica da foto;
 7. use `destaque: true` para exibi-la também na página inicial.
 
 Somente notícias `full` exibem “Ler mais” e usam a página individual

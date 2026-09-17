@@ -1,5 +1,52 @@
 // Galeria oficial: adicione, remova ou substitua fotografias somente neste arquivo.
 // Use featured: true nas imagens que também devem aparecer na página inicial.
+// Para criar um novo álbum, adicione seus metadados em galleryAlbums e use seu id
+// no campo album das imagens correspondentes.
+export const galleryAlbums = [
+  {
+    id: 'cha-beneficente',
+    title: 'Chá Beneficente 2026',
+    description: 'Momentos compartilhados pela comunidade em apoio ao GGCC.',
+  },
+];
+
+// Foco exclusivo das miniaturas verticais do Chá Beneficente. As fotos
+// horizontais permanecem centralizadas, pois o card 4:3 só corta suas laterais
+// e os grupos estão distribuídos de modo equilibrado.
+const chaBeneficenteObjectPositions = {
+  3: '50% 12%',
+  4: '50% 15%',
+  5: '50% 12%',
+  6: '50% 12%',
+  7: '50% 18%',
+  10: '50% 12%',
+  13: '50% 12%',
+  16: '50% 16%',
+  17: '50% 22%',
+  18: '50% 12%',
+  19: '50% 13%',
+  20: '50% 20%',
+  21: '50% 45%',
+  22: '50% 20%',
+  23: '50% 25%',
+  24: '50% 18%',
+  26: '50% 25%',
+  27: '50% 10%',
+  29: '50% 15%',
+  31: '50% 25%',
+  32: '50% 13%',
+  33: '50% 15%',
+  36: '50% 12%',
+  37: '50% 13%',
+  38: '50% 12%',
+  40: '50% 10%',
+  41: '50% 22%',
+  45: '50% 45%',
+  46: '50% 18%',
+  48: '50% 14%',
+  51: '50% 14%',
+};
+
 export const gallery = [
   {
     src: new URL('../img/galeria/geral/galeria_1.webp', import.meta.url).href,
@@ -124,6 +171,7 @@ export const gallery = [
       height,
       alt: descriptions[(number - 1) % descriptions.length],
       album: 'cha-beneficente',
+      objectPosition: chaBeneficenteObjectPositions[number],
     };
   }),
 ];
