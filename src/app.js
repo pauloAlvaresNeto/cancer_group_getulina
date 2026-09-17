@@ -180,6 +180,12 @@ const renderNewsDate = (noticia, className = 'text-slate-500') => {
 const renderNewsCard = (noticia, { compact = false, headingLevel = 3 } = {}) => {
   const showDetail = hasNewsDetail(noticia);
   const detailUrl = showDetail ? `/noticias/?slug=${encodeURIComponent(noticia.slug)}` : null;
+  const relatedLink = noticia.relatedLink?.href && noticia.relatedLink?.label
+    ? `<a href="${noticia.relatedLink.href}" class="mt-6 inline-flex min-h-11 items-center gap-2 rounded text-sm font-extrabold text-orange-700 hover:text-orange-800 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600">
+        ${noticia.relatedLink.label}
+        <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+      </a>`
+    : '';
   const headingTag = headingLevel === 2 ? 'h2' : 'h3';
   const cardText = (
     showDetail ? [noticia.resumo] : [noticia.resumo, ...(noticia.conteudo || [])]
@@ -232,6 +238,7 @@ const renderNewsCard = (noticia, { compact = false, headingLevel = 3 } = {}) => 
             </a>`
           : ''
       }
+      ${relatedLink}
     </div>`;
 
   return `
