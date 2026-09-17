@@ -39,7 +39,7 @@ export const anniversaryEvent = {
   utcOffset: '-03:00',
   venue: 'SAG — Sociedade Amigos de Getulina',
   singer: 'Banda Freeson',
-  image: new URL('../img/foto_25anos.webp', import.meta.url).href,
+  image: new URL('../img/eventos/foto_25anos.webp', import.meta.url).href,
   imageWidth: 1280,
   imageHeight: 960,
   ticketUrl: '#contato',
@@ -84,25 +84,25 @@ export const bazarConfig = {
   facebookUrl: 'https://www.facebook.com/profile.php?id=61561690959148',
   images: [
     {
-      src: new URL('../img/bazar_1.webp', import.meta.url).href,
+      src: new URL('../img/bazar/bazar_1.webp', import.meta.url).href,
       alt: 'Roupas coloridas organizadas em cabides no bazar beneficente do GGCC',
       width: 2048,
       height: 2048,
     },
     {
-      src: new URL('../img/bazar_2.webp', import.meta.url).href,
+      src: new URL('../img/bazar/bazar_2.webp', import.meta.url).href,
       alt: 'Casacos, camisas e vestidos expostos em cabides no bazar beneficente do GGCC',
       width: 2048,
       height: 2048,
     },
     {
-      src: new URL('../img/bazar_3.webp', import.meta.url).href,
+      src: new URL('../img/bazar/bazar_3.webp', import.meta.url).href,
       alt: 'Camisas masculinas organizadas em uma arara no bazar beneficente do GGCC',
       width: 2048,
       height: 2048,
     },
     {
-      src: new URL('../img/bazar_4.webp', import.meta.url).href,
+      src: new URL('../img/bazar/bazar_4.webp', import.meta.url).href,
       alt: 'Peças femininas coloridas expostas em araras no bazar beneficente do GGCC',
       width: 1536,
       height: 2048,
@@ -113,12 +113,12 @@ export const bazarConfig = {
 // Dados institucionais editáveis das páginas internas.
 // Para adicionar fotografias, salve-as em img/ e informe o caminho no campo correspondente.
 export const diretoria = [
-  { nome: 'Rosana Marilia Rodrigues Methodio', cargo: 'Presidente', foto: new URL('../img/Dona_Rosana.webp', import.meta.url).href, fotoWidth: 959, fotoHeight: 1280 },
-  { nome: 'Carmen Lidia Fernandes', cargo: 'Vice-presidente', foto: new URL('../img/Dona_Carmen.webp', import.meta.url).href, fotoWidth: 1254, fotoHeight: 1254 },
-  { nome: 'Maristella Mattar Garcia', cargo: '1º Secretário', foto: new URL('../img/Dona_Maristella.webp', import.meta.url).href, fotoWidth: 1254, fotoHeight: 1254 },
-  { nome: 'Rita de Cássia Mengato Ferreira Lima', cargo: '2º Secretário', foto: new URL('../img/Dona_Rita_Mengato.webp', import.meta.url).href, fotoWidth: 1280, fotoHeight: 853 },
-  { nome: 'Rita de Cássia Salhane Bessegato Gomes', cargo: '1º Tesoureiro', foto: new URL('../img/Dona_Rita.webp', import.meta.url).href, fotoWidth: 1254, fotoHeight: 1254 },
-  { nome: 'Jucelen Penachio de Carvalho', cargo: '2º Tesoureiro', foto: new URL('../img/Dona_Jucelen.webp', import.meta.url).href, fotoWidth: 1303, fotoHeight: 1207 },
+  { nome: 'Rosana Marilia Rodrigues Methodio', cargo: 'Presidente', foto: new URL('../img/membros/Dona_Rosana.webp', import.meta.url).href, fotoWidth: 959, fotoHeight: 1280 },
+  { nome: 'Carmen Lidia Fernandes', cargo: 'Vice-presidente', foto: new URL('../img/membros/Dona_Carmen.webp', import.meta.url).href, fotoWidth: 1254, fotoHeight: 1254 },
+  { nome: 'Maristella Mattar Garcia', cargo: '1º Secretário', foto: new URL('../img/membros/Dona_Maristella.webp', import.meta.url).href, fotoWidth: 1254, fotoHeight: 1254 },
+  { nome: 'Rita de Cássia Mengato Ferreira Lima', cargo: '2º Secretário', foto: new URL('../img/membros/Dona_Rita_Mengato.webp', import.meta.url).href, fotoWidth: 1280, fotoHeight: 853 },
+  { nome: 'Rita de Cássia Salhane Bessegato Gomes', cargo: '1º Tesoureiro', foto: new URL('../img/membros/Dona_Rita.webp', import.meta.url).href, fotoWidth: 1254, fotoHeight: 1254 },
+  { nome: 'Jucelen Penachio de Carvalho', cargo: '2º Tesoureiro', foto: new URL('../img/membros/Dona_Jucelen.webp', import.meta.url).href, fotoWidth: 1303, fotoHeight: 1207 },
 ];
 
 export const conselhoFiscal = [
@@ -163,6 +163,76 @@ export const memorialNames = [
 export const noticias = [
   {
     type: 'full',
+    slug: 'cha-beneficente-realizado',
+    titulo: 'Chá Beneficente reúne comunidade em apoio ao GGCC',
+    publishedAt: null,
+    eventDate: '13/09/2026',
+    categoria: 'Evento realizado',
+    resumo: 'O Chá Beneficente do GGCC reuniu a comunidade em uma tarde de confraternização, solidariedade e apoio às ações da instituição.',
+    conteudo: [
+      'O Chá Beneficente do GGCC foi realizado em um momento especial de confraternização, solidariedade e apoio às ações desenvolvidas pela instituição.',
+      'O encontro reuniu convidados, colaboradores e pessoas que apoiam o trabalho do GGCC, proporcionando uma tarde de convivência e integração.',
+      'O GGCC agradece a todos que participaram, colaboraram e contribuíram para a realização do evento.',
+    ],
+    imagem: new URL('../img/noticias/cha-beneficente/cha-beneficente-capa.webp', import.meta.url).href,
+    imagemAlt: 'Voluntários e convidados reunidos durante o Chá Beneficente do GGCC',
+    imageWidth: 1280,
+    imageHeight: 720,
+    imageLoading: 'eager',
+    imageFetchPriority: 'high',
+    imagens: [
+      {
+        src: new URL('../img/noticias/cha-beneficente/cha-beneficente-noticia-02.webp', import.meta.url).href,
+        alt: 'Convidados durante o Chá Beneficente do GGCC',
+        width: 720,
+        height: 1280,
+      },
+      {
+        src: new URL('../img/noticias/cha-beneficente/cha-beneficente-noticia-03.webp', import.meta.url).href,
+        alt: 'Momento de confraternização no Chá Beneficente do GGCC',
+        width: 720,
+        height: 1280,
+      },
+      {
+        src: new URL('../img/noticias/cha-beneficente/cha-beneficente-noticia-04.webp', import.meta.url).href,
+        alt: 'Registro do Chá Beneficente realizado pelo GGCC',
+        width: 1280,
+        height: 720,
+      },
+      {
+        src: new URL('../img/noticias/cha-beneficente/cha-beneficente-noticia-05.webp', import.meta.url).href,
+        alt: 'Atividade durante o Chá Beneficente do GGCC',
+        width: 1280,
+        height: 720,
+      },
+      {
+        src: new URL('../img/noticias/cha-beneficente/cha-beneficente-noticia-06.webp', import.meta.url).href,
+        alt: 'Convidados reunidos em apoio ao GGCC durante o Chá Beneficente',
+        width: 1280,
+        height: 720,
+      },
+      {
+        src: new URL('../img/noticias/cha-beneficente/cha-beneficente-noticia-07.webp', import.meta.url).href,
+        alt: 'Registro de convivência no Chá Beneficente do GGCC',
+        width: 720,
+        height: 1280,
+      },
+      {
+        src: new URL('../img/noticias/cha-beneficente/cha-beneficente-noticia-08.webp', import.meta.url).href,
+        alt: 'Encerramento do Chá Beneficente realizado pelo GGCC',
+        width: 1280,
+        height: 720,
+      },
+    ],
+    galleryLink: {
+      href: '/galeria/#cha-beneficente',
+      text: 'Confira todos os registros do Chá Beneficente em nossa galeria.',
+      label: 'Ver todas as fotos',
+    },
+    featured: true,
+  },
+  {
+    type: 'full',
     slug: 'doacao-de-camiseta',
     titulo: 'Doação de camiseta fortalece as ações do GGCC',
     publishedAt: '21/08/2026',
@@ -176,7 +246,7 @@ export const noticias = [
 
   'Agradecemos aos vereadores Luiz Carlos e Motoradio pela doação e a todos que, de diferentes formas, fazem parte dessa corrente de solidariedade.',
     ],
-    imagem: new URL('../img/doacao-camisetas.jpg', import.meta.url).href,
+    imagem: new URL('../img/noticias/doacao-camisetas.jpg', import.meta.url).href,
     imagemAlt: 'Representantes entregam camiseta doada ao Grupo Getulinense de Combate ao Câncer',
     imageWidth: 848,
     imageHeight: 478,
@@ -191,13 +261,13 @@ export const noticias = [
     titulo: 'Chá Beneficente',
     publishedAt: null,
     eventDate: '13/09/2026',
-    categoria: 'Próximo evento',
+    categoria: 'Divulgação do evento',
     resumo: 'O GGCC realiza seu Chá Beneficente no dia 13 de setembro, às 14h, na SAG, com ingressos a R$ 30,00.',
     conteudo: [
       'O Grupo convida toda a comunidade para um momento para pausar, respirar e ver o quanto sua colaboração transforma vidas. ',
       'O chá contará com várias rodadas de bingos, com um prêmio especial de uma TV enquanto os convidados degustarão de vários tipos de bolo , salgados e chás .',
     ],
-    imagem: new URL('../img/cha-beneficente-2026.webp', import.meta.url).href,
+    imagem: new URL('../img/noticias/cha-beneficente-2026.webp', import.meta.url).href,
     imageWidth: 1200,
     imageHeight: 1600,
   },
@@ -212,7 +282,7 @@ export const noticias = [
     conteudo: [
       'A programação reúne música, dança e diversão ao som da banda MAMÃO COM AÇÚCAR.',
     ],
-    imagem: new URL('../img/news_baileNamorados.webp', import.meta.url).href,
+    imagem: new URL('../img/noticias/news_baileNamorados.webp', import.meta.url).href,
     imageWidth: 875,
     imageHeight: 1280,
   },
@@ -228,7 +298,7 @@ export const noticias = [
       'As fichas podem ser adquiridas antecipadamente com o grupo ou no local do evento. Toda ajuda é bem-vinda e será destinada às ações do GGCC na comunidade.',
       
     ],
-    imagem: new URL('../img/news_pastel.webp', import.meta.url).href,
+    imagem: new URL('../img/noticias/news_pastel.webp', import.meta.url).href,
     imageWidth: 1280,
     imageHeight: 692,
   },

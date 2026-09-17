@@ -39,7 +39,15 @@ Além da página institucional, o site reúne informações importantes para o p
 ```text
 cancer_group_getulina/
 ├── .github/workflows/  # Automação de deploy
-├── img/                # Imagens e arquivos visuais
+├── img/                # Assets organizados por finalidade
+│   ├── marca/           # Logotipos
+│   ├── institucional/   # Fotos institucionais
+│   ├── membros/         # Fotografias da diretoria
+│   ├── bazar/           # Fotografias do bazar
+│   ├── eventos/         # Imagens dos eventos
+│   ├── noticias/        # Capas e fotos de notícias
+│   ├── galeria/         # Fotos da galeria, separadas por álbum
+│   └── arquivos-fonte/  # Materiais de origem, não publicados
 ├── public/             # Arquivos públicos e documentos
 ├── src/
 │   ├── app.js          # Comportamento principal do site
@@ -100,7 +108,7 @@ fuso de São Paulo (`UTC-03:00`).
 ### Membros
 
 Edite os arrays `diretoria`, `conselhoFiscal` e `suplentes` em `src/data.js`.
-Adicione as fotografias em WebP na pasta `img/` e informe caminho, largura e
+Adicione as fotografias em WebP na pasta `img/membros/` e informe caminho, largura e
 altura nos campos `foto`, `fotoWidth` e `fotoHeight`.
 
 ### Memorial
@@ -111,14 +119,14 @@ somente os nomes, na ordem definida nesse array.
 ### Bazar
 
 Edite `bazarConfig` em `src/data.js`. As quatro posições de imagem ficam no
-array `images`: salve as fotografias em WebP na pasta `img/` e atualize os
+array `images`: salve as fotografias em WebP na pasta `img/bazar/` e atualize os
 campos `src`, `alt`, `width` e `height`. O endereço oficial usado pelo botão e pelo rodapé fica em
 `bazarConfig.facebookUrl`.
 
 ### Eventos
 
 Os cards ficam no array `events` de `src/eventos.js`. Cada item centraliza
-título, descrição, fotografia em WebP, dimensões, texto alternativo, categoria
+título, descrição, fotografia em WebP (armazenada em `img/eventos/`), dimensões, texto alternativo, categoria
 e ícone. O Leilão de Gado utiliza um placeholder até receber uma fotografia
 oficial.
 
@@ -130,7 +138,7 @@ continuam centralizados em `pixConfig`, no final de `src/data.js`.
 
 ### Galeria
 
-Todas as fotografias em WebP ficam em `src/galeria.js`. Cada item possui `src`,
+Todas as fotografias em WebP ficam em `img/galeria/` e são listadas em `src/galeria.js`. Cada item possui `src`,
 `width`, `height`, `alt` para acessibilidade e a opção `featured`. A galeria
 não exibe legendas visíveis.
 
@@ -147,7 +155,7 @@ As publicações ficam no array `noticias` de `src/data.js`. Para criar uma not�
    quando houver conteúdo adicional relevante;
 3. escolha um `slug` único;
 4. atualize título, data, categoria, resumo e conteúdo;
-5. salve a fotografia em WebP na pasta `img/`;
+5. salve a fotografia em WebP na pasta `img/noticias/`;
 6. informe caminho, largura e altura nos campos `imagem`, `imageWidth` e
    `imageHeight`;
 7. use `destaque: true` para exibi-la também na página inicial.

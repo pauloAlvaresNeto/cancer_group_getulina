@@ -3,7 +3,7 @@ export const events = [
   {
     titulo: 'Bazar de artesanato',
     descricao: 'Venda beneficente de peças de artesanato, roupas e acessórios doados pela comunidade.',
-    imagem: new URL('../img/evento_artesanato.webp', import.meta.url).href,
+    imagem: new URL('../img/eventos/evento_artesanato.webp', import.meta.url).href,
     width: 1200,
     height: 1600,
     alt: 'Voluntárias do GGCC em uma banca de artesanato ao ar livre',
@@ -13,7 +13,7 @@ export const events = [
   {
     titulo: 'Jantar italiano',
     descricao: 'Tradicional jantar beneficente com pratos típicos para arrecadar recursos.',
-    imagem: new URL('../img/evento_italiano.webp', import.meta.url).href,
+    imagem: new URL('../img/eventos/evento_italiano.webp', import.meta.url).href,
     width: 720,
     height: 1280,
     alt: 'Salão decorado para o jantar italiano beneficente',
@@ -33,7 +33,7 @@ export const events = [
   {
     titulo: 'Chá beneficente',
     descricao: 'Encontro que ocorre a realização do bingo com prêmio especial e alimentos preparados para a ocasião.',
-    imagem: new URL('../img/evento_cha.webp', import.meta.url).href,
+    imagem: new URL('../img/eventos/evento_cha.webp', import.meta.url).href,
     width: 590,
     height: 443,
     alt: 'Salão preparado para o chá beneficente',
@@ -44,7 +44,7 @@ export const events = [
     titulo: 'Barraca do Pastel',
     descricao:
       'Ação beneficente promovida em diferentes períodos do ano, com venda de pastéis para arrecadar recursos para o grupo.',
-    imagem: new URL('../img/evento_pastel.webp', import.meta.url).href,
+    imagem: new URL('../img/eventos/evento_pastel.webp', import.meta.url).href,
     width: 1600,
     height: 1200,
     alt: 'Voluntárias trabalhando na Barraca do Pastel',

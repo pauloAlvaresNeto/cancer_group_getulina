@@ -20,7 +20,7 @@ import { initAnalytics } from './analytics.js';
 
 initAnalytics();
 
-const logoUrl = new URL('../img/logo-256.png', import.meta.url).href;
+const logoUrl = new URL('../img/marca/logo-256.png', import.meta.url).href;
 const institutionLocation = `${institutionConfig.address.addressLocality}, ${institutionConfig.address.addressRegion}`;
 const institutionCityRegion = `${institutionConfig.address.addressLocality}/${institutionConfig.address.addressRegion}`;
 const shareImageAlt = siteSeoConfig.shareImageAlt;
@@ -250,6 +250,32 @@ const renderGalleryCard = ({ src, alt = '', width, height }) => {
     >
       <img src="${src}" alt="${safeAlt}" width="${width}" height="${height}" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
     </button>`;
+};
+
+const renderArticleImageGallery = (images = []) => {
+  if (!images.length) return '';
+
+  return `
+    <section class="mt-10" aria-label="Registros fotográficos da novidade">
+      <div class="grid grid-cols-2 gap-3 sm:gap-4">
+        ${images
+          .map(
+            ({ src, alt, width, height }) => `
+              <button
+                type="button"
+                class="gallery-button reveal group relative aspect-[4/3] overflow-hidden rounded-[1.25rem] bg-stone-100 text-left shadow-sm focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600"
+                data-src="${src}"
+                data-alt="${alt}"
+                data-width="${width}"
+                data-height="${height}"
+                aria-label="Ampliar fotografia: ${alt}"
+              >
+                <img src="${src}" alt="${alt}" width="${width}" height="${height}" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
+              </button>`,
+          )
+          .join('')}
+      </div>
+    </section>`;
 };
 
 const lightboxMarkup = () => `
@@ -1027,9 +1053,21 @@ const renderGallery = () => `
   <section class="bg-[#f7f4ef] py-20 sm:py-28">
     <div class="mx-auto max-w-7xl px-5 sm:px-8">
       <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        ${gallery.map((item) => renderGalleryCard(item)).join('')}
+        ${gallery.filter(({ album }) => !album).map((item) => renderGalleryCard(item)).join('')}
       </div>
-      <a href="/#galeria" class="mt-12 inline-flex rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-extrabold text-slate-900 transition hover:border-orange-300 hover:text-orange-700 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600">Voltar à página inicial</a>
+      <section id="cha-beneficente" class="scroll-mt-24 mt-16 border-t border-slate-900/[0.09] pt-12 sm:mt-20 sm:pt-16" aria-labelledby="cha-beneficente-title">
+        <div class="mx-auto max-w-3xl text-center">
+          <p class="eyebrow">Registros do evento</p>
+          <h2 id="cha-beneficente-title" class="mt-3 text-3xl font-black tracking-[-0.03em] text-slate-900 sm:text-4xl">Chá Beneficente 2026</h2>
+          <p class="mt-4 text-base leading-7 text-slate-600 sm:text-lg">Momentos compartilhados pela comunidade em apoio ao GGCC.</p>
+        </div>
+        <div class="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          ${gallery.filter(({ album }) => album === 'cha-beneficente').map((item) => renderGalleryCard(item)).join('')}
+        </div>
+      </section>
+      <div>
+        <a href="/#galeria" class="mt-12 inline-flex rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-extrabold text-slate-900 transition hover:border-orange-300 hover:text-orange-700 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600">Voltar à página inicial</a>
+      </div>
     </div>
   </section>`;
 
@@ -1080,7 +1118,7 @@ const renderArticle = (slug) => {
       </div>`
     : noticia.imagem
       ? `<figure class="overflow-hidden rounded-[2rem] bg-stone-100">
-          <img src="${noticia.imagem}" alt="${noticia.imagemAlt || noticia.titulo}" width="${noticia.imageWidth}" height="${noticia.imageHeight}" loading="lazy" decoding="async" class="aspect-[16/9] h-full w-full object-cover" />
+          <img src="${noticia.imagem}" alt="${noticia.imagemAlt || noticia.titulo}" width="${noticia.imageWidth}" height="${noticia.imageHeight}" loading="${noticia.imageLoading || 'lazy'}"${noticia.imageFetchPriority ? ` fetchpriority="${noticia.imageFetchPriority}"` : ''} decoding="async" class="aspect-[16/9] h-full w-full object-cover" />
         </figure>`
       : `<div class="grid aspect-[16/9] place-items-center rounded-[2rem] bg-gradient-to-br from-orange-50 to-stone-100 text-xs font-extrabold uppercase tracking-widest text-orange-300">Imagem da novidade ainda não disponível</div>`;
 
@@ -1099,6 +1137,15 @@ const renderArticle = (slug) => {
         ${leadMedia}
         <div class="mx-auto mt-8 max-w-3xl sm:mt-10">
           <div class="space-y-6 text-base leading-8 text-slate-700">${noticia.conteudo.map((paragraph) => `<p>${paragraph}</p>`).join('')}</div>
+          ${renderArticleImageGallery(noticia.imagens)}
+          ${
+            noticia.galleryLink
+              ? `<div class="mt-10 rounded-[1.5rem] bg-orange-50 p-6 sm:p-8">
+                  <p class="max-w-2xl text-base leading-7 text-slate-700">${noticia.galleryLink.text}</p>
+                  <a href="${noticia.galleryLink.href}" class="mt-5 inline-flex min-h-12 items-center justify-center rounded-full bg-orange-600 px-6 py-3 text-sm font-extrabold text-white transition hover:bg-orange-700 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600">${noticia.galleryLink.label}</a>
+                </div>`
+              : ''
+          }
           ${recentSection}
         </div>
       </div>
@@ -1162,6 +1209,8 @@ if (document.body.dataset.page === 'internal') {
   initInternalLayout(views[page] ? page : 'noticias');
   updateNewsIndicators();
   document.querySelector('#internal-content').innerHTML = view.html();
+  const fragmentTarget = window.location.hash ? document.getElementById(window.location.hash.slice(1)) : null;
+  fragmentTarget?.scrollIntoView();
   initReveal();
   initGalleryLightbox();
 }
