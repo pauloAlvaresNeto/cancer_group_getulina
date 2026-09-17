@@ -94,10 +94,10 @@
 
     <header
       id="site-header"
-      class="fixed inset-x-0 top-0 z-50 border-b border-transparent bg-white/95 backdrop-blur-xl transition-all duration-300"
+      class="site-header home-header fixed inset-x-0 top-0 z-50 border-b transition-all duration-300"
     >
       <nav
-        class="mx-auto flex h-20 max-w-7xl items-center justify-between gap-6 px-5 sm:px-8"
+        class="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-5 sm:px-8 xl:gap-5"
         aria-label="Navegação principal"
       >
         <a href="#inicio" class="group flex min-w-0 items-center gap-3" aria-label="GGCC, voltar ao início">
@@ -107,30 +107,33 @@
             width="256"
             height="256"
             decoding="async"
-            class="size-12 shrink-0 object-contain transition-transform group-hover:scale-105 sm:size-14"
+            class="brand-logo size-12 shrink-0 object-contain transition-transform group-hover:scale-105 sm:size-14"
           />
           <span class="min-w-0 leading-tight">
-            <strong class="block truncate text-sm font-extrabold tracking-tight text-slate-900 sm:text-base">
+            <strong class="brand-name block truncate text-sm font-extrabold tracking-tight text-slate-900 sm:text-base">
               Grupo Getulinense de
             </strong>
-            <span class="block truncate text-[10px] font-bold uppercase tracking-[0.18em] text-orange-600 sm:text-xs">
+            <span class="brand-subtitle block truncate text-[10px] font-bold uppercase tracking-[0.18em] text-orange-600 sm:text-xs">
               Combate ao Câncer
             </span>
           </span>
         </a>
 
-        <ul class="hidden items-center gap-5 text-sm font-semibold text-slate-700 xl:flex xl:gap-7">
+        <ul class="hidden items-center gap-4 text-sm font-semibold text-slate-700 xl:flex xl:gap-5 2xl:gap-6">
           <li><a class="nav-link" href="#historia">História</a></li>
           <li><a class="nav-link" href="#depoimento">Depoimento</a></li>
           <li><a class="nav-link" href="#acoes">Ações</a></li>
           <li><a class="nav-link" href="#bazar">Bazar</a></li>
           <li><a class="nav-link" href="#eventos">Eventos</a></li>
           <li>
-            <a class="nav-link inline-flex items-center gap-2" href="#noticias">
-              Novidades
-              <span class="hidden size-1.5 shrink-0 rounded-full bg-orange-500" data-news-indicator aria-hidden="true"></span>
+            <a class="nav-link" href="#noticias" data-news-link>
+              <span class="news-link-label">
+                <span>Novidades</span>
+                <span class="ggcc-symbol ggcc-symbol--indicator news-indicator hidden" data-news-indicator aria-hidden="true"></span>
+              </span>
             </a>
           </li>
+          <li><a class="nav-link" href="/galeria/">Galeria</a></li>
           <li><a class="nav-link" href="#contato">Contato</a></li>
           <li class="relative">
             <button
@@ -162,7 +165,7 @@
           <button
             id="menu-button"
             type="button"
-            class="grid size-11 place-items-center rounded-full border border-slate-200 bg-white text-slate-900 shadow-sm transition hover:border-orange-300 hover:text-orange-700 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600 xl:hidden"
+            class="header-menu-button grid size-11 place-items-center rounded-full border border-slate-200 bg-white text-slate-900 shadow-sm transition hover:border-orange-300 hover:text-orange-700 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600 xl:hidden"
             aria-label="Abrir menu"
             aria-expanded="false"
             aria-controls="mobile-menu"
@@ -182,14 +185,14 @@
           <li><a class="mobile-nav-link" href="#bazar">Bazar beneficente</a></li>
           <li><a class="mobile-nav-link" href="#eventos">Eventos</a></li>
           <li>
-            <a class="mobile-nav-link" href="
-            #noticias">
-              <span class="inline-flex items-center gap-2">
-                Novidades
-                <span class="hidden size-1.5 shrink-0 rounded-full bg-orange-500" data-news-indicator aria-hidden="true"></span>
+            <a class="mobile-nav-link" href="#noticias" data-news-link>
+              <span class="news-link-label">
+                <span>Novidades</span>
+                <span class="ggcc-symbol ggcc-symbol--indicator news-indicator hidden" data-news-indicator aria-hidden="true"></span>
               </span>
             </a>
           </li>
+          <li><a class="mobile-nav-link" href="/galeria/">Galeria</a></li>
           <li><a class="mobile-nav-link" href="#contato">Contato</a></li>
           <li><a class="mobile-nav-link" href="/membros/">Membros</a></li>
           <li><a class="mobile-nav-link" href="/memorial/">Memorial</a></li>
@@ -199,7 +202,7 @@
     </header>
 
     <main id="conteudo">
-      <section id="inicio" class="relative mt-20 min-h-[calc(100svh-5rem)] overflow-hidden bg-slate-950">
+      <section id="inicio" class="relative min-h-svh overflow-hidden bg-slate-950">
         <img
           src="./img/institucional/membros.webp"
           alt="Voluntários do Grupo Getulinense de Combate ao Câncer reunidos em um evento"
@@ -218,7 +221,7 @@
           aria-hidden="true"
         ></div>
 
-        <div class="relative z-10 mx-auto flex min-h-[calc(100svh-5rem)] max-w-[1600px] items-end px-6 py-10 sm:px-10 sm:py-14 lg:items-center lg:px-16 lg:py-16 xl:px-24 2xl:px-28">
+        <div class="home-hero-content relative z-10 mx-auto flex min-h-svh max-w-[1600px] items-end px-6 py-10 sm:px-10 sm:py-14 lg:items-center lg:px-16 lg:py-16 xl:px-24 2xl:px-28">
           <div class="min-w-0 w-full max-w-2xl text-white">
             <p
               class="mb-5 inline-flex max-w-full items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-center text-[10px] font-extrabold uppercase tracking-[0.12em] text-orange-200 backdrop-blur sm:text-xs sm:tracking-[0.16em]"
@@ -526,7 +529,9 @@
         </div>
       </section>
 
-      <div id="depoimento-separador" class="section-divider section-divider--warm" aria-hidden="true"></div>
+      <div id="depoimento-separador" class="section-divider section-divider--warm" aria-hidden="true">
+        <span class="section-divider__symbol"><span class="ggcc-symbol ggcc-symbol--divider"></span></span>
+      </div>
 
       <section id="acoes" class="scroll-mt-20 bg-[#f7f4ef] py-20 sm:py-28" aria-labelledby="acoes-title">
         <div class="mx-auto max-w-7xl px-5 sm:px-8">
@@ -652,7 +657,9 @@
         </div>
       </section>
 
-      <div class="section-divider" aria-hidden="true"></div>
+      <div class="section-divider" aria-hidden="true">
+        <span class="section-divider__symbol"><span class="ggcc-symbol ggcc-symbol--divider"></span></span>
+      </div>
 
       <section class="bg-white py-20 sm:py-28" aria-labelledby="explore-title">
         <div class="mx-auto max-w-7xl px-5 sm:px-8">

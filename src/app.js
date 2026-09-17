@@ -74,15 +74,58 @@ const isNewPublication = (noticia, today = new Date()) => {
   return ageInDays >= 0 && ageInDays < NEW_PUBLICATION_BADGE_DAYS;
 };
 
-const hasNewContent = orderedNews.some((noticia) => isNewPublication(noticia));
+const newestNewPublication = noticias
+  .filter((noticia) => isNewPublication(noticia))
+  .sort((left, right) => (parseNewsDate(right.publishedAt) ?? 0) - (parseNewsDate(left.publishedAt) ?? 0))[0];
+const newestNewPublicationKey = newestNewPublication
+  ? `${newestNewPublication.publishedAt}:${newestNewPublication.slug || newestNewPublication.titulo}`
+  : null;
+const NEWS_INDICATOR_STORAGE_KEY = 'ggcc-last-seen-news-publication';
+
+const getLastSeenNewsPublication = () => {
+  try {
+    return window.localStorage.getItem(NEWS_INDICATOR_STORAGE_KEY);
+  } catch {
+    return null;
+  }
+};
+
+let lastSeenNewsPublication = getLastSeenNewsPublication();
+let hasUnseenNewContent = Boolean(newestNewPublicationKey) && lastSeenNewsPublication !== newestNewPublicationKey;
+
 const newsIndicatorMarkup =
-  '<span class="hidden size-1.5 shrink-0 rounded-full bg-orange-500" data-news-indicator aria-hidden="true"></span>';
+  '<span class="ggcc-symbol ggcc-symbol--indicator news-indicator hidden" data-news-indicator aria-hidden="true"></span>';
 
 const updateNewsIndicators = (root = document) => {
   root.querySelectorAll('[data-news-indicator]').forEach((indicator) => {
-    indicator.classList.toggle('hidden', !hasNewContent);
+    indicator.classList.toggle('hidden', !hasUnseenNewContent);
   });
 };
+
+const markNewsAsSeen = () => {
+  if (!newestNewPublicationKey) return;
+
+  lastSeenNewsPublication = newestNewPublicationKey;
+  hasUnseenNewContent = false;
+
+  try {
+    window.localStorage.setItem(NEWS_INDICATOR_STORAGE_KEY, newestNewPublicationKey);
+  } catch {
+    // Mantém o estado na página atual se o armazenamento estiver indisponível.
+  }
+
+  updateNewsIndicators();
+};
+
+const bindNewsLinks = (root = document) => {
+  root.querySelectorAll('[data-news-link]').forEach((link) => {
+    link.addEventListener('click', markNewsAsSeen);
+  });
+};
+
+if (/\/noticias\/?$/.test(window.location.pathname)) {
+  markNewsAsSeen();
+}
 
 const upsertMeta = (attribute, key, content) => {
   let element = document.head.querySelector(`meta[${attribute}="${key}"]`);
@@ -589,6 +632,7 @@ document.querySelector('#home-news-grid').innerHTML = orderedNews
   .join('');
 
 updateNewsIndicators();
+bindNewsLinks();
 
 document.querySelector('#gallery-grid').innerHTML = gallery
   .filter(({ featured }) => featured)
@@ -598,8 +642,7 @@ document.querySelector('#gallery-grid').innerHTML = gallery
 
 const header = document.querySelector('#site-header');
 const updateHeader = () => {
-  header.classList.toggle('border-slate-200', window.scrollY > 24);
-  header.classList.toggle('shadow-sm', window.scrollY > 24);
+  header?.classList.toggle('is-scrolled', window.scrollY > 80);
 };
 updateHeader();
 window.addEventListener('scroll', updateHeader, { passive: true });
@@ -610,6 +653,7 @@ const menuIconPath = document.querySelector('#menu-icon-path');
 
 const setMenuOpen = (open) => {
   mobileMenu.classList.toggle('hidden', !open);
+  header?.classList.toggle('is-menu-open', open);
   menuButton.setAttribute('aria-expanded', String(open));
   menuButton.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
   menuIconPath.setAttribute('d', open ? 'M6 6l12 12M18 6 6 18' : 'M4 7h16M4 12h16M4 17h16');
@@ -845,12 +889,12 @@ const initReveal = () => {
 };
 
 const initInternalLayout = (active) => {
-  const pageLink = (page, label) =>
-    `<a class="nav-link ${active === page ? 'text-orange-700' : ''}" href="/${page}/">${label}</a>`;
+  const pageLink = (page, label, attributes = '') =>
+    `<a class="nav-link ${active === page ? 'text-orange-700' : ''}" href="/${page}/" ${attributes}>${label}</a>`;
 
   document.querySelector('#shared-header').innerHTML = `
-    <header class="fixed inset-x-0 top-0 z-50 border-b border-slate-200 bg-white/95 shadow-sm backdrop-blur-xl">
-      <nav class="mx-auto flex h-20 max-w-7xl items-center justify-between gap-6 px-5 sm:px-8" aria-label="Navegação principal">
+    <header class="site-header fixed inset-x-0 top-0 z-50 border-b transition-all duration-300">
+      <nav class="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-5 sm:px-8 xl:gap-5" aria-label="Navegação principal">
         <a href="/#inicio" class="group flex min-w-0 items-center gap-3" aria-label="GGCC, voltar ao início">
           <img src="${logoUrl}" alt="" width="256" height="256" decoding="async" class="size-12 shrink-0 object-contain sm:size-14" />
           <span class="min-w-0 leading-tight">
@@ -858,13 +902,14 @@ const initInternalLayout = (active) => {
             <span class="block truncate text-[10px] font-bold uppercase tracking-[0.18em] text-orange-600 sm:text-xs">Combate ao Câncer</span>
           </span>
         </a>
-        <ul class="hidden items-center gap-6 text-sm font-semibold text-slate-700 xl:flex">
+        <ul class="hidden items-center gap-4 text-sm font-semibold text-slate-700 xl:flex xl:gap-5 2xl:gap-6">
           <li><a class="nav-link" href="/#historia">História</a></li>
           <li><a class="nav-link" href="/#depoimento">Depoimento</a></li>
           <li><a class="nav-link" href="/#acoes">Ações</a></li>
           <li><a class="nav-link" href="/#bazar">Bazar</a></li>
           <li><a class="nav-link" href="/#eventos">Eventos</a></li>
-          <li>${pageLink('noticias', `Novidades ${newsIndicatorMarkup}`)}</li>
+          <li>${pageLink('noticias', `<span class="news-link-label"><span>Novidades</span>${newsIndicatorMarkup}</span>`, 'data-news-link')}</li>
+          <li>${pageLink('galeria', 'Galeria')}</li>
           <li><a class="nav-link" href="/#contato">Contato</a></li>
           <li class="relative">
             <button id="more-button" type="button" class="nav-link inline-flex items-center gap-1" aria-expanded="false" aria-controls="more-menu">
@@ -891,7 +936,8 @@ const initInternalLayout = (active) => {
           <li><a class="mobile-nav-link" href="/#acoes">Nossas ações</a></li>
           <li><a class="mobile-nav-link" href="/#bazar">Bazar beneficente</a></li>
           <li><a class="mobile-nav-link" href="/#eventos">Eventos</a></li>
-          <li><a class="mobile-nav-link" href="/noticias/"><span class="inline-flex items-center gap-2">Novidades ${newsIndicatorMarkup}</span></a></li>
+          <li><a class="mobile-nav-link" href="/noticias/" data-news-link><span class="news-link-label"><span>Novidades</span>${newsIndicatorMarkup}</span></a></li>
+          <li><a class="mobile-nav-link" href="/galeria/">Galeria</a></li>
           <li><a class="mobile-nav-link" href="/#contato">Contato</a></li>
           <li><a class="mobile-nav-link" href="/membros/">Membros</a></li>
           <li><a class="mobile-nav-link" href="/memorial/">Memorial</a></li>
@@ -933,6 +979,8 @@ const initInternalLayout = (active) => {
         </div>
       </div>
     </footer>`;
+
+  bindNewsLinks(document.querySelector('#shared-header'));
 
   const menuButton = document.querySelector('#menu-button');
   const mobileMenu = document.querySelector('#mobile-menu');
@@ -1089,8 +1137,8 @@ const renderMemorial = () => `
       </ul>
 
       <div class="reveal mx-auto mt-12 max-w-3xl border-t border-slate-900/[0.08] pt-10 text-center sm:mt-16 sm:pt-12">
-        <span class="mx-auto grid size-8 place-items-center text-orange-600/65" aria-hidden="true">
-          ${svg('sprig', 'size-7')}
+        <span class="mx-auto grid size-8 place-items-center" aria-hidden="true">
+          <span class="ggcc-symbol ggcc-symbol--institutional"></span>
         </span>
         <p class="mt-6 text-base leading-8 text-slate-600 sm:text-lg">
           O cuidado, a dedicação e a solidariedade de cada pessoa continuam presentes na história do Grupo Getulinense de Combate ao Câncer.

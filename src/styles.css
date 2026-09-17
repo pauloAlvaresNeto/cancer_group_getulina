@@ -22,6 +22,51 @@
 }
 
 @layer components {
+  .site-header {
+    @apply border-slate-200 bg-white/95 shadow-sm backdrop-blur-xl;
+  }
+
+  .home-header:not(.is-scrolled):not(.is-menu-open) {
+    @apply border-transparent bg-transparent shadow-none backdrop-blur-none;
+    background-color: transparent !important;
+    border-color: transparent !important;
+  }
+
+  .home-header:not(.is-scrolled):not(.is-menu-open) .brand-logo {
+    filter: drop-shadow(0 1px 2px rgb(15 23 42 / 0.45));
+  }
+
+  .home-header:not(.is-scrolled):not(.is-menu-open) .brand-name,
+  .home-header:not(.is-scrolled):not(.is-menu-open) .nav-link {
+    @apply text-white;
+    color: white !important;
+    text-shadow: 0 1px 2px rgb(15 23 42 / 0.55);
+  }
+
+  .home-header:not(.is-scrolled):not(.is-menu-open) .brand-subtitle {
+    @apply text-orange-200;
+    color: var(--color-orange-200) !important;
+    text-shadow: 0 1px 2px rgb(15 23 42 / 0.55);
+  }
+
+  .home-header:not(.is-scrolled):not(.is-menu-open) .nav-link::after {
+    @apply bg-orange-300;
+  }
+
+  .home-header:not(.is-scrolled):not(.is-menu-open) .header-menu-button {
+    @apply border-white/40 bg-slate-950/25 text-white shadow-none backdrop-blur-sm hover:border-orange-200 hover:text-orange-100;
+    background-color: rgb(2 6 24 / 0.25) !important;
+    border-color: rgb(255 255 255 / 0.4) !important;
+    color: white !important;
+  }
+
+  @media (max-width: 39.999rem) and (max-height: 42rem) {
+    .home-hero-content {
+      align-items: flex-start !important;
+      padding-top: 7rem !important;
+    }
+  }
+
   .nav-link {
     @apply relative py-3 transition-colors hover:text-orange-700 focus-visible:rounded-md focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-orange-600;
   }
@@ -37,6 +82,19 @@
 
   .mobile-nav-link {
     @apply block rounded-xl px-4 py-3 text-slate-800 transition hover:bg-orange-50 hover:text-orange-700 focus-visible:outline focus-visible:outline-3 focus-visible:outline-orange-600;
+  }
+
+  .news-link-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+  }
+
+  .news-indicator {
+    flex: none;
+    width: 0.75rem;
+    transform: translateY(-1px);
+    pointer-events: none;
   }
 
   .dropdown-link {
@@ -58,33 +116,63 @@
   .section-divider {
     --section-divider-background: #ffffff;
     --section-divider-width: min(calc(100% - 2.5rem), 20rem);
+    --section-divider-gap: 3.25rem;
     position: relative;
     height: 1.25rem;
     background-color: var(--section-divider-background);
   }
 
-  .section-divider::before {
+  .section-divider::before,
+  .section-divider::after {
     content: "";
     position: absolute;
     top: 50%;
-    left: 50%;
-    width: var(--section-divider-width);
+    width: calc((var(--section-divider-width) - var(--section-divider-gap)) / 2);
     height: 1px;
     background-color: rgb(15 23 42 / 0.1);
-    transform: translate(-50%, -50%);
+    transform: translateY(-50%);
+  }
+
+  .section-divider::before {
+    left: calc(50% - (var(--section-divider-gap) / 2));
+    transform: translate(-100%, -50%);
   }
 
   .section-divider::after {
-    content: "✦";
+    left: calc(50% + (var(--section-divider-gap) / 2));
+  }
+
+  .section-divider__symbol {
     position: absolute;
     top: 50%;
     left: 50%;
-    padding-inline: 1rem;
-    background-color: var(--section-divider-background);
-    color: #f97316;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    transform: translate(-50%, -50%);
+    z-index: 1;
+    display: grid;
+    width: 1.25rem;
+    height: 1.25rem;
+    place-items: center;
+    transform: translate(-50%, calc(-50% - 3px));
+  }
+
+  .ggcc-symbol {
+    display: block;
+    aspect-ratio: 1;
+    background-image: url('/apple-touch-icon.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 120%;
+  }
+
+  .ggcc-symbol--divider {
+    width: 1.25rem;
+  }
+
+  .ggcc-symbol--institutional {
+    width: 2rem;
+  }
+
+  .ggcc-symbol--indicator {
+    width: 0.75rem;
   }
 
   .section-divider--warm {
@@ -151,7 +239,7 @@
 
 @media (min-width: 40rem) {
   .section-divider {
-    --section-divider-width: min(calc(100% - 2.5rem), 24rem);
+    --section-divider-width: min(calc(100% - 2.5rem), 30rem);
   }
 }
 
