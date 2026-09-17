@@ -165,7 +165,7 @@ export const noticias = [
     type: 'full',
     slug: 'cha-beneficente-realizado',
     titulo: 'Chá Beneficente reúne convidados para uma tarde de bingo na SAG',
-    publishedAt: '2026-09-13',
+    publishedAt: '13/09/2026',
     eventDate: '13/09/2026',
     categoria: 'Evento realizado',
     resumo: 'No dia 13 de setembro, o Chá Beneficente do GGCC reuniu convidados, bingo e uma tarde de convivência na SAG.',
